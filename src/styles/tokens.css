@@ -1,0 +1,277 @@
+/* ============================================================
+   HumanF1RST v2 — Design Token System
+   Single source of truth for all design decisions.
+   Import this file in index.css BEFORE any other styles.
+   ============================================================ */
+
+:root {
+
+  /* ----------------------------------------------------------
+     COLOR SYSTEM
+     Philosophy: Near-black canvas, precise greens, restrained.
+     Green is used with precision — accent, not decoration.
+     ---------------------------------------------------------- */
+
+  /* Canvas / Background Scale */
+  --color-bg-base:        #080A09;   /* Deepest background — almost black with green tint */
+  --color-bg-subtle:      #0D110E;   /* Page sections that need slight elevation */
+  --color-bg-elevated:    #111712;   /* Card surfaces, panels */
+  --color-bg-overlay:     #161E17;   /* Modals, tooltips, dropdown surfaces */
+  --color-bg-inset:       #0A0E0B;   /* Inset elements within cards */
+
+  /* Border Scale */
+  --color-border-subtle:  rgba(255, 255, 255, 0.05);  /* Almost invisible dividers */
+  --color-border-default: rgba(255, 255, 255, 0.08);  /* Standard card borders */
+  --color-border-strong:  rgba(255, 255, 255, 0.14);  /* Emphasized borders */
+  --color-border-accent:  rgba(74, 222, 128, 0.20);   /* Green-tinted borders */
+
+  /* Text Scale */
+  --color-text-primary:   #F0F5F1;   /* Headlines — warm off-white with green tint */
+  --color-text-secondary: #8C9A8E;   /* Body text, descriptions */
+  --color-text-muted:     #4A574C;   /* Placeholder, disabled */
+  --color-text-inverse:   #080A09;   /* Text on accent/green backgrounds */
+
+  /* Green Accent Scale — HumanF1RST Brand */
+  --color-green-50:       #EDFCF2;
+  --color-green-100:      #D3F9E1;
+  --color-green-200:      #A8F2C3;
+  --color-green-300:      #6EE7A0;
+  --color-green-400:      #3FD579;   /* Primary interactive accent */
+  --color-green-500:      #22C55E;   /* Brand green — Tailwind green-500 base */
+  --color-green-600:      #16A34A;   /* Buttons, strong CTAs */
+  --color-green-700:      #15803D;
+  --color-green-800:      #166534;
+  --color-green-900:      #14532D;
+  --color-green-950:      #052E16;
+
+  /* Semantic Green Tokens */
+  --color-accent:           var(--color-green-400);   /* Primary accent */
+  --color-accent-bright:    var(--color-green-300);   /* Highlights, glows */
+  --color-accent-muted:     rgba(34, 197, 94, 0.12);  /* Subtle tinted surfaces */
+  --color-accent-glow:      rgba(63, 213, 121, 0.15); /* Ambient glow effects */
+  --color-accent-border:    rgba(34, 197, 94, 0.25);  /* Accent-tinted borders */
+
+  /* Status Colors (minimal palette) */
+  --color-success:          #22C55E;
+  --color-warning:          #F59E0B;
+  --color-error:            #EF4444;
+  --color-neutral:          #6B7280;
+
+  /* Gradient Definitions */
+  --gradient-hero:          radial-gradient(ellipse 80% 60% at 50% -10%, rgba(34, 197, 94, 0.12) 0%, transparent 70%);
+  --gradient-accent-glow:   radial-gradient(ellipse 60% 40% at 50% 50%, rgba(63, 213, 121, 0.08) 0%, transparent 70%);
+  --gradient-card-top:      linear-gradient(180deg, rgba(255,255,255,0.04) 0%, transparent 100%);
+  --gradient-card-border:   linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.03) 100%);
+  --gradient-text-accent:   linear-gradient(135deg, var(--color-green-300) 0%, var(--color-green-500) 100%);
+  --gradient-text-primary:  linear-gradient(180deg, #F0F5F1 0%, #8C9A8E 100%);
+  --gradient-section-fade:  linear-gradient(180deg, transparent 0%, var(--color-bg-base) 100%);
+
+
+  /* ----------------------------------------------------------
+     TYPOGRAPHY SYSTEM
+     Philosophy: Geometric, precise, editorial-grade spacing.
+     Font: Inter (same as Linear, Vercel, Stripe, Clerk)
+     ---------------------------------------------------------- */
+
+  /* Font Families */
+  --font-sans:   'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono:   'JetBrains Mono', 'Fira Code', 'SF Mono', 'Consolas', monospace;
+
+  /* Font Size Scale — Type scale with 1.250 ratio (Major Third) */
+  --text-xs:     0.75rem;    /* 12px — Labels, badges, captions */
+  --text-sm:     0.875rem;   /* 14px — Small body, metadata */
+  --text-base:   1rem;       /* 16px — Default body */
+  --text-md:     1.125rem;   /* 18px — Large body, sub-descriptions */
+  --text-lg:     1.25rem;    /* 20px — Section intros */
+  --text-xl:     1.5rem;     /* 24px — Card headings */
+  --text-2xl:    1.875rem;   /* 30px — Sub-headings */
+  --text-3xl:    2.25rem;    /* 36px — Section headings */
+  --text-4xl:    3rem;       /* 48px — Large headings */
+  --text-5xl:    3.75rem;    /* 60px — Hero sub-heading */
+  --text-6xl:    4.5rem;     /* 72px — Hero headline (desktop) */
+  --text-7xl:    5.5rem;     /* 88px — Display / statement size */
+
+  /* Font Weights */
+  --font-normal:    400;
+  --font-medium:    500;
+  --font-semibold:  600;
+  --font-bold:      700;
+  --font-extrabold: 800;
+
+  /* Line Heights */
+  --leading-none:   1;
+  --leading-tight:  1.1;    /* Headlines, display text */
+  --leading-snug:   1.25;   /* Sub-headings */
+  --leading-normal: 1.5;    /* Body text */
+  --leading-relaxed: 1.65;  /* Long-form descriptions */
+  --leading-loose:  1.8;    /* Spacious body text */
+
+  /* Letter Spacing */
+  --tracking-tight:    -0.04em;  /* Display headlines */
+  --tracking-snug:     -0.02em;  /* Large headings */
+  --tracking-normal:    0em;
+  --tracking-wide:      0.04em;  /* Eyebrow labels */
+  --tracking-wider:     0.08em;  /* Caps labels, section markers */
+  --tracking-widest:    0.12em;  /* STATUS badges */
+
+
+  /* ----------------------------------------------------------
+     SPACING SYSTEM
+     Philosophy: 4px base unit. Generous white space signals premium.
+     ---------------------------------------------------------- */
+
+  --space-0:    0;
+  --space-px:   1px;
+  --space-0-5:  0.125rem;   /* 2px */
+  --space-1:    0.25rem;    /* 4px */
+  --space-1-5:  0.375rem;   /* 6px */
+  --space-2:    0.5rem;     /* 8px */
+  --space-2-5:  0.625rem;   /* 10px */
+  --space-3:    0.75rem;    /* 12px */
+  --space-4:    1rem;       /* 16px */
+  --space-5:    1.25rem;    /* 20px */
+  --space-6:    1.5rem;     /* 24px */
+  --space-8:    2rem;       /* 32px */
+  --space-10:   2.5rem;     /* 40px */
+  --space-12:   3rem;       /* 48px */
+  --space-14:   3.5rem;     /* 56px */
+  --space-16:   4rem;       /* 64px */
+  --space-20:   5rem;       /* 80px */
+  --space-24:   6rem;       /* 96px */
+  --space-28:   7rem;       /* 112px */
+  --space-32:   8rem;       /* 128px */
+  --space-40:   10rem;      /* 160px */
+  --space-48:   12rem;      /* 192px */
+  --space-64:   16rem;      /* 256px */
+
+  /* Layout Tokens */
+  --layout-content-max:    1120px;   /* Maximum content width */
+  --layout-content-wide:   1280px;   /* Wide content areas */
+  --layout-content-narrow:  720px;   /* Narrow/centered content */
+  --layout-section-gap:    var(--space-32);  /* 128px between sections */
+  --layout-section-gap-sm: var(--space-20);  /* 80px on mobile */
+  --layout-gutter:         var(--space-6);   /* Horizontal page padding */
+  --layout-gutter-lg:      var(--space-10);  /* Horizontal page padding (lg+) */
+
+
+  /* ----------------------------------------------------------
+     BORDER RADIUS SYSTEM
+     Philosophy: Purposeful rounding. Panels are slightly rounded;
+     buttons more so; tags fully rounded. Nothing is completely sharp.
+     ---------------------------------------------------------- */
+
+  --radius-none:   0;
+  --radius-xs:     2px;    /* Subtle, almost none */
+  --radius-sm:     4px;    /* Code blocks, tags */
+  --radius-md:     8px;    /* Inputs, small cards */
+  --radius-lg:     12px;   /* Cards, panels, popovers */
+  --radius-xl:     16px;   /* Large cards, feature blocks */
+  --radius-2xl:    20px;   /* Hero cards, premium surfaces */
+  --radius-3xl:    24px;   /* Large surface containers */
+  --radius-full:   9999px; /* Pills, badges, circular elements */
+
+
+  /* ----------------------------------------------------------
+     SHADOW SYSTEM
+     Philosophy: Shadows define depth in near-black UI.
+     All shadows use green tint to maintain brand coherence.
+     ---------------------------------------------------------- */
+
+  /* Elevation Shadows */
+  --shadow-xs:      0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-sm:      0 2px 4px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md:      0 4px 8px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-lg:      0 8px 24px rgba(0, 0, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.4);
+  --shadow-xl:      0 16px 48px rgba(0, 0, 0, 0.7), 0 8px 16px rgba(0, 0, 0, 0.4);
+  --shadow-2xl:     0 24px 64px rgba(0, 0, 0, 0.8), 0 12px 24px rgba(0, 0, 0, 0.5);
+
+  /* Brand Glow Shadows — used on interactive/accent elements */
+  --shadow-glow-xs: 0 0 8px rgba(34, 197, 94, 0.20);
+  --shadow-glow-sm: 0 0 16px rgba(34, 197, 94, 0.25);
+  --shadow-glow-md: 0 0 32px rgba(34, 197, 94, 0.20), 0 0 8px rgba(34, 197, 94, 0.15);
+  --shadow-glow-lg: 0 0 48px rgba(34, 197, 94, 0.18), 0 0 16px rgba(34, 197, 94, 0.12);
+
+  /* Card Shadows */
+  --shadow-card:        0 1px 0 rgba(255,255,255,0.04) inset,
+                        0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-card-hover:  0 1px 0 rgba(255,255,255,0.06) inset,
+                        0 16px 40px rgba(0, 0, 0, 0.6),
+                        0 0 0 1px rgba(34, 197, 94, 0.12);
+
+  /* Inset / Input Shadows */
+  --shadow-inset:       inset 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-inset-focus: inset 0 0 0 1px rgba(34, 197, 94, 0.5),
+                        0 0 0 3px rgba(34, 197, 94, 0.10);
+
+
+  /* ----------------------------------------------------------
+     ANIMATION SYSTEM
+     Philosophy: Entrance-only. Functional, not decorative.
+     The Vercel/Linear motion signature: opacity + Y-translate.
+     ---------------------------------------------------------- */
+
+  /* Durations */
+  --duration-instant:  100ms;
+  --duration-fast:     180ms;
+  --duration-base:     260ms;
+  --duration-slow:     420ms;
+  --duration-slower:   600ms;
+  --duration-reveal:   700ms;   /* Max duration ceiling for reveals */
+
+  /* Easing Curves */
+  --ease-default:      cubic-bezier(0.4, 0, 0.2, 1);   /* Standard ease */
+  --ease-in:           cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:          cubic-bezier(0, 0, 0.2, 1);
+  --ease-premium:      cubic-bezier(0.16, 1, 0.3, 1);  /* Premium ease-out — the Linear/Vercel feel */
+  --ease-spring:       cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Subtle spring */
+
+  /* Scroll Reveal — Framer Motion default variants */
+  --reveal-y-distance: 24px;    /* Y offset on entrance */
+  --reveal-stagger:    60ms;    /* Delay between staggered children */
+
+
+  /* ----------------------------------------------------------
+     RESPONSIVE BREAKPOINTS
+     Philosophy: Mobile-first. Defined here for reference.
+     Used in Tailwind as: sm: md: lg: xl: 2xl:
+     ---------------------------------------------------------- */
+
+  /* Breakpoint Reference (DO NOT change — matches Tailwind defaults)
+     sm:   640px   — Large phones, small tablets
+     md:   768px   — Tablets
+     lg:   1024px  — Small laptops
+     xl:   1280px  — Desktops
+     2xl:  1536px  — Wide screens
+
+     Custom:
+     --bp-content: 1120px  (var(--layout-content-max)) — where content locks
+  */
+
+
+  /* ----------------------------------------------------------
+     Z-INDEX SCALE
+     Philosophy: Explicit, named layers prevent stacking wars.
+     ---------------------------------------------------------- */
+
+  --z-below:    -1;
+  --z-base:      0;
+  --z-raised:    10;
+  --z-dropdown:  100;
+  --z-sticky:    200;
+  --z-overlay:   300;
+  --z-modal:     400;
+  --z-toast:     500;
+  --z-tooltip:   600;
+
+
+  /* ----------------------------------------------------------
+     BACKDROP / BLUR
+     ---------------------------------------------------------- */
+
+  --blur-sm:   4px;
+  --blur-md:   8px;
+  --blur-lg:   16px;
+  --blur-xl:   24px;
+  --blur-nav:  20px;   /* Navbar backdrop blur */
+
+}

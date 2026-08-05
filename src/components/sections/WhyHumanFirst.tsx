@@ -1,0 +1,388 @@
+/**
+ * WhyHumanFirst.tsx — HumanF1RST v2
+ *
+ * "Why HumanFirst" — value proposition section.
+ * Answers: "Why choose HumanFirst over existing approaches?"
+ *
+ * Layout:
+ *   Desktop  (≥768px): 2 × 2 card grid (4 cards, equal heights)
+ *   Mobile   (<768px): single column stack
+ *
+ * Design: spacious, elegant, trust-first.
+ * Cards are larger/more padded than feature cards — this is a value
+ * proposition, not a feature list.
+ *
+ * Animations (viewport-triggered, once:true, prefers-reduced-motion safe):
+ *   — Badge + heading: fadeUp
+ *   — Cards: stagger fadeUp, 110ms apart
+ *   — Icons: scaleIn, 55ms behind card
+ *   — Hover: y:-4 + glow + border brighten + icon scale
+ *
+ * Performance: opacity + transform only (GPU composited).
+ */
+
+import { motion, useReducedMotion } from 'framer-motion'
+import { ShieldCheck, Building2, Sparkles, Users } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
+
+// ─── Content ───────────────────────────────────────────────────────────────────
+
+interface ValueCard {
+  icon:  LucideIcon
+  title: string
+  body:  string
+}
+
+const VALUE_CARDS: ValueCard[] = [
+  {
+    icon:  ShieldCheck,
+    title: 'Privacy Without Compromise',
+    body:  'Protect student privacy without sacrificing academic integrity. HumanFirst proves you never have to choose.',
+  },
+  {
+    icon:  Building2,
+    title: 'Institution First',
+    body:  'Universities define the rules and remain in control of every assessment. No automated decisions. No black boxes.',
+  },
+  {
+    icon:  Sparkles,
+    title: 'Future Ready',
+    body:  'Built for an education system where AI is permanent — not a problem to be solved once and forgotten.',
+  },
+  {
+    icon:  Users,
+    title: 'Trust by Design',
+    body:  'Reduce friction between students and educators through transparent assessment practices that everyone can understand.',
+  },
+]
+
+// ─── Animation helpers ─────────────────────────────────────────────────────────
+
+function fadeUp(shouldReduce: boolean | null, delay = 0) {
+  return {
+    initial:     { opacity: 0, y: shouldReduce ? 0 : 24 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport:    { once: true, margin: '-80px 0px' },
+    transition: {
+      duration: 0.55,
+      delay,
+      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+    },
+  }
+}
+
+function scaleIn(shouldReduce: boolean | null, delay = 0) {
+  return {
+    initial:     { opacity: 0, scale: shouldReduce ? 1 : 0.76 },
+    whileInView: { opacity: 1, scale: 1 },
+    viewport:    { once: true, margin: '-80px 0px' },
+    transition: {
+      duration: 0.42,
+      delay,
+      ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+    },
+  }
+}
+
+// ─── Value card ────────────────────────────────────────────────────────────────
+
+interface ValueCardProps {
+  card:         ValueCard
+  index:        number
+  shouldReduce: boolean | null
+}
+
+function ValueCardItem({ card, index, shouldReduce }: ValueCardProps) {
+  const Icon      = card.icon
+  const cardDelay = 0.08 + index * 0.11
+
+  return (
+    <motion.article
+      {...fadeUp(shouldReduce, cardDelay)}
+      style={{
+        position:        'relative',
+        display:         'flex',
+        flexDirection:   'column',
+        /* No fixed height — grid stretch gives equal heights automatically */
+        background:      'var(--color-bg-elevated)',
+        border:          '1px solid rgba(34, 197, 94, 0.12)',
+        borderRadius:    'var(--radius-2xl)',
+        /* Asymmetric padding: extra top/bottom breathing room */
+        paddingTop:      'var(--space-10)',
+        paddingBottom:   'var(--space-10)',
+        paddingLeft:     'var(--space-8)',
+        paddingRight:    'var(--space-8)',
+        boxShadow:       'var(--shadow-lg), 0 0 32px 0 rgba(34, 197, 94, 0.04)',
+        overflow:        'visible',
+        willChange:      'transform',
+        cursor:          'default',
+      }}
+      whileHover={shouldReduce ? {} : {
+        y:         -4,
+        boxShadow: [
+          'var(--shadow-xl)',
+          '0 0 64px 0 rgba(34, 197, 94, 0.16)',
+          '0 0 0 1px rgba(34, 197, 94, 0.30)',
+        ].join(', '),
+      }}
+      transition={{ duration: 0.22, ease: 'easeOut' }}
+    >
+      {/* Top edge glow */}
+      <span
+        aria-hidden="true"
+        style={{
+          position:   'absolute',
+          top:        0,
+          left:       '10%',
+          right:      '10%',
+          height:     1,
+          background: 'linear-gradient(to right, transparent, rgba(34,197,94,0.22), transparent)',
+        }}
+      />
+
+      {/* Icon badge — larger for spacious cards */}
+      <motion.div
+        {...scaleIn(shouldReduce, cardDelay + 0.055)}
+        style={{
+          display:        'inline-flex',
+          alignItems:     'center',
+          justifyContent: 'center',
+          width:          54,
+          height:         54,
+          borderRadius:   'var(--radius-xl)',
+          background:     'rgba(34, 197, 94, 0.09)',
+          border:         '1px solid rgba(34, 197, 94, 0.20)',
+          marginBottom:   'var(--space-8)',
+          flexShrink:     0,
+        }}
+        whileHover={shouldReduce ? {} : { scale: 1.10 }}
+        transition={{ duration: 0.18, ease: 'easeOut' }}
+      >
+        <Icon
+          size={24}
+          strokeWidth={1.6}
+          style={{ color: 'var(--color-accent)' }}
+          aria-hidden="true"
+        />
+      </motion.div>
+
+      {/* Title */}
+      <h3
+        style={{
+          fontSize:      'var(--text-xl)',
+          fontWeight:    'var(--font-bold)',
+          color:         'var(--color-text-primary)',
+          lineHeight:    'var(--leading-snug)',
+          letterSpacing: 'var(--tracking-snug)',
+          marginBottom:  'var(--space-5)',
+        }}
+      >
+        {card.title}
+      </h3>
+
+      {/* Body */}
+      <p
+        style={{
+          fontSize:   'var(--text-base)',
+          color:      '#B0C4B2',
+          lineHeight: 1.85,
+          /* No flexGrow — card grows with content when height is unconstrained */
+        }}
+      >
+        {card.body}
+      </p>
+    </motion.article>
+  )
+}
+
+// ─── Main section ──────────────────────────────────────────────────────────────
+
+function WhyHumanFirst() {
+  const shouldReduce = useReducedMotion()
+
+  return (
+    <section
+      id="about"
+      aria-labelledby="why-heading"
+      style={{
+        position:        'relative',
+        backgroundColor: 'var(--color-bg-base)',
+        paddingTop:      'var(--space-24)',
+        paddingBottom:   'var(--space-24)',
+        overflow:        'hidden',
+      }}
+    >
+      {/* ── Background ────────────────────────────────────────────────────── */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute inset-0 bg-dots" style={{ opacity: 0.45 }} />
+
+        {/* Centered top glow */}
+        <div
+          style={{
+            position:   'absolute',
+            top:        '-5%',
+            left:       '50%',
+            transform:  'translateX(-50%)',
+            width:      '60%',
+            height:     300,
+            background: 'radial-gradient(ellipse, rgba(34,197,94,0.07) 0%, transparent 70%)',
+            filter:     'blur(50px)',
+          }}
+        />
+      </div>
+
+      <div className="container-v2">
+
+        {/* ── Badge ─────────────────────────────────────────────────────────── */}
+        <motion.div {...fadeUp(shouldReduce, 0)} style={{ marginBottom: 'var(--space-10)' }}>
+          <div
+            style={{
+              display:      'inline-flex',
+              alignItems:   'center',
+              gap:          7,
+              padding:      '5px 14px',
+              borderRadius: 'var(--radius-full)',
+              border:       '1px solid rgba(34,197,94,0.28)',
+              background:   'rgba(34,197,94,0.07)',
+            }}
+          >
+            <span
+              className="animate-pulse"
+              style={{
+                width:        5,
+                height:       5,
+                borderRadius: '50%',
+                background:   'var(--color-accent)',
+                flexShrink:   0,
+              }}
+              aria-hidden="true"
+            />
+            <span
+              style={{
+                fontSize:      'var(--text-xs)',
+                fontWeight:    'var(--font-semibold)',
+                letterSpacing: 'var(--tracking-widest)',
+                textTransform: 'uppercase',
+                color:         'var(--color-accent)',
+              }}
+            >
+              Why HumanFirst
+            </span>
+          </div>
+        </motion.div>
+
+        {/* ── Heading ───────────────────────────────────────────────────────── */}
+        <motion.div
+          {...fadeUp(shouldReduce, 0.06)}
+          style={{ maxWidth: 640, marginBottom: 'var(--space-5)' }}
+        >
+          <h2 id="why-heading" style={{ margin: 0 }}>
+            <span
+              className="text-gradient-accent"
+              style={{
+                display:       'block',
+                fontSize:      'clamp(2.25rem, 4.5vw, 3.75rem)',
+                fontWeight:    'var(--font-extrabold)',
+                lineHeight:    1.05,
+                letterSpacing: 'var(--tracking-tight)',
+                marginBottom:  '0.2em',
+              }}
+            >
+              Built for trust.
+            </span>
+            <span
+              style={{
+                display:       'block',
+                fontSize:      'clamp(1.5rem, 3vw, 2.5rem)',
+                fontWeight:    'var(--font-bold)',
+                lineHeight:    'var(--leading-snug)',
+                letterSpacing: 'var(--tracking-snug)',
+                color:         'var(--color-text-primary)',
+              }}
+            >
+              Designed for the future of education.
+            </span>
+          </h2>
+        </motion.div>
+
+        {/* ── Supporting paragraph ───────────────────────────────────────────── */}
+        <motion.div
+          {...fadeUp(shouldReduce, 0.12)}
+          style={{ maxWidth: 560, marginBottom: 'var(--space-16)' }}
+        >
+          <p
+            style={{
+              fontSize:   'var(--text-lg)',
+              color:      '#B0C4B2',
+              lineHeight: 'var(--leading-relaxed)',
+            }}
+          >
+            HumanFirst helps institutions preserve academic integrity while
+            respecting student privacy. Every decision in the platform is guided
+            by transparency, ethical design, and long-term trust.
+          </p>
+        </motion.div>
+
+        {/* ── Value cards 2×2 ──────────────────────────────────────────────────
+            .why-grid: 1-col mobile → 2-col tablet and desktop (no 3-col shift)
+        ─────────────────────────────────────────────────────────────────────── */}
+        <div
+          className="why-grid"
+          style={{ display: 'grid', gap: 'var(--space-5)' }}
+        >
+          {VALUE_CARDS.map((card, i) => (
+            <ValueCardItem
+              key={card.title}
+              card={card}
+              index={i}
+              shouldReduce={shouldReduce}
+            />
+          ))}
+        </div>
+
+        {/* ── Bottom trust statement ─────────────────────────────────────────── */}
+        <motion.div
+          {...fadeUp(shouldReduce, 0.52)}
+          style={{
+            marginTop:   'var(--space-20)',
+            paddingTop:  'var(--space-14)',
+            borderTop:   '1px solid rgba(255,255,255,0.06)',
+            textAlign:   'center',
+          }}
+        >
+          <div
+            aria-hidden="true"
+            style={{
+              width:        40,
+              height:       2,
+              borderRadius: 1,
+              background:   'var(--color-accent)',
+              margin:       '0 auto var(--space-8)',
+              opacity:      0.7,
+            }}
+          />
+          <p
+            style={{
+              fontSize:      'clamp(1.1rem, 2.2vw, 1.65rem)',
+              fontWeight:    'var(--font-semibold)',
+              color:         'var(--color-text-primary)',
+              lineHeight:    'var(--leading-relaxed)',
+              letterSpacing: 'var(--tracking-snug)',
+              maxWidth:      680,
+              margin:        '0 auto',
+            }}
+          >
+            Technology should strengthen trust between students and institutions
+            {' '}
+            <span className="text-gradient-accent">
+              — not replace it.
+            </span>
+          </p>
+        </motion.div>
+
+      </div>
+    </section>
+  )
+}
+
+export default WhyHumanFirst
