@@ -1,22 +1,22 @@
 /**
- * Signup.tsx — HumanF1RST Phase 2
- * Refactored Sign Up Authentication Page using Modular Component Architecture
+ * ForgotPassword.tsx — HumanF1RST Phase 2
+ * Forgot Password Authentication Page
  *
  * Reuses identical layout architecture, fluid responsive clamp spacing,
- * Navbar, and Footer from Login.tsx.
+ * Navbar, and Footer from Login.tsx and Signup.tsx.
  */
 
 import Seo from '../components/Seo'
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
-import SignupCard from '../components/auth/SignupCard'
+import ForgotPasswordCard from '../components/auth/ForgotPasswordCard'
 
-function Signup() {
+function ForgotPassword() {
   return (
     <>
       <Seo
-        title="Sign Up | HumanF1RST"
-        description="Create your HumanF1RST account."
+        title="Forgot Password | HumanF1RST"
+        description="Reset your HumanF1RST account password."
       />
 
       {/* SECTION 1: FIXED HOMEPAGE NAVBAR */}
@@ -24,14 +24,14 @@ function Signup() {
 
       {/* SECTION 2: MAIN AUTHENTICATION CONTAINER (Fluid clamp responsive padding matching Login) */}
       <main
-        className="signup-page min-h-[calc(100vh-80px)] flex flex-col justify-between bg-[#080A09] text-[#F0F5F1]"
+        className="forgot-password-page min-h-[calc(100vh-80px)] flex flex-col justify-between bg-[#080A09] text-[#F0F5F1]"
         style={{
           paddingTop: 'clamp(128px, 12vw, 180px)',
           paddingBottom: 'clamp(48px, 8vw, 100px)',
         }}
       >
         <section className="flex-grow flex items-center justify-center px-4 sm:px-6">
-          <SignupCard />
+          <ForgotPasswordCard />
         </section>
       </main>
 
@@ -41,4 +41,4 @@ function Signup() {
   )
 }
 
-export default Signup
+export default ForgotPassword

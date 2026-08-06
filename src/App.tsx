@@ -1,24 +1,29 @@
 /**
  * App.tsx — HumanF1RST v2
- * Root application shell. V2 is dark-mode-first.
- * Home page sections will be imported from components/sections/
- * as they are built phase by phase.
+ * Root application shell.
  *
- * Existing pages (About, Contact, Login, Signup, Dashboard)
- * are preserved — they will be updated in later phases.
+ * Phase 1 Architecture:
+ * - LandingLayout renders the marketing site (Navbar + Landing Page / About / Contact + Footer).
+ * - Auth Pages (/login, /signup, /forgot-password, etc.) render with Navbar and Footer layout.
  */
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
 import ScrollToTop from './components/ScrollToTop'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
-// ── V2 Layout ─────────────────────────────────────────────
+import ForgotPassword from './pages/ForgotPassword'
+import ResetEmailSent from './pages/ResetEmailSent'
+import ResetPassword from './pages/ResetPassword'
+import PasswordChanged from './pages/PasswordChanged'
+import NotFound from './pages/NotFound'
+
+// ── V2 Marketing Layout ─────────────────────────────────────────────
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 
-// ── V2 Sections (built phase by phase) ────────────────────
+// ── V2 Marketing Sections ───────────────────────────────────────────
 import Hero from './components/sections/Hero'
 import Problem from './components/sections/Problem'
 import Solution from './components/sections/Solution'
@@ -28,7 +33,17 @@ import PrivacySecurity from './components/sections/PrivacySecurity'
 import WhyHumanFirst from './components/sections/WhyHumanFirst'
 import CallToAction from './components/sections/CallToAction'
 
-// ── V2 Home — grows section by section as each is approved ─
+/** Layout Shell for Marketing Landing Pages */
+function LandingLayout() {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  )
+}
+
+/** Home Page Assembly */
 function Home() {
   return (
     <>
@@ -45,12 +60,10 @@ function Home() {
   )
 }
 
-
 function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      {/* V2: dark-mode-first, no class toggling needed — always dark */}
       <div
         style={{
           minHeight: '100vh',
@@ -58,16 +71,25 @@ function App() {
           color: 'var(--color-text-primary)',
         }}
       >
-        {/* V2 Navbar — fixed, persists across all pages */}
-        <Navbar />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
+          {/* Marketing Landing Routes */}
+          <Route element={<LandingLayout />}>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+          </Route>
+
+          {/* Isolated Phase 1 Auth Routes */}
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-email-sent" element={<ResetEmailSent />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/password-changed" element={<PasswordChanged />} />
+
+          {/* Custom 404 Fallback Route */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
-        {/* Footer — added in Phase 6 */}
       </div>
     </BrowserRouter>
   )

@@ -14,7 +14,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 import { useSmartNavigate } from '../../hooks/useSmartNavigate'
-
+import { Link } from "react-router-dom";
 // ─── Nav items ─────────────────────────────────────────────────────────────────
 
 interface NavItem {
@@ -116,7 +116,7 @@ function NavLogo() {
           lineHeight: 1,
         }}
       >
-        Human
+        HUMAN   
       </span>
       <span
         className="text-gradient-accent"
@@ -329,12 +329,15 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce }: MobileMenuProps
             top: '100%',
             left: 0,
             right: 0,
-            background: 'rgba(8, 10, 9, 0.96)',
+            maxHeight: 'calc(100vh - 80px)',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            background: 'rgba(8, 10, 9, 0.95)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
-            borderBottom: '1px solid rgba(255,255,255,0.06)',
+            borderBottom: '1px solid rgba(255,255,255,0.08)',
             borderTop: '1px solid rgba(255,255,255,0.05)',
-            padding: '20px 24px 28px',
+            padding: '16px 24px 28px',
             zIndex: 40,
           }}
         >
@@ -365,15 +368,15 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce }: MobileMenuProps
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
-                        padding: '13px 0',
-                        fontSize: 'var(--text-base)',
-                        fontWeight: isActive ? 'var(--font-semibold)' : 'var(--font-regular)',
+                        padding: '18px 0',
+                        fontSize: '18px',
+                        fontWeight: 500,
                         color: isActive
-                          ? 'var(--color-text-primary)'
-                          : 'rgba(140, 154, 142, 0.9)',
+                          ? '#FFFFFF'
+                          : 'rgba(255, 255, 255, 0.70)',
                         textDecoration: 'none',
-                        borderBottom: '1px solid rgba(255,255,255,0.05)',
-                        transition: 'color 150ms ease',
+                        borderBottom: '1px solid rgba(255,255,255,0.06)',
+                        transition: 'color 200ms ease',
                         cursor: 'pointer',
                       }}
                     >
@@ -384,7 +387,7 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce }: MobileMenuProps
                             width: 6,
                             height: 6,
                             borderRadius: '50%',
-                            background: 'var(--color-accent)',
+                            background: '#22C55E',
                             flexShrink: 0,
                           }}
                           aria-hidden="true"
@@ -397,10 +400,10 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce }: MobileMenuProps
             </ul>
           </motion.nav>
 
-          {/* Mobile CTAs */}
+          {/* Mobile Action Buttons (Equal width, 48px height, 10px rounded, 12px gap) */}
           <motion.div
             variants={shouldReduce ? {} : MOBILE_ITEM_VARIANTS}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -415,19 +418,7 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce }: MobileMenuProps
                 onClose()
                 go('#opportunity')
               }}
-              style={{
-                display: 'block',
-                textAlign: 'center',
-                padding: '11px 20px',
-                fontSize: 'var(--text-sm)',
-                fontWeight: 'var(--font-semibold)',
-                color: 'rgba(240, 245, 241, 0.72)',
-                border: '1px solid rgba(255,255,255,0.10)',
-                borderRadius: 'var(--radius-lg)',
-                textDecoration: 'none',
-                transition: 'border-color 200ms ease, color 200ms ease',
-                cursor: 'pointer',
-              }}
+              className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-white bg-transparent border border-white/[0.18] hover:border-[#22C55E] hover:text-[#22C55E] hover:bg-[#22C55E]/10 rounded-[10px] transition-all duration-200 cursor-pointer select-none no-underline text-center"
             >
               For Investors
             </a>
@@ -439,16 +430,18 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce }: MobileMenuProps
                 onClose()
                 go('#pilot')
               }}
-              className="btn btn-primary"
-              style={{
-                display: 'block',
-                textAlign: 'center',
-                padding: '12px 20px',
-                cursor: 'pointer',
-              }}
+              className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-white bg-[#22C55E] hover:bg-[#16A34A] rounded-[10px] shadow-sm transition-all duration-200 cursor-pointer select-none no-underline text-center"
             >
               Request a Pilot
             </a>
+
+            <Link
+              to="/login"
+              onClick={onClose}
+              className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-white bg-transparent border border-white/[0.18] hover:border-[#22C55E] hover:text-[#22C55E] hover:bg-[#22C55E]/10 rounded-[10px] transition-all duration-200 cursor-pointer select-none no-underline text-center"
+            >
+              Login
+            </Link>
           </motion.div>
         </motion.div>
       )}
@@ -464,6 +457,8 @@ function Navbar() {
   const shouldReduce = useReducedMotion()
   const location = useLocation()
   const { go } = useSmartNavigate()
+
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/signup'
 
   const sectionIds = ['problem', 'solution', 'privacy']
   const activeSectionId = useActiveSection(sectionIds)
@@ -543,59 +538,73 @@ function Navbar() {
         <NavLogo />
 
         {/* ── Desktop Navigation ── */}
-        <nav
-          aria-label="Primary navigation"
-          className="hidden md:flex items-center"
-          style={{ gap: 32 }}
-        >
-          {NAV_ITEMS.map((item) => (
-            <NavLink
-              key={item.id}
-              item={item}
-              isActive={activeId === item.id}
-            />
-          ))}
-        </nav>
+        {!isAuthPage && (
+          <nav
+            aria-label="Primary navigation"
+            className="hidden md:flex items-center"
+            style={{ gap: 32 }}
+          >
+            {NAV_ITEMS.map((item) => (
+              <NavLink
+                key={item.id}
+                item={item}
+                isActive={activeId === item.id}
+              />
+            ))}
+          </nav>
+        )}
 
         {/* ── Desktop Actions ── */}
-        <div className="hidden md:flex items-center" style={{ gap: 20 }}>
-          <motion.a
-            href="#opportunity"
-            onClick={(e) => {
-              e.preventDefault()
-              go('#opportunity')
-            }}
-            style={{
-              fontSize: 'var(--text-sm)',
-              fontWeight: 'var(--font-semibold)',
-              color: 'rgba(240, 245, 241, 0.65)',
-              letterSpacing: '0.01em',
-              textDecoration: 'none',
-              cursor: 'pointer',
-            }}
-            whileHover={{ color: 'rgba(240, 245, 241, 1)' }}
-            transition={{ duration: 0.18, ease: 'easeOut' }}
-          >
-            For Investors
-          </motion.a>
+        <div className="hidden md:flex items-center" style={{ gap: 16 }}>
+          {!isAuthPage && (
+            <>
+              <motion.a
+                href="#opportunity"
+                onClick={(e) => {
+                  e.preventDefault()
+                  go('#opportunity')
+                }}
+                style={{
+                  fontSize: 'var(--text-sm)',
+                  fontWeight: 'var(--font-semibold)',
+                  color: 'rgba(240, 245, 241, 0.65)',
+                  letterSpacing: '0.01em',
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                }}
+                whileHover={{ color: 'rgba(240, 245, 241, 1)' }}
+                transition={{ duration: 0.18, ease: 'easeOut' }}
+              >
+                For Investors
+              </motion.a>
 
-          <motion.a
-            href="#pilot"
-            onClick={(e) => {
-              e.preventDefault()
-              go('#pilot')
-            }}
-            className="btn btn-primary btn-sm"
-            aria-label="Request a pilot programme"
-            whileHover={{
-              y: -1,
-              boxShadow: '0 6px 20px rgba(34, 197, 94, 0.38)',
-            }}
-            transition={{ duration: 0.22, ease: 'easeOut' }}
-            style={{ textDecoration: 'none', cursor: 'pointer' }}
+              <motion.a
+                href="#pilot"
+                onClick={(e) => {
+                  e.preventDefault()
+                  go('#pilot')
+                }}
+                className="btn btn-primary btn-sm h-[38px]"
+                aria-label="Request a pilot programme"
+                whileHover={{
+                  y: -1,
+                  boxShadow: '0 6px 20px rgba(34, 197, 94, 0.38)',
+                }}
+                transition={{ duration: 0.22, ease: 'easeOut' }}
+                style={{ textDecoration: 'none', cursor: 'pointer' }}
+              >
+                Request a Pilot
+              </motion.a>
+            </>
+          )}
+
+          <Link
+            to={isAuthPage ? '/' : '/login'}
+            className="inline-flex items-center justify-center w-[110px] h-[38px] text-[15px] font-semibold text-white bg-transparent border border-white/[0.18] hover:border-[#22C55E] hover:text-[#22C55E] hover:bg-[#22C55E]/10 transition-all duration-200 cursor-pointer select-none no-underline text-center"
+            style={{ borderRadius: 'var(--radius-sm)' }}
           >
-            Request a Pilot
-          </motion.a>
+            {isAuthPage ? 'Back to Home' : 'Login'}
+          </Link>
         </div>
 
         {/* ── Mobile: Menu Button ── */}

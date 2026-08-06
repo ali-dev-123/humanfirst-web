@@ -16,6 +16,7 @@
  *  12. Consistent premium HumanFirst voice
  */
 
+import { Fragment } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { SlidersHorizontal, ShieldCheck, PenLine, BadgeCheck, ArrowRight } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
@@ -481,16 +482,15 @@ function HowItWorks() {
         ─────────────────────────────────────────────────────────────────────── */}
         <div className="hiw-row" role="list">
           {STEPS.map((step, i) => (
-            <>
+            <Fragment key={step.number}>
               {/* Mobile-only vertical connector above (except first) */}
               {i > 0 && (
-                <div className="hiw-vertical-connector" key={`vc-${i}`}>
+                <div className="hiw-vertical-connector">
                   <VerticalConnector shouldReduce={shouldReduce} />
                 </div>
               )}
 
               <StepCard
-                key={step.number}
                 step={step}
                 index={i}
                 shouldReduce={shouldReduce}
@@ -499,12 +499,11 @@ function HowItWorks() {
               {/* Desktop-only horizontal connector after (except last) */}
               {i < STEPS.length - 1 && (
                 <ConnectorLine
-                  key={`conn-${i}`}
                   index={i}
                   shouldReduce={shouldReduce}
                 />
               )}
-            </>
+            </Fragment>
           ))}
         </div>
 
