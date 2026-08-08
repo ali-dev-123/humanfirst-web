@@ -85,22 +85,22 @@ const ACCENT: Record<SolutionCardData['accentHue'], {
   list:       string     /* bullet and list-item accent color */
 }> = {
   green: {
-    icon:        'var(--color-accent)',
-    badge:       'rgba(34, 197, 94, 0.10)',
-    border:      'rgba(34, 197, 94, 0.18)',
-    borderHover: 'rgba(34, 197, 94, 0.35)',
-    glow:        'rgba(34, 197, 94, 0.08)',
-    glowHover:   'rgba(34, 197, 94, 0.18)',
+    icon:        'var(--color-brand-green)',
+    badge:       'var(--color-accent)',
+    border:      'rgba(202, 255, 112, 0.30)',
+    borderHover: 'rgba(202, 255, 112, 0.40)',
+    glow:        'rgba(202, 255, 112, 0.16)',
+    glowHover:   'rgba(202, 255, 112, 0.24)',
     list:        'var(--color-accent)',
   },
   teal: {
-    icon:        'rgba(6, 182, 212, 0.90)',
-    badge:       'rgba(6, 182, 212, 0.10)',
-    border:      'rgba(6, 182, 212, 0.18)',
-    borderHover: 'rgba(6, 182, 212, 0.35)',
-    glow:        'rgba(6, 182, 212, 0.07)',
-    glowHover:   'rgba(6, 182, 212, 0.16)',
-    list:        'rgba(6, 182, 212, 0.90)',
+    icon:        'var(--color-brand-green)',
+    badge:       'var(--color-accent)',
+    border:      'rgba(202, 255, 112, 0.30)',
+    borderHover: 'rgba(202, 255, 112, 0.40)',
+    glow:        'rgba(202, 255, 112, 0.16)',
+    glowHover:   'rgba(202, 255, 112, 0.24)',
+    list:        'var(--color-accent)',
   },
 }
 
@@ -279,7 +279,7 @@ function SolutionCard({ card, index, shouldReduce }: SolutionCardProps) {
               <span
                 style={{
                   fontSize:   'var(--text-sm)',
-                  color:      '#B8CAB9',  /* slightly brighter than body for list items */
+                  color:      '#5F6D65',
                   lineHeight: 'var(--leading-snug)',
                   fontWeight: 'var(--font-medium)',
                 }}
@@ -293,7 +293,7 @@ function SolutionCard({ card, index, shouldReduce }: SolutionCardProps) {
         <p
           style={{
             fontSize:   'var(--text-sm)',
-            color:      '#9CAE9E',
+            color:      '#5F6D65',
             lineHeight: 'var(--leading-relaxed)',
             flexGrow:   1,
           }}
@@ -335,7 +335,7 @@ function Solution() {
             transform:  'translateX(-50%)',
             width:      '65%',
             height:     320,
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.08) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, rgba(202,255,112,0.20) 0%, transparent 70%)',
             filter:     'blur(50px)',
           }}
         />
@@ -347,7 +347,7 @@ function Solution() {
             right:      '0',
             width:      '35%',
             height:     '60%',
-            background: 'radial-gradient(ellipse, rgba(6,182,212,0.05) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, rgba(8,47,37,0.06) 0%, transparent 70%)',
             filter:     'blur(60px)',
           }}
         />
@@ -364,8 +364,8 @@ function Solution() {
               gap:          7,
               padding:      '5px 14px',
               borderRadius: 'var(--radius-full)',
-              border:       '1px solid rgba(34,197,94,0.28)',
-              background:   'rgba(34,197,94,0.07)',
+              border:       '1px solid rgba(202, 255, 112, 0.30)',
+              background:   'var(--color-accent)',
             }}
           >
             <span
@@ -373,7 +373,7 @@ function Solution() {
                 width:        5,
                 height:       5,
                 borderRadius: '50%',
-                background:   'var(--color-accent)',
+                background:   'var(--color-brand-green)',
                 flexShrink:   0,
               }}
               aria-hidden="true"
@@ -384,7 +384,7 @@ function Solution() {
                 fontWeight:    'var(--font-semibold)',
                 letterSpacing: 'var(--tracking-widest)',
                 textTransform: 'uppercase',
-                color:         'var(--color-accent)',
+                color:         'var(--color-text-primary)',
               }}
             >
               The Solution
@@ -429,7 +429,7 @@ function Solution() {
             >
               Protect academic integrity
               <br />
-              <span style={{ color: '#9CAE9E', fontWeight: 'var(--font-semibold)' }}>
+              <span style={{ color: '#5F6D65', fontWeight: 'var(--font-semibold)' }}>
                 without violating privacy.
               </span>
             </span>
@@ -444,7 +444,7 @@ function Solution() {
           <p
             style={{
               fontSize:   'var(--text-lg)',
-              color:      '#9CAE9E',
+              color:      '#5F6D65',
               lineHeight: 'var(--leading-relaxed)',
             }}
           >
@@ -476,7 +476,7 @@ function Solution() {
             marginTop:      'var(--space-20)',
             textAlign:      'center',
             paddingTop:     'var(--space-16)',
-            borderTop:      '1px solid rgba(255,255,255,0.06)',
+            borderTop:      '1px solid rgba(8,47,37,0.08)',
           }}
         >
           {/* Decorative separator accent */}

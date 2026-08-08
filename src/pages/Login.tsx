@@ -31,8 +31,10 @@ function Login() {
 
       {/* SECTION 2: MAIN AUTHENTICATION CONTAINER (Fluid clamp responsive padding) */}
       <main
-        className="login-page min-h-[calc(100vh-80px)] flex flex-col justify-between bg-[#080A09] text-[#F0F5F1]"
+        className="login-page min-h-[calc(100vh-80px)] flex flex-col justify-between"
         style={{
+          background: 'var(--color-bg-base)',
+          color: 'var(--color-text-primary)',
           paddingTop: 'clamp(128px, 12vw, 180px)',
           paddingBottom: 'clamp(48px, 8vw, 100px)',
         }}

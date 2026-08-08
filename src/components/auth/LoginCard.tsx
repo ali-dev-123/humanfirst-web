@@ -58,7 +58,7 @@ export default function LoginCard() {
       {/* ── HEADER SECTION ────────────────────────────────────────────── */}
       <header className="login-header">
         <h1 className="login-title">Welcome Back</h1>
-        <p className="login-subtitle">Sign in to continue to HumanF1RST.</p>
+        <p className="login-subtitle">Sign in to continue to HUMΛNF1RST.</p>
       </header>
 
       {/* ── FORM PRESENTATION ─────────────────────────────────────────── */}

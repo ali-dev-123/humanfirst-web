@@ -70,8 +70,8 @@ function SectionBadge({ children }: { children: React.ReactNode }) {
         gap:          7,
         padding:      '5px 14px',
         borderRadius: 'var(--radius-full)',
-        border:       '1px solid rgba(34,197,94,0.28)',
-        background:   'rgba(34,197,94,0.07)',
+        border:       '1px solid rgba(8,47,37,0.10)',
+        background:   'var(--color-accent)',
         marginBottom: 'var(--space-10)',
       }}
     >
@@ -81,7 +81,7 @@ function SectionBadge({ children }: { children: React.ReactNode }) {
           width:        5,
           height:       5,
           borderRadius: '50%',
-          background:   'var(--color-accent)',
+          background:   'var(--color-brand-green)',
           flexShrink:   0,
         }}
         aria-hidden="true"
@@ -92,7 +92,7 @@ function SectionBadge({ children }: { children: React.ReactNode }) {
           fontWeight:    'var(--font-semibold)',
           letterSpacing: 'var(--tracking-widest)',
           textTransform: 'uppercase' as const,
-          color:         'var(--color-accent)',
+          color:         'var(--color-brand-green)',
         }}
       >
         {children}
@@ -181,7 +181,7 @@ function ContactHero() {
             fontWeight:    'var(--font-extrabold)',
             letterSpacing: 'var(--tracking-tight)',
             lineHeight:    1.04,
-            color:         'var(--color-text-primary)',
+            color:         'var(--color-brand-green)',
             margin:        '0 auto var(--space-6)',
             maxWidth:      680,
           }}
@@ -195,17 +195,17 @@ function ContactHero() {
           {...fadeUp(shouldReduce, 0.16)}
           style={{
             fontSize:    'clamp(var(--text-base), 2vw, var(--text-lg))',
-            color:       '#9DB09F',
+            color:       'var(--color-text-secondary)',
             lineHeight:  1.75,
             maxWidth:    560,
             width:       '100%',
             margin:      '0 auto var(--space-10)',
           }}
         >
-          Whether you're exploring HumanFirst for your institution, interested
+          Whether you're exploring HUMΛNF1RST for your institution, interested
           in partnering, or simply have a question — we'd love to hear from you.
           <br />
-          <span style={{ color: '#7A9A7E' }}>
+          <span style={{ color: 'var(--color-text-secondary)' }}>
             We usually respond within one business day.
           </span>
         </motion.p>
@@ -241,20 +241,19 @@ function ContactHero() {
               gap:            'var(--space-2)',
               fontSize:       'var(--text-sm)',
               fontWeight:     600,
-              color:          'rgba(240,245,241,0.70)',
+              color:          'var(--color-text-primary)',
               textDecoration: 'none',
               padding:        '0.75rem 1.5rem',
               minHeight:      '48px',
-              border:         '1px solid rgba(240,245,241,0.12)',
+              border:         '1px solid var(--color-border-default)',
               borderRadius:   'var(--radius-full)',
-              background:     'rgba(255,255,255,0.04)',
+              background:     'rgba(8, 47, 37, 0.04)',
               cursor:         'pointer',
             }}
             whileHover={shouldReduce ? {} : {
-              color:       'rgba(240,245,241,1)',
-              borderColor: 'rgba(240,245,241,0.25)',
-              y:           -1,
+              y: -1,
             }}
+            whileTap={shouldReduce ? {} : { scale: 0.98 }}
             transition={{ duration: 0.20, ease: 'easeOut' }}
           >
             Learn More
@@ -305,7 +304,7 @@ function ContactForm() {
   const inputStyle = (field: string): React.CSSProperties => ({
     width:        '100%',
     background:   focused === field ? 'rgba(34,197,94,0.04)' : 'rgba(255,255,255,0.03)',
-    border:       `1px solid ${focused === field ? 'rgba(34,197,94,0.45)' : 'rgba(255,255,255,0.10)'}`,
+    border:       focused === field ? '1px solid var(--color-border-accent)' : '1px solid var(--color-border-strong)',
     borderRadius: 'var(--radius-lg)',
     padding:      '12px 16px',
     fontSize:     'var(--text-sm)',
@@ -319,7 +318,7 @@ function ContactForm() {
     display:       'block',
     fontSize:      'var(--text-sm)',
     fontWeight:    'var(--font-medium)',
-    color:         'rgba(224,240,226,0.72)',
+    color:         'var(--color-text-secondary)',
     marginBottom:  'var(--space-2)',
     letterSpacing: '0.01em',
   }
@@ -334,14 +333,12 @@ function ContactForm() {
       {...slideUp(shouldReduce, 0.06)}
       id="contact-form"
       style={{
-        position:             'relative',
-        background:           'rgba(18, 24, 19, 0.90)',
-        backdropFilter:       'blur(24px)',
-        WebkitBackdropFilter: 'blur(24px)',
-        border:               '1px solid rgba(255,255,255,0.07)',
-        borderRadius:         'var(--radius-2xl)',
-        boxShadow:            '0 4px 40px rgba(0,0,0,0.32), 0 0 0 1px rgba(34,197,94,0.05)',
-        padding:              'clamp(1.25rem, 4vw, 3rem)',
+        position:    'relative',
+        background:  'var(--color-bg-elevated)',
+        border:      '1px solid var(--color-border-default)',
+        borderRadius:'var(--radius-xl)',
+        boxShadow:   'var(--shadow-card)',
+        padding:     'clamp(1.25rem, 4vw, 3rem)',
       }}
     >
       {submitted ? (
@@ -378,7 +375,7 @@ function ContactForm() {
             style={{
               fontSize:   'var(--text-xl)',
               fontWeight: 'var(--font-bold)',
-              color:      'var(--color-text-primary)',
+              color:      'var(--color-brand-green)',
               margin:     0,
             }}
           >
@@ -387,7 +384,7 @@ function ContactForm() {
           <p
             style={{
               fontSize:   'var(--text-sm)',
-              color:      '#9DB09F',
+              color:      'var(--color-text-inverse)',
               lineHeight: 1.70,
               maxWidth:   340,
               margin:     0,
@@ -404,7 +401,7 @@ function ContactForm() {
             style={{
               fontSize:      'var(--text-2xl)',
               fontWeight:    'var(--font-bold)',
-              color:         'var(--color-text-primary)',
+              color:         'var(--color-brand-green)',
               marginBottom:  'var(--space-2)',
               letterSpacing: 'var(--tracking-snug)',
             }}
@@ -415,7 +412,7 @@ function ContactForm() {
             {...fadeUp(shouldReduce, 0.10)}
             style={{
               fontSize:     'var(--text-sm)',
-              color:        '#9DB09F',
+              color:        'var(--color-text-secondary)',
               lineHeight:   1.70,
               marginBottom: 'var(--space-8)',
             }}
@@ -434,7 +431,21 @@ function ContactForm() {
               <div>
                 <label htmlFor={nameId} style={labelStyle}>
                   Full Name{' '}
-                  <span style={{ color: 'var(--color-accent)' }}>*</span>
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      display:      'inline-flex',
+                      alignItems:    'center',
+                      justifyContent:'center',
+                      width:         5,
+                      height:        5,
+                      minWidth:      5,
+                      borderRadius:  '9999px',
+                      background:    'var(--color-accent)',
+                      flexShrink:    0,
+                      verticalAlign: 'middle',
+                    }}
+                  />
                 </label>
                 <input
                   id={nameId}
@@ -452,7 +463,21 @@ function ContactForm() {
               <div>
                 <label htmlFor={emailId} style={labelStyle}>
                   Email Address{' '}
-                  <span style={{ color: 'var(--color-accent)' }}>*</span>
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      display:      'inline-flex',
+                      alignItems:    'center',
+                      justifyContent:'center',
+                      width:         5,
+                      height:        5,
+                      minWidth:      5,
+                      borderRadius:  '9999px',
+                      background:    'var(--color-accent)',
+                      flexShrink:    0,
+                      verticalAlign: 'middle',
+                    }}
+                  />
                 </label>
                 <input
                   id={emailId}
@@ -477,7 +502,7 @@ function ContactForm() {
               <div>
                 <label htmlFor={instId} style={labelStyle}>
                   Institution{' '}
-                  <span style={{ color: 'rgba(155,180,158,0.55)', fontWeight: 400 }}>
+                  <span style={{ color: 'var(--color-text-secondary)', fontWeight: 400 }}>
                     (Optional)
                   </span>
                 </label>
@@ -496,7 +521,21 @@ function ContactForm() {
               <div>
                 <label htmlFor={subjectId} style={labelStyle}>
                   Subject{' '}
-                  <span style={{ color: 'var(--color-accent)' }}>*</span>
+                  <span
+                    aria-hidden="true"
+                    style={{
+                      display:      'inline-flex',
+                      alignItems:    'center',
+                      justifyContent:'center',
+                      width:         5,
+                      height:        5,
+                      minWidth:      5,
+                      borderRadius:  '9999px',
+                      background:    'var(--color-accent)',
+                      flexShrink:    0,
+                      verticalAlign: 'middle',
+                    }}
+                  />
                 </label>
                 <input
                   id={subjectId}
@@ -519,7 +558,21 @@ function ContactForm() {
             >
               <label htmlFor={messageId} style={labelStyle}>
                 Message{' '}
-                <span style={{ color: 'var(--color-accent)' }}>*</span>
+                <span
+                  aria-hidden="true"
+                  style={{
+                    display:      'inline-flex',
+                    alignItems:    'center',
+                    justifyContent:'center',
+                    width:         5,
+                    height:        5,
+                    minWidth:      5,
+                    borderRadius:  '9999px',
+                    background:    'var(--color-accent)',
+                    flexShrink:    0,
+                    verticalAlign: 'middle',
+                  }}
+                />
               </label>
               <textarea
                 id={messageId}
@@ -571,7 +624,7 @@ function ContactForm() {
               <p
                 style={{
                   fontSize:   'var(--text-xs)',
-                  color:      '#6B8570',
+                  color:      'var(--color-text-secondary)',
                   lineHeight: 1.55,
                   margin:     0,
                   textAlign:  'center',
@@ -602,33 +655,30 @@ function InfoCard({ icon, label, children, delay = 0, shouldReduce }: InfoCardPr
     <motion.div
       {...fadeUp(shouldReduce, delay)}
       style={{
-        display:              'flex',
-        alignItems:           'flex-start',
-        gap:                  'var(--space-4)',
-        background:           'rgba(18, 24, 19, 0.88)',
-        backdropFilter:       'blur(20px)',
-        WebkitBackdropFilter: 'blur(20px)',
-        border:               '1px solid rgba(255,255,255,0.07)',
-        borderLeft:           '3px solid rgba(34,197,94,0.38)',
-        borderRadius:         'var(--radius-xl)',
-        padding:              'var(--space-5) var(--space-6)',
-        boxShadow:            '0 2px 20px rgba(0,0,0,0.22)',
-        width:                '100%',
-        boxSizing:            'border-box',
+        display:      'flex',
+        alignItems:   'flex-start',
+        gap:          'var(--space-4)',
+        background:   'var(--color-bg-elevated)',
+        border:       '1px solid var(--color-border-default)',
+        borderRadius: 'var(--radius-xl)',
+        padding:      'var(--space-6)',
+        boxShadow:    'var(--shadow-card)',
+        width:        '100%',
+        boxSizing:    'border-box',
       }}
     >
       {/* Icon badge */}
       <div
         style={{
-          width:           40,
-          height:          40,
-          borderRadius:    'var(--radius-md)',
-          background:      'rgba(34,197,94,0.10)',
-          border:          '1px solid rgba(34,197,94,0.20)',
-          display:         'flex',
-          alignItems:      'center',
-          justifyContent:  'center',
-          flexShrink:      0,
+          width:        40,
+          height:       40,
+          borderRadius: 'var(--radius-md)',
+          background:   'var(--color-accent)',
+          border:       '1px solid rgba(202,255,112,0.40)',
+          display:      'flex',
+          alignItems:   'center',
+          justifyContent: 'center',
+          flexShrink:   0,
         }}
         aria-hidden="true"
       >
@@ -643,7 +693,7 @@ function InfoCard({ icon, label, children, delay = 0, shouldReduce }: InfoCardPr
             fontWeight:    'var(--font-semibold)',
             letterSpacing: 'var(--tracking-widest)',
             textTransform: 'uppercase' as const,
-            color:         'var(--color-accent)',
+            color:         'var(--color-brand-green)',
             margin:        '0 0 var(--space-1)',
           }}
         >
@@ -652,7 +702,7 @@ function InfoCard({ icon, label, children, delay = 0, shouldReduce }: InfoCardPr
         <div
           style={{
             fontSize:   'var(--text-sm)',
-            color:      'var(--color-text-primary)',
+            color:      'var(--color-text-secondary)',
             lineHeight: 1.65,
             fontWeight: 'var(--font-medium)',
             wordBreak:  'break-word',
@@ -702,7 +752,7 @@ function ContactMain() {
             }}
           >
             <InfoCard
-              icon={<Mail size={18} color="var(--color-accent)" strokeWidth={1.8} />}
+              icon={<Mail size={18} color="var(--color-brand-green)" strokeWidth={1.8} />}
               label="Email"
               delay={0.10}
               shouldReduce={shouldReduce}
@@ -726,7 +776,7 @@ function ContactMain() {
             </InfoCard>
 
             <InfoCard
-              icon={<MapPin size={18} color="var(--color-accent)" strokeWidth={1.8} />}
+              icon={<MapPin size={18} color="var(--color-brand-green)" strokeWidth={1.8} />}
               label="Location"
               delay={0.18}
               shouldReduce={shouldReduce}
@@ -735,7 +785,7 @@ function ContactMain() {
             </InfoCard>
 
             <InfoCard
-              icon={<Clock size={18} color="var(--color-accent)" strokeWidth={1.8} />}
+              icon={<Clock size={18} color="var(--color-brand-green)" strokeWidth={1.8} />}
               label="Response Time"
               delay={0.26}
               shouldReduce={shouldReduce}
@@ -744,7 +794,7 @@ function ContactMain() {
             </InfoCard>
 
             <InfoCard
-              icon={<Users size={18} color="var(--color-accent)" strokeWidth={1.8} />}
+              icon={<Users size={18} color="var(--color-brand-green)" strokeWidth={1.8} />}
               label="Who We Work With"
               delay={0.34}
               shouldReduce={shouldReduce}
@@ -772,14 +822,14 @@ function ContactMain() {
                       alignItems: 'center',
                       gap:        8,
                       fontSize:   'var(--text-sm)',
-                      color:      '#B0C4B2',
+                      color:      'var(--color-text-secondary)',
                     }}
                   >
                     <span
                       style={{
-                        width:        4,
-                        height:       4,
-                        borderRadius: '50%',
+                        width:        5,
+                        height:       5,
+                        borderRadius: '9999px',
                         background:   'var(--color-accent)',
                         flexShrink:   0,
                       }}
@@ -808,21 +858,21 @@ interface FaqItem {
 const FAQ_ITEMS: FaqItem[] = [
   {
     id: 'lms',
-    question: 'Can HumanFirst work with our existing LMS?',
+    question: 'Can HUMΛNF1RST work with our existing LMS?',
     answer:
-      'Yes. HumanFirst is designed to integrate with common Learning Management Systems including Moodle, Canvas, Blackboard, and custom institutional platforms. Our team works with you during onboarding to ensure a smooth integration that fits your existing workflows.',
+      'Yes. HUMΛNF1RST is designed to integrate with common Learning Management Systems including Moodle, Canvas, Blackboard, and custom institutional platforms. Our team works with you during onboarding to ensure a smooth integration that fits your existing workflows.',
   },
   {
     id: 'recording',
-    question: 'Does HumanFirst record students?',
+    question: 'Does HUMΛNF1RST record students?',
     answer:
-      'No. HumanFirst does not record, watch, or surveil students. We create a structured assessment environment that prevents AI-assisted work without any form of video or keystroke monitoring. Student privacy is a core principle — built into every layer of the platform.',
+      'No. HUMΛNF1RST does not record, watch, or surveil students. We create a structured assessment environment that prevents AI-assisted work without any form of video or keystroke monitoring. Student privacy is a core principle — built into every layer of the platform.',
   },
   {
     id: 'pilot',
     question: 'Can we request a pilot programme?',
     answer:
-      'Absolutely. We actively encourage institutions to run a pilot before making a full commitment. A pilot lets your educators and students experience HumanFirst in a low-risk, real-world setting. Use the form above or click "Request a Pilot" to start the conversation.',
+      'Absolutely. We actively encourage institutions to run a pilot before making a full commitment. A pilot lets your educators and students experience HUMΛNF1RST in a low-risk, real-world setting. Use the form above or click "Request a Pilot" to start the conversation.',
   },
   {
     id: 'deployment',
@@ -848,14 +898,13 @@ function AccordionItem({ item, isOpen, onToggle, delay, shouldReduce }: Accordio
     <motion.div
       {...fadeUp(shouldReduce, delay)}
       style={{
-        background:           isOpen ? 'rgba(18, 26, 19, 0.94)' : 'rgba(14, 20, 15, 0.80)',
-        backdropFilter:       'blur(16px)',
-        WebkitBackdropFilter: 'blur(16px)',
-        border:               `1px solid ${isOpen ? 'rgba(34,197,94,0.22)' : 'rgba(255,255,255,0.06)'}`,
-        borderRadius:         'var(--radius-xl)',
-        overflow:             'hidden',
-        transition:           'background 220ms ease, border-color 220ms ease',
-        width:                '100%',
+        background:   'var(--color-bg-elevated)',
+        border:       '1px solid var(--color-border-default)',
+        borderRadius: 'var(--radius-xl)',
+        boxShadow:    'var(--shadow-card)',
+        overflow:     'hidden',
+        transition:   'border-color 220ms ease, background 220ms ease',
+        width:        '100%',
       }}
     >
       {/* Question button */}
@@ -882,7 +931,7 @@ function AccordionItem({ item, isOpen, onToggle, delay, shouldReduce }: Accordio
           style={{
             fontSize:      'var(--text-base)',
             fontWeight:    isOpen ? 'var(--font-semibold)' : 'var(--font-medium)',
-            color:         isOpen ? 'var(--color-text-primary)' : 'rgba(224,240,226,0.78)',
+            color:         'var(--color-brand-green)',
             lineHeight:    1.55,
             letterSpacing: '0.005em',
             transition:    'color 200ms ease',
@@ -898,7 +947,7 @@ function AccordionItem({ item, isOpen, onToggle, delay, shouldReduce }: Accordio
         >
           <ChevronDown
             size={18}
-            color={isOpen ? 'var(--color-accent)' : 'rgba(155,180,158,0.60)'}
+            color={isOpen ? 'var(--color-accent)' : 'var(--color-brand-green)'}
             strokeWidth={2}
           />
         </motion.span>
@@ -924,7 +973,7 @@ function AccordionItem({ item, isOpen, onToggle, delay, shouldReduce }: Accordio
             <p
               style={{
                 fontSize:   'var(--text-sm)',
-                color:      '#9DB09F',
+                color:      'var(--color-text-secondary)',
                 lineHeight: 1.80,
                 margin:     0,
                 padding:    '0 var(--space-6) var(--space-6)',
@@ -942,7 +991,7 @@ function AccordionItem({ item, isOpen, onToggle, delay, shouldReduce }: Accordio
 
 function ContactFaq() {
   const shouldReduce        = useReducedMotion()
-  const [openId, setOpenId] = useState<string | null>('pilot')
+  const [openId, setOpenId] = useState<string | null>(null)
 
   const toggle = (id: string) =>
     setOpenId((prev) => (prev === id ? null : id))
@@ -989,7 +1038,7 @@ function ContactFaq() {
             fontWeight:    'var(--font-extrabold)',
             letterSpacing: 'var(--tracking-tight)',
             lineHeight:    1.08,
-            color:         'var(--color-text-primary)',
+            color:         'var(--color-brand-green)',
             marginBottom:  'var(--space-14)',
             maxWidth:      520,
           }}
@@ -1067,14 +1116,12 @@ function ContactCta() {
         <motion.div
           {...slideUp(shouldReduce, 0)}
           style={{
-            background:           'rgba(16, 22, 17, 0.88)',
-            backdropFilter:       'blur(28px)',
-            WebkitBackdropFilter: 'blur(28px)',
-            border:               '1px solid rgba(34,197,94,0.14)',
-            borderRadius:         'var(--radius-2xl)',
-            boxShadow:            '0 4px 48px rgba(0,0,0,0.32), 0 0 0 1px rgba(34,197,94,0.06)',
-            padding:              'clamp(1.75rem, 5vw, 4rem)',
-            textAlign:            'center',
+            background:  'var(--color-bg-elevated)',
+            border:      '1px solid var(--color-border-default)',
+            borderRadius:'var(--radius-2xl)',
+            boxShadow:   'var(--shadow-card)',
+            padding:     'clamp(1.75rem, 5vw, 4rem)',
+            textAlign:   'center',
           }}
         >
           <motion.h2
@@ -1085,7 +1132,7 @@ function ContactCta() {
               fontWeight:    'var(--font-extrabold)',
               letterSpacing: 'var(--tracking-tight)',
               lineHeight:    1.08,
-              color:         'var(--color-text-primary)',
+              color:         'var(--color-brand-green)',
               marginBottom:  'var(--space-5)',
               maxWidth:      640,
               marginLeft:    'auto',
@@ -1100,7 +1147,7 @@ function ContactCta() {
             {...fadeUp(shouldReduce, 0.12)}
             style={{
               fontSize:    'var(--text-base)',
-              color:       '#9DB09F',
+              color:       'var(--color-text-secondary)',
               lineHeight:  1.75,
               maxWidth:    540,
               margin:      '0 auto var(--space-10)',
@@ -1140,23 +1187,22 @@ function ContactCta() {
                 gap:            'var(--space-2)',
                 fontSize:       'var(--text-sm)',
                 fontWeight:     600,
-                color:          'rgba(240,245,241,0.70)',
+                color:          'var(--color-text-primary)',
                 textDecoration: 'none',
                 padding:        '0.75rem 1.5rem',
                 minHeight:      '48px',
-                border:         '1px solid rgba(240,245,241,0.12)',
+                border:         '1px solid var(--color-border-default)',
                 borderRadius:   'var(--radius-full)',
-                background:     'rgba(255,255,255,0.04)',
+                background:     'rgba(8, 47, 37, 0.04)',
                 cursor:         'pointer',
               }}
               whileHover={shouldReduce ? {} : {
-                color:       'rgba(240,245,241,1)',
-                borderColor: 'rgba(240,245,241,0.25)',
-                y:           -1,
+                y: -1,
               }}
+              whileTap={shouldReduce ? {} : { scale: 0.98 }}
               transition={{ duration: 0.20, ease: 'easeOut' }}
             >
-              About HumanFirst
+              About HUMΛNF1RST
               <ArrowRight size={14} aria-hidden="true" />
             </motion.a>
           </motion.div>

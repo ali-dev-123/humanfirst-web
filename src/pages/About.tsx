@@ -79,8 +79,8 @@ function SectionBadge({ children }: { children: React.ReactNode }) {
         gap:          7,
         padding:      '5px 14px',
         borderRadius: 'var(--radius-full)',
-        border:       '1px solid rgba(34,197,94,0.28)',
-        background:   'rgba(34,197,94,0.07)',
+        border:       '1px solid rgba(8,47,37,0.10)',
+        background:   'var(--color-accent)',
         marginBottom: 'var(--space-10)',
       }}
     >
@@ -90,7 +90,7 @@ function SectionBadge({ children }: { children: React.ReactNode }) {
           width:        5,
           height:       5,
           borderRadius: '50%',
-          background:   'var(--color-accent)',
+          background:   'var(--color-brand-green)',
           flexShrink:   0,
         }}
         aria-hidden="true"
@@ -101,7 +101,7 @@ function SectionBadge({ children }: { children: React.ReactNode }) {
           fontWeight:    'var(--font-semibold)',
           letterSpacing: 'var(--tracking-widest)',
           textTransform: 'uppercase',
-          color:         'var(--color-accent)',
+          color:         'var(--color-brand-green)',
         }}
       >
         {children}
@@ -144,7 +144,7 @@ function AboutHero() {
             transform:  'translateX(-50%)',
             width:      '70%',
             height:     400,
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.18) 0%, transparent 65%)',
+            background: 'radial-gradient(ellipse, var(--color-accent-glow) 0%, transparent 65%)',
             filter:     'blur(60px)',
           }}
         />
@@ -152,7 +152,7 @@ function AboutHero() {
 
       <div className="container-v2">
         <motion.div {...fadeUp(shouldReduce, 0)}>
-          <SectionBadge>About HumanFirst</SectionBadge>
+          <SectionBadge>About HUMΛNF1RST</SectionBadge>
         </motion.div>
 
         <motion.h1
@@ -179,7 +179,7 @@ function AboutHero() {
               fontWeight:    'var(--font-extrabold)',
               lineHeight:    1.04,
               letterSpacing: 'var(--tracking-tight)',
-              color:         'var(--color-text-primary)',
+              color:         'var(--color-brand-green)',
             }}
           >
             in education.
@@ -190,7 +190,7 @@ function AboutHero() {
           {...fadeUp(shouldReduce, 0.12)}
           style={{
             fontSize:    'var(--text-lg)',
-            color:       '#B0C4B2',
+            color:       'var(--color-text-secondary)',
             lineHeight:  1.80,
             maxWidth:    560,
             margin:      '0 auto var(--space-10)',
@@ -217,7 +217,7 @@ function AboutHero() {
             onClick={(e) => { e.preventDefault(); go('#pilot') }}
             whileHover={shouldReduce ? {} : {
               y: -2,
-              boxShadow: '0 12px 32px rgba(34,197,94,0.42)',
+              boxShadow: '0 12px 32px rgba(202,255,112,0.42)',
             }}
             transition={{ duration: 0.22, ease: 'easeOut' }}
           >
@@ -232,19 +232,18 @@ function AboutHero() {
               gap:            'var(--space-2)',
               fontSize:       'var(--text-sm)',
               fontWeight:     600,
-              color:          'rgba(240,245,241,0.70)',
+              color:          'var(--color-text-primary)',
               textDecoration: 'none',
               padding:        '0.75rem 1.5rem',
-              border:         '1px solid rgba(240,245,241,0.12)',
+              border:         '1px solid var(--color-border-default)',
               borderRadius:   'var(--radius-full)',
-              background:     'rgba(255,255,255,0.04)',
+              background:     'rgba(8, 47, 37, 0.04)',
             }}
             onClick={(e) => { e.preventDefault(); navigate('/contact') }}
             whileHover={shouldReduce ? {} : {
-              color:       'rgba(240,245,241,1)',
-              borderColor: 'rgba(240,245,241,0.25)',
-              y:           -1,
+              y: -1,
             }}
+            whileTap={shouldReduce ? {} : { scale: 0.98 }}
             transition={{ duration: 0.20, ease: 'easeOut' }}
           >
             Contact Us
@@ -316,40 +315,34 @@ function OurStory() {
             {...scaleIn(shouldReduce, 0.08)}
             style={{
               position:            'relative',
-              /* Solid-enough background so it reads against the dark page */
-              background:          'rgba(20, 28, 21, 0.92)',
-              backdropFilter:      'blur(20px)',
-              WebkitBackdropFilter:'blur(20px)',
-              /* Visible border — supportive, not glowing */
-              border:              '1px solid rgba(255,255,255,0.07)',
-              borderLeft:          '3px solid rgba(34,197,94,0.50)',
+              background:          'var(--color-bg-elevated)',
+              border:              '1px solid var(--color-accent)',
+              borderLeft:          '3px solid var(--color-accent)',
               borderRadius:        'var(--radius-2xl)',
-              /* Depth shadow — lifts the card off the page */
-              boxShadow: [
-                '0 2px 24px 0 rgba(0,0,0,0.32)',
-                '0 0 0 1px rgba(34,197,94,0.06)',
-              ].join(', '),
-              /* Push card down to sit at visual centre of the left column */
-              marginTop:     'var(--space-10)',
-              /* Balanced padding */
-              paddingTop:    'var(--space-8)',
-              paddingRight:  'var(--space-9)',
-              paddingBottom: 'var(--space-10)',
-              paddingLeft:   'var(--space-9)',
+              boxShadow:           'var(--shadow-lg)',
+              marginTop:           'var(--space-10)',
+              paddingTop:          'var(--space-8)',
+              paddingRight:        'var(--space-9)',
+              paddingBottom:       'var(--space-10)',
+              paddingLeft:         'var(--space-9)',
             }}
           >
             {/* Quote icon — watermark in top-right corner, decorative not dominant */}
             <Quote
               size={20}
-              strokeWidth={1.2}
+              strokeWidth={0}
+              fill="currentColor"
+              stroke="none"
               aria-hidden="true"
               style={{
-                position:  'absolute',
-                top:       'var(--space-5)',
-                right:     'var(--space-6)',
-                color:     'var(--color-accent)',
-                opacity:   0.28,
-                flexShrink: 0,
+                position:    'absolute',
+                top:         'var(--space-5)',
+                right:       'var(--space-6)',
+                color:       'var(--color-accent)',
+                opacity:     1,
+                fillOpacity: 1,
+                strokeOpacity: 0,
+                flexShrink:   0,
               }}
             />
 
@@ -358,7 +351,7 @@ function OurStory() {
                 style={{
                   fontSize:      'clamp(1.20rem, 2.2vw, 1.58rem)',
                   fontWeight:    'var(--font-semibold)',
-                  color:         'var(--color-text-primary)',
+                  color:         'var(--color-brand-green)',
                   lineHeight:    1.70,
                   letterSpacing: 'var(--tracking-snug)',
                   fontStyle:     'normal',
@@ -373,9 +366,13 @@ function OurStory() {
                 {/* Visual breathing room before the concluding line */}
                 <br />
                 <br />
-                {/* Line 3: green accent — the resolution */}
-                <span className="text-gradient-accent">
-                  HumanFirst bridges that gap.
+                {/* Line 3: parrot accent — the resolution */}
+                <span
+                  style={{
+                    color: 'var(--color-accent)',
+                  }}
+                >
+                  HumanF1RST bridges that gap.
                 </span>
               </p>
             </blockquote>
@@ -396,7 +393,7 @@ function OurStory() {
               {...fadeUp(shouldReduce, 0.16)}
               style={{
                 fontSize:   'var(--text-base)',
-                color:      '#B0C4B2',
+                color:      'var(--color-text-secondary)',
                 lineHeight: 1.85,
                 margin:     0,
                 maxWidth:   '62ch',
@@ -413,13 +410,13 @@ function OurStory() {
               style={{
                 fontSize:      'var(--text-base)',
                 fontWeight:    'var(--font-semibold)',
-                color:         'rgba(224, 240, 226, 0.88)',
+                color:         'var(--color-brand-green)',
                 lineHeight:    1.75,
                 letterSpacing: '0.005em',
                 margin:        0,
                 maxWidth:      '56ch',
                 paddingLeft:   'var(--space-4)',
-                borderLeft:    '2px solid rgba(34,197,94,0.32)',
+                borderLeft:    '2px solid var(--color-accent)',
               }}
             >
               The answer isn't banning AI.
@@ -432,7 +429,7 @@ function OurStory() {
               {...fadeUp(shouldReduce, 0.32)}
               style={{
                 fontSize:   'var(--text-base)',
-                color:      '#B0C4B2',
+                color:      'var(--color-text-secondary)',
                 lineHeight: 1.85,
                 margin:     0,
                 maxWidth:   '62ch',
@@ -450,7 +447,7 @@ function OurStory() {
               {...fadeUp(shouldReduce, 0.40)}
               style={{
                 fontSize:   'var(--text-base)',
-                color:      '#B0C4B2',
+                color:      'var(--color-text-secondary)',
                 lineHeight: 1.85,
                 margin:     0,
                 maxWidth:   '62ch',
@@ -467,7 +464,7 @@ function OurStory() {
               {...fadeUp(shouldReduce, 0.48)}
               style={{
                 fontSize:   'var(--text-base)',
-                color:      '#B0C4B2',
+                color:      'var(--color-text-secondary)',
                 lineHeight: 1.85,
                 margin:     0,
                 maxWidth:   '62ch',
@@ -551,7 +548,7 @@ function OurPrinciples() {
             transform:  'translateX(-50%)',
             width:      '65%',
             height:     300,
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.07) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, var(--color-accent-glow) 0%, transparent 70%)',
             filter:     'blur(50px)',
           }}
         />
@@ -598,7 +595,7 @@ function OurPrinciples() {
           {...fadeUp(shouldReduce, 0.12)}
           style={{
             fontSize:    'var(--text-lg)',
-            color:       '#B0C4B2',
+            color:       'var(--color-text-secondary)',
             lineHeight:  1.80,
             maxWidth:    520,
             margin:      '0 0 var(--space-16)',
@@ -622,14 +619,14 @@ function OurPrinciples() {
                   position:      'relative',
                   display:       'flex',
                   flexDirection: 'column',
+                  alignItems:    'flex-start',
+                  justifyContent:'flex-start',
+                  height:        '100%',
                   background:    'var(--color-bg-elevated)',
-                  border:        '1px solid rgba(34,197,94,0.12)',
+                  border:        '1px solid var(--color-accent)',
                   borderRadius:  'var(--radius-2xl)',
-                  paddingTop:    'var(--space-9)',
-                  paddingBottom: 'var(--space-9)',
-                  paddingLeft:   'var(--space-8)',
-                  paddingRight:  'var(--space-8)',
-                  boxShadow:     'var(--shadow-lg), 0 0 32px 0 rgba(34,197,94,0.04)',
+                  padding:       'var(--space-8)',
+                  boxShadow:     'var(--shadow-lg), 0 0 32px 0 rgba(202,255,112,0.04)',
                   overflow:      'visible',
                   willChange:    'transform',
                   cursor:        'default',
@@ -638,8 +635,8 @@ function OurPrinciples() {
                   y:         -4,
                   boxShadow: [
                     'var(--shadow-xl)',
-                    '0 0 56px 0 rgba(34,197,94,0.14)',
-                    '0 0 0 1px rgba(34,197,94,0.26)',
+                    '0 0 56px 0 rgba(202,255,112,0.14)',
+                    '0 0 0 1px rgba(202,255,112,0.26)',
                   ].join(', '),
                 }}
                 transition={{ duration: 0.22, ease: 'easeOut' }}
@@ -653,7 +650,7 @@ function OurPrinciples() {
                     left:       '10%',
                     right:      '10%',
                     height:     1,
-                    background: 'linear-gradient(to right, transparent, rgba(34,197,94,0.20), transparent)',
+                    background: 'linear-gradient(to right, transparent, rgba(202,255,112,0.20), transparent)',
                   }}
                 />
 
@@ -664,21 +661,22 @@ function OurPrinciples() {
                     display:        'inline-flex',
                     alignItems:     'center',
                     justifyContent: 'center',
-                    width:          50,
-                    height:         50,
+                    width:          54,
+                    height:         54,
                     borderRadius:   'var(--radius-xl)',
-                    background:     'rgba(34,197,94,0.09)',
-                    border:         '1px solid rgba(34,197,94,0.18)',
+                    background:     'var(--color-accent)',
+                    border:         '1px solid rgba(202,255,112,0.40)',
                     marginBottom:   'var(--space-6)',
                     flexShrink:     0,
+                    alignSelf:      'flex-start',
                   }}
                   whileHover={shouldReduce ? {} : { scale: 1.10 }}
                   transition={{ duration: 0.18, ease: 'easeOut' }}
                 >
                   <Icon
-                    size={22}
+                    size={24}
                     strokeWidth={1.6}
-                    style={{ color: 'var(--color-accent)' }}
+                    style={{ color: 'var(--color-brand-green)' }}
                     aria-hidden="true"
                   />
                 </motion.div>
@@ -691,6 +689,7 @@ function OurPrinciples() {
                     lineHeight:    'var(--leading-snug)',
                     letterSpacing: 'var(--tracking-snug)',
                     marginBottom:  'var(--space-3)',
+                    marginTop:     0,
                   }}
                 >
                   {p.title}
@@ -699,8 +698,10 @@ function OurPrinciples() {
                 <p
                   style={{
                     fontSize:   'var(--text-sm)',
-                    color:      '#B0C4B2',
+                    color:      'var(--color-text-secondary)',
                     lineHeight: 1.80,
+                    margin:     0,
+                    flexGrow:   1,
                   }}
                 >
                   {p.body}
@@ -744,7 +745,7 @@ function OurVision() {
             transform:  'translate(-50%, -50%)',
             width:      '80%',
             height:     '60%',
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.10) 0%, transparent 65%)',
+            background: 'radial-gradient(ellipse, var(--color-accent-glow) 0%, transparent 65%)',
             filter:     'blur(50px)',
           }}
         />
@@ -796,7 +797,7 @@ function OurVision() {
           <p
             style={{
               fontSize:    'var(--text-xl)',
-              color:       '#B0C4B2',
+              color:       'var(--color-text-secondary)',
               lineHeight:  1.75,
               marginBottom:'var(--space-4)',
             }}
@@ -845,14 +846,12 @@ function FounderMessage() {
           {...scaleIn(shouldReduce, 0)}
           style={{
             position:       'relative',
-            background:     'rgba(22,30,23,0.80)',
-            backdropFilter: 'blur(24px)',
-            WebkitBackdropFilter: 'blur(24px)',
-            border:         '1px solid rgba(34,197,94,0.20)',
+            background:     'var(--color-bg-elevated)',
+            border:         '1px solid var(--color-border-default)',
             borderRadius:   'var(--radius-2xl)',
             padding:        'clamp(2.5rem, 6vw, 4.5rem)',
-            boxShadow:      'var(--shadow-xl), 0 0 70px 0 rgba(34,197,94,0.10)',
-            maxWidth:        820,
+            boxShadow:      'var(--shadow-xl)',
+            maxWidth:       820,
             margin:         '0 auto',
           }}
         >
@@ -865,7 +864,7 @@ function FounderMessage() {
               left:       '15%',
               right:      '15%',
               height:     1,
-              background: 'linear-gradient(to right, transparent, rgba(34,197,94,0.40), transparent)',
+              background: 'linear-gradient(to right, transparent, rgba(202,255,112,0.40), transparent)',
             }}
           />
 
@@ -874,10 +873,10 @@ function FounderMessage() {
             {...fadeUp(shouldReduce, 0.06)}
             style={{
               fontSize:      'var(--text-sm)',
-              fontWeight:    'var(--font-semibold)',
+              fontWeight:    'var(--font-bold)',
               letterSpacing: 'var(--tracking-widest)',
               textTransform: 'uppercase',
-              color:         'var(--color-accent)',
+              color:         'var(--color-brand-green)',
               marginBottom:  'var(--space-8)',
             }}
           >
@@ -886,10 +885,14 @@ function FounderMessage() {
 
           <Quote
             size={28}
-            strokeWidth={1.4}
+            strokeWidth={0}
+            fill="currentColor"
+            stroke="none"
             style={{
               color:        'var(--color-accent)',
-              opacity:      0.5,
+              opacity:      1,
+              fillOpacity:  1,
+              strokeOpacity: 0,
               marginBottom: 'var(--space-6)',
             }}
             aria-hidden="true"
@@ -898,7 +901,7 @@ function FounderMessage() {
           {[
             'We don\'t believe AI is the enemy.',
             'We believe education needs a better way to preserve authentic learning while respecting every student\'s dignity.',
-            'HumanFirst is our answer.',
+            'HUMΛNF1RST is our answer.',
           ].map((line, i) => (
             <motion.p
               key={i}
@@ -906,14 +909,12 @@ function FounderMessage() {
               style={{
                 fontSize:    i === 2 ? 'clamp(1.15rem, 2.5vw, 1.5rem)' : 'clamp(1rem, 2vw, 1.25rem)',
                 fontWeight:  i === 2 ? 'var(--font-bold)' : 'var(--font-medium)',
-                color:       i === 2 ? 'var(--color-text-primary)' : '#B0C4B2',
+                color:       i === 2 ? 'var(--color-brand-green)' : 'var(--color-text-secondary)',
                 lineHeight:  1.70,
                 marginBottom:i < 2 ? 'var(--space-4)' : 0,
               }}
             >
-              {i === 2
-                ? <span className="text-gradient-accent">{line}</span>
-                : line}
+              {line}
             </motion.p>
           ))}
 
@@ -923,7 +924,7 @@ function FounderMessage() {
             style={{
               marginTop:   'var(--space-10)',
               paddingTop:  'var(--space-6)',
-              borderTop:   '1px solid rgba(255,255,255,0.06)',
+              borderTop:   '1px solid var(--color-border-default)',
               display:     'flex',
               alignItems:  'center',
               gap:         'var(--space-4)',
@@ -938,11 +939,11 @@ function FounderMessage() {
                 width:          44,
                 height:         44,
                 borderRadius:   'var(--radius-full)',
-                background:     'rgba(34,197,94,0.12)',
-                border:         '1px solid rgba(34,197,94,0.25)',
+                background:     'var(--color-bg-elevated)',
+                border:         '1px solid var(--color-accent-soft)',
                 fontSize:       'var(--text-sm)',
                 fontWeight:     'var(--font-bold)',
-                color:          'var(--color-accent)',
+                color:          'var(--color-brand-green)',
                 flexShrink:     0,
               }}
               aria-hidden="true"
@@ -963,7 +964,7 @@ function FounderMessage() {
               <p
                 style={{
                   fontSize: 'var(--text-xs)',
-                  color:    '#9CA3AF',
+                  color:    'var(--color-text-secondary)',
                   lineHeight: 1.3,
                 }}
               >
@@ -1009,7 +1010,7 @@ function AboutCTA() {
             transform:  'translate(-50%, -50%)',
             width:      '70%',
             height:     '80%',
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.16) 0%, transparent 62%)',
+            background: 'radial-gradient(ellipse, var(--color-accent-glow) 0%, transparent 62%)',
             filter:     'blur(60px)',
           }}
         />
@@ -1021,13 +1022,11 @@ function AboutCTA() {
           style={{
             maxWidth:       680,
             margin:         '0 auto',
-            background:     'rgba(22,30,23,0.80)',
-            backdropFilter: 'blur(28px)',
-            WebkitBackdropFilter: 'blur(28px)',
-            border:         '1px solid rgba(34,197,94,0.20)',
+            background:     'var(--color-bg-elevated)',
+            border:         '1px solid var(--color-accent)',
             borderRadius:   'var(--radius-2xl)',
             padding:        'clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 4vw, 3.5rem)',
-            boxShadow:      'var(--shadow-xl), 0 0 80px 0 rgba(34,197,94,0.12)',
+            boxShadow:      'var(--shadow-xl)',
             position:       'relative',
           }}
         >
@@ -1039,7 +1038,7 @@ function AboutCTA() {
               left:       '15%',
               right:      '15%',
               height:     1,
-              background: 'linear-gradient(to right, transparent, rgba(34,197,94,0.40), transparent)',
+              background: 'linear-gradient(to right, transparent, rgba(202,255,112,0.40), transparent)',
             }}
           />
 
@@ -1065,7 +1064,7 @@ function AboutCTA() {
             {...fadeUp(shouldReduce, 0.12)}
             style={{
               fontSize:    'var(--text-base)',
-              color:       '#B0C4B2',
+              color:       'var(--color-text-secondary)',
               lineHeight:  1.80,
               marginBottom:'var(--space-10)',
               maxWidth:    480,
@@ -1092,7 +1091,7 @@ function AboutCTA() {
               onClick={(e) => { e.preventDefault(); go('#pilot') }}
               whileHover={shouldReduce ? {} : {
                 y:         -2,
-                boxShadow: '0 12px 32px rgba(34,197,94,0.42)',
+                boxShadow: '0 12px 32px rgba(202,255,112,0.42)',
               }}
               transition={{ duration: 0.22, ease: 'easeOut' }}
             >
@@ -1107,19 +1106,18 @@ function AboutCTA() {
                 gap:            'var(--space-2)',
                 fontSize:       'var(--text-sm)',
                 fontWeight:     600,
-                color:          'rgba(240,245,241,0.70)',
+                color:          'var(--color-text-primary)',
                 textDecoration: 'none',
                 padding:        '0.75rem 1.5rem',
-                border:         '1px solid rgba(240,245,241,0.12)',
+                border:         '1px solid var(--color-border-default)',
                 borderRadius:   'var(--radius-full)',
-                background:     'rgba(255,255,255,0.04)',
+                background:     'rgba(8, 47, 37, 0.04)',
               }}
               onClick={(e) => { e.preventDefault(); navigate('/contact') }}
               whileHover={shouldReduce ? {} : {
-                color:       'rgba(240,245,241,1)',
-                borderColor: 'rgba(240,245,241,0.25)',
-                y:           -1,
+                y: -1,
               }}
+              whileTap={shouldReduce ? {} : { scale: 0.98 }}
               transition={{ duration: 0.20, ease: 'easeOut' }}
             >
               Get in Touch

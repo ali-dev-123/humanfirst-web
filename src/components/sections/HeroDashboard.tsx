@@ -44,9 +44,9 @@ const STATUS_CONFIG: Record<SubmissionStatus, {
   verified: {
     label: 'Verified',
     icon:  CheckCircle,
-    color: 'text-[var(--color-green-400)]',
-    bg:    'bg-[rgba(34,197,94,0.08)]',
-    dot:   'bg-[var(--color-green-400)]',
+    color: 'text-[var(--color-forest-700)]',
+    bg:    'bg-[rgba(202,255,112,0.24)]',
+    dot:   'bg-[var(--color-accent)]',
   },
   review: {
     label: 'Review',
@@ -72,7 +72,7 @@ function CardAIBlocked() {
         style={{
           paddingBottom: 7,
           marginBottom:  7,
-          borderBottom: '1px solid rgba(255,255,255,0.08)',  /* scanability divider */
+          borderBottom: '1px solid rgba(8, 47, 37, 0.08)',
         }}
       >
         <WifiOff
@@ -82,7 +82,7 @@ function CardAIBlocked() {
         />
         <span
           className="text-[10px] font-semibold tracking-wider uppercase"
-          style={{ color: '#B8CAB9' }}          /* +20% from text-secondary */
+          style={{ color: 'var(--color-text-secondary)' }}
         >
           AI Access Blocked
         </span>
@@ -118,7 +118,7 @@ function CardPrivacyShield() {
         style={{
           paddingBottom: 7,
           marginBottom:  7,
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          borderBottom: '1px solid rgba(8, 47, 37, 0.08)',
         }}
       >
         <ShieldCheck
@@ -139,7 +139,7 @@ function CardPrivacyShield() {
           <p
             key={stat}
             className="text-[10px] font-mono"
-            style={{ color: '#A8BAA8' }}        /* +15% from text-secondary */
+            style={{ color: 'var(--color-text-secondary)' }}
           >
             {stat}
           </p>
@@ -162,7 +162,7 @@ function CardTeacherControlled() {
         style={{
           paddingBottom: 7,
           marginBottom:  7,
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
+          borderBottom: '1px solid rgba(8, 47, 37, 0.08)',
         }}
       >
         <SlidersHorizontal
@@ -172,7 +172,7 @@ function CardTeacherControlled() {
         />
         <span
           className="text-[10px] font-semibold tracking-wider uppercase"
-          style={{ color: '#B8CAB9' }}          /* +20% from text-secondary */
+          style={{ color: 'var(--color-text-secondary)' }}
         >
           Teacher Controlled
         </span>
@@ -185,7 +185,7 @@ function CardTeacherControlled() {
         Session rules set by Instructor
       </p>
       <span className="badge badge-success" style={{ fontSize: 9, padding: '3px 8px' }}>
-        <span className="badge-dot bg-[var(--color-green-400)] animate-pulse" />
+        <span className="badge-dot bg-[var(--color-accent)] animate-pulse" />
         Active Now
       </span>
     </div>
@@ -223,13 +223,13 @@ function DashboardPanel() {
               width: 28,
               height: 28,
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, var(--color-green-700), var(--color-green-900))',
+              background: 'linear-gradient(135deg, var(--color-forest-600), var(--color-forest-800))',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: 11,
               fontWeight: 600,
-              color: 'var(--color-green-300)',
+              color: 'var(--color-lime-300)',
               flexShrink: 0,
             }}
             aria-hidden="true"
@@ -256,12 +256,12 @@ function DashboardPanel() {
         <div className="flex items-center gap-1.5">
           <span
             className="w-1.5 h-1.5 rounded-full animate-pulse"
-            style={{ background: 'var(--color-green-400)' }}
+            style={{ background: 'var(--color-accent)' }}
             aria-hidden="true"
           />
           <span
             className="text-[10px] font-semibold tracking-wider uppercase"
-            style={{ color: 'var(--color-green-400)' }}
+            style={{ color: 'var(--color-forest-700)' }}
           >
             Session Live
           </span>
@@ -372,7 +372,7 @@ function DashboardPanel() {
               <div className="flex items-center gap-2.5">
                 <span
                   className="text-[11px] font-semibold tabular-nums"
-                  style={{ color: sub.status === 'review' ? '#f59e0b' : 'var(--color-green-400)' }}
+                  style={{ color: sub.status === 'review' ? '#B67A1F' : 'var(--color-forest-700)' }}
                 >
                   {sub.score}%
                 </span>
@@ -387,7 +387,7 @@ function DashboardPanel() {
                     textTransform: 'uppercase',
                     /* Lifted badge backgrounds: inline for precise opacity control */
                     background: sub.status === 'verified'
-                      ? 'rgba(34, 197, 94, 0.15)'    /* was 0.08 — clearly readable green */
+                      ? 'rgba(202, 255, 112, 0.24)'
                       : 'rgba(245, 158, 11, 0.18)',   /* was ~0.10 — clearly readable amber */
                   }}
                 >
@@ -405,14 +405,14 @@ function DashboardPanel() {
         style={{
           padding: '10px 18px',
           borderTop: '1px solid var(--color-border-default)',  /* lifted: subtle→default */
-          background: 'rgba(34,197,94,0.08)',                  /* lifted: 0.04→0.08 */
+          background: 'rgba(202,255,112,0.20)',
           display: 'flex',
           gap: 24,
         }}
       >
         {[
-          { count: 12, label: 'Verified',  dot: 'var(--color-green-400)' },
-          { count: 1,  label: 'Review',    dot: '#f59e0b' },
+          { count: 12, label: 'Verified',  dot: 'var(--color-accent)' },
+          { count: 1,  label: 'Review',    dot: '#B67A1F' },
           { count: 0,  label: 'Flagged',   dot: 'var(--color-text-muted)' },
         ].map(({ count, label, dot }) => (
           <div key={label} className="flex items-center gap-1.5">

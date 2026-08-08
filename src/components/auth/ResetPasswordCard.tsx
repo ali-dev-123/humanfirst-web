@@ -11,7 +11,7 @@
 import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
-import { Eye, EyeOff, Check, X, ArrowLeft } from 'lucide-react'
+import { Eye, EyeOff, ArrowLeft } from 'lucide-react'
 import './LoginCard.css'
 
 export default function ResetPasswordCard() {
@@ -163,14 +163,20 @@ export default function ResetPasswordCard() {
 
         {/* ── PASSWORD STRENGTH INDICATOR ────────────────────────────── */}
         {password.length > 0 && (
-          <div className="mb-5 p-3.5 rounded-[12px] bg-[#080A09] border border-white/[0.08]">
+          <div
+            className="mb-5 p-3.5 rounded-[12px]"
+            style={{
+              background: 'var(--color-bg-subtle)',
+              border: '1px solid var(--color-border-default)',
+            }}
+          >
             <div className="flex items-center justify-between text-xs mb-2">
-              <span className="text-[#8C9A8E]">Password Strength</span>
+              <span style={{ color: 'var(--color-text-secondary)' }}>Password Strength</span>
               <span className="font-semibold" style={{ color: strengthColor }}>
                 {strengthLabel}
               </span>
             </div>
-            <div className="w-full h-1.5 bg-white/10 rounded-full overflow-hidden">
+            <div className="w-full h-1.5 rounded-full overflow-hidden" style={{ backgroundColor: 'var(--color-bg-inset)' }}>
               <div
                 className="h-full transition-all duration-300 rounded-full"
                 style={{
@@ -182,35 +188,8 @@ export default function ResetPasswordCard() {
           </div>
         )}
 
-        {/* ── PASSWORD REQUIREMENTS CHECKLIST ─────────────────────────── */}
-        <div className="mb-6 p-4 rounded-[12px] bg-[#080A09]/60 border border-white/[0.06] text-xs space-y-2">
-          <p className="font-semibold text-white mb-2">Must contain at least:</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[#8C9A8E]">
-            <div className={`flex items-center gap-2 ${hasMinLength ? 'text-[#22C55E]' : ''}`}>
-              {hasMinLength ? <Check className="w-3.5 h-3.5 flex-shrink-0" /> : <X className="w-3.5 h-3.5 flex-shrink-0 opacity-40" />}
-              <span>8+ characters</span>
-            </div>
-            <div className={`flex items-center gap-2 ${hasUppercase ? 'text-[#22C55E]' : ''}`}>
-              {hasUppercase ? <Check className="w-3.5 h-3.5 flex-shrink-0" /> : <X className="w-3.5 h-3.5 flex-shrink-0 opacity-40" />}
-              <span>Uppercase letter</span>
-            </div>
-            <div className={`flex items-center gap-2 ${hasLowercase ? 'text-[#22C55E]' : ''}`}>
-              {hasLowercase ? <Check className="w-3.5 h-3.5 flex-shrink-0" /> : <X className="w-3.5 h-3.5 flex-shrink-0 opacity-40" />}
-              <span>Lowercase letter</span>
-            </div>
-            <div className={`flex items-center gap-2 ${hasNumber ? 'text-[#22C55E]' : ''}`}>
-              {hasNumber ? <Check className="w-3.5 h-3.5 flex-shrink-0" /> : <X className="w-3.5 h-3.5 flex-shrink-0 opacity-40" />}
-              <span>Number</span>
-            </div>
-            <div className={`flex items-center gap-2 ${hasSpecial ? 'text-[#22C55E]' : ''}`}>
-              {hasSpecial ? <Check className="w-3.5 h-3.5 flex-shrink-0" /> : <X className="w-3.5 h-3.5 flex-shrink-0 opacity-40" />}
-              <span>Special character</span>
-            </div>
-          </div>
-        </div>
-
         {/* ── PRIMARY RESET BUTTON ──────────────────────────────────── */}
-        <div className="login-button-container">
+        <div className="login-button-container" style={{ marginTop: 4, marginBottom: 8 }}>
           <button
             type="submit"
             disabled={isLoading || !password || !confirmPassword || fulfilledCount < 3}
@@ -222,7 +201,7 @@ export default function ResetPasswordCard() {
       </form>
 
       {/* ── BOTTOM BACK TO SIGN IN LINK ───────────────────────────────── */}
-      <footer className="login-footer" style={{ marginTop: '24px' }}>
+      <footer className="login-footer" style={{ marginTop: '8px' }}>
         <Link
           to="/login"
           className="login-link"

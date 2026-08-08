@@ -59,7 +59,7 @@ export default function SignupCard() {
       {/* ── HEADER SECTION ────────────────────────────────────────────── */}
       <header className="login-header">
         <h1 className="login-title">Create Account</h1>
-        <p className="login-subtitle">Join HumanF1RST and start your journey.</p>
+        <p className="login-subtitle">Join HUMΛNF1RST and start your journey.</p>
       </header>
 
       {/* ── FORM PRESENTATION ─────────────────────────────────────────── */}

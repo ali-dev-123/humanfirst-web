@@ -113,7 +113,7 @@ function Hero() {
             transform: 'translateX(-50%)',
             width:     '70%',
             aspectRatio: '1 / 1',
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.10) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, rgba(202, 255, 112, 0.24) 0%, transparent 70%)',
             filter:    'blur(40px)',
           }}
         />
@@ -129,7 +129,7 @@ function Hero() {
             right:  '0%',
             width:  '50%',
             height: '88%',
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.08) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, rgba(8, 47, 37, 0.08) 0%, transparent 70%)',
             filter: 'blur(55px)',
           }}
         />
@@ -219,7 +219,7 @@ function Hero() {
               style={{
                 marginTop:  'var(--space-3)',
                 fontSize:   'var(--text-lg)',
-                color:      '#9CAE9E',      /* +7% brighter than text-secondary (#8C9A8E) */
+                color:      '#5F6D65',
                 lineHeight: 'var(--leading-relaxed)',
                 maxWidth:   480,
               }}
@@ -247,7 +247,7 @@ function Hero() {
               aria-label="Request a pilot programme"
               whileHover={{
                 y:         -2,
-                boxShadow: '0 10px 28px rgba(34, 197, 94, 0.42)',
+                boxShadow: '0 10px 28px rgba(202, 255, 112, 0.40)',
               }}
               transition={{ duration: 0.25, ease: 'easeOut' }}
             >
@@ -264,10 +264,10 @@ function Hero() {
               style={{
                 fontSize:      'var(--text-sm)',
                 fontWeight:    600,
-                color:         'rgba(240, 245, 241, 0.72)',   /* text-primary @ 72% — legible, not dominant */
+                color:         'var(--color-text-secondary)',
                 letterSpacing: '0.01em',
               }}
-              whileHover={{ color: 'rgba(240, 245, 241, 1)' }}
+              whileHover={{ color: 'var(--color-forest-700)' }}
               transition={{ duration: 0.18, ease: 'easeOut' }}
               aria-label="Learn more about investor opportunity"
             >

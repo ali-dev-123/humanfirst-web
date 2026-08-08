@@ -19,9 +19,15 @@ export default function PasswordChangedCard() {
       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
     >
       {/* ── SUCCESS ICON & HEADER SECTION ─────────────────────────────── */}
-      <header className="login-header" style={{ marginBottom: '32px' }}>
-        <div className="w-16 h-16 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20 flex items-center justify-center mx-auto mb-5">
-          <CheckCircle2 className="w-8 h-8 text-[#22C55E]" />
+      <header className="login-header" style={{ marginBottom: '28px' }}>
+        <div
+          className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
+          style={{
+            background: 'var(--color-accent-soft)',
+            border: '1px solid var(--color-accent-border)',
+          }}
+        >
+          <CheckCircle2 className="w-8 h-8" style={{ color: 'var(--color-brand-green)' }} />
         </div>
         <h1 className="login-title">Password Updated</h1>
         <p className="login-subtitle">
@@ -40,8 +46,9 @@ export default function PasswordChangedCard() {
               alignItems: 'center',
               justifyContent: 'center',
               textDecoration: 'none',
-              width: '100%',
+              width: '70%',
               maxWidth: '320px',
+              cursor: 'pointer',
             }}
           >
             Back to Sign In

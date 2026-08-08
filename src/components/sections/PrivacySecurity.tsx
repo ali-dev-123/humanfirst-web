@@ -136,7 +136,7 @@ function PrivacyVisual({ shouldReduce }: { shouldReduce: boolean | null }) {
         style={{
           position:   'absolute',
           inset:      0,
-          background: 'radial-gradient(ellipse at center, rgba(34,197,94,0.16) 0%, transparent 68%)',
+          background: 'radial-gradient(ellipse at center, rgba(202,255,112,0.28) 0%, transparent 68%)',
           filter:     'blur(12px)',
           borderRadius:'50%',
         }}
@@ -179,8 +179,8 @@ function PrivacyVisual({ shouldReduce }: { shouldReduce: boolean | null }) {
           alignItems:     'center',
           justifyContent: 'center',
           boxShadow: [
-            '0 0 0 12px rgba(34,197,94,0.04)',
-            '0 0 60px 0 rgba(34,197,94,0.28)',
+            '0 0 0 12px rgba(202,255,112,0.04)',
+            '0 0 60px 0 rgba(202,255,112,0.18)',
             'var(--shadow-xl)',
           ].join(', '),
           zIndex: 2,
@@ -192,14 +192,14 @@ function PrivacyVisual({ shouldReduce }: { shouldReduce: boolean | null }) {
           style={{
             position:    'absolute',
             inset:       -8,
-            border:      '1px solid rgba(34,197,94,0.15)',
+            border:      '1px solid rgba(8,47,37,0.10)',
             borderRadius:'var(--radius-2xl)',
           }}
         />
         <Shield
           size={52}
           strokeWidth={1.5}
-          style={{ color: 'var(--color-accent)' }}
+          style={{ color: 'var(--color-brand-green)' }}
           aria-hidden="true"
         />
       </motion.div>
@@ -243,13 +243,13 @@ function PrivacyVisual({ shouldReduce }: { shouldReduce: boolean | null }) {
           <CheckCircle2
             size={12}
             strokeWidth={2.5}
-            style={{ color: 'var(--color-accent)', flexShrink: 0 }}
+            style={{ color: 'var(--color-brand-green)', flexShrink: 0 }}
           />
           <span
             style={{
               fontSize:   'var(--text-xs)',
               fontWeight: 'var(--font-semibold)',
-              color:      '#B0C4B2',
+              color:      '#5F6D65',
             }}
           >
             {badge.label}
@@ -285,7 +285,7 @@ function TrustCardItem({ card, index, shouldReduce }: TrustCardProps) {
         borderLeft: '3px solid rgba(34, 197, 94, 0.50)',
         borderRadius:'var(--radius-xl)',
         padding:    'var(--space-5) var(--space-6)',
-        boxShadow:  'var(--shadow-lg), 0 0 28px 0 rgba(34,197,94,0.04)',
+        boxShadow:  'var(--shadow-lg), 0 0 28px 0 rgba(202,255,112,0.10)',
         overflow:   'hidden',
         willChange: 'transform',
         cursor:     'default',
@@ -294,8 +294,8 @@ function TrustCardItem({ card, index, shouldReduce }: TrustCardProps) {
         y:         -3,
         boxShadow: [
           'var(--shadow-xl)',
-          '0 0 48px 0 rgba(34,197,94,0.12)',
-          '0 0 0 1px rgba(34,197,94,0.25)',
+          '0 0 48px 0 rgba(202,255,112,0.14)',
+          '0 0 0 1px rgba(8,47,37,0.12)',
         ].join(', '),
       }}
       transition={{ duration: 0.22, ease: 'easeOut' }}
@@ -309,8 +309,8 @@ function TrustCardItem({ card, index, shouldReduce }: TrustCardProps) {
           width:          40,
           height:         40,
           borderRadius:   'var(--radius-lg)',
-          background:     'rgba(34, 197, 94, 0.09)',
-          border:         '1px solid rgba(34, 197, 94, 0.18)',
+          background:     'var(--color-accent)',
+          border:         '1px solid rgba(202, 255, 112, 0.40)',
           flexShrink:     0,
           marginTop:      2,
         }}
@@ -318,7 +318,7 @@ function TrustCardItem({ card, index, shouldReduce }: TrustCardProps) {
         <Icon
           size={18}
           strokeWidth={1.7}
-          style={{ color: 'var(--color-accent)' }}
+          style={{ color: 'var(--color-brand-green)' }}
           aria-hidden="true"
         />
       </div>
@@ -340,7 +340,7 @@ function TrustCardItem({ card, index, shouldReduce }: TrustCardProps) {
         <p
           style={{
             fontSize:   'var(--text-sm)',
-            color:      '#B0C4B2',
+            color:      '#5F6D65',
             lineHeight: 'var(--leading-relaxed)',
             margin:     0,
           }}
@@ -381,7 +381,7 @@ function PrivacySecurity() {
             left:       '-5%',
             width:      '50%',
             height:     '70%',
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.07) 0%, transparent 65%)',
+            background: 'radial-gradient(ellipse, rgba(202,255,112,0.18) 0%, transparent 65%)',
             filter:     'blur(60px)',
           }}
         />
@@ -398,8 +398,8 @@ function PrivacySecurity() {
               gap:          7,
               padding:      '5px 14px',
               borderRadius: 'var(--radius-full)',
-              border:       '1px solid rgba(34,197,94,0.28)',
-              background:   'rgba(34,197,94,0.07)',
+              border:       '1px solid rgba(202, 255, 112, 0.30)',
+              background:   'var(--color-accent)',
             }}
           >
             <span
@@ -408,7 +408,7 @@ function PrivacySecurity() {
                 width:        5,
                 height:       5,
                 borderRadius: '50%',
-                background:   'var(--color-accent)',
+                background:   'var(--color-brand-green)',
                 flexShrink:   0,
               }}
               aria-hidden="true"
@@ -419,7 +419,7 @@ function PrivacySecurity() {
                 fontWeight:    'var(--font-semibold)',
                 letterSpacing: 'var(--tracking-widest)',
                 textTransform: 'uppercase',
-                color:         'var(--color-accent)',
+                color:         'var(--color-text-primary)',
               }}
             >
               Privacy &amp; Security
@@ -469,7 +469,7 @@ function PrivacySecurity() {
           <p
             style={{
               fontSize:   'var(--text-lg)',
-              color:      '#B0C4B2',
+              color:      '#5F6D65',
               lineHeight: 'var(--leading-relaxed)',
             }}
           >
@@ -523,7 +523,7 @@ function PrivacySecurity() {
           style={{
             marginTop:   'var(--space-20)',
             paddingTop:  'var(--space-14)',
-            borderTop:   '1px solid rgba(255,255,255,0.06)',
+            borderTop:   '1px solid rgba(8,47,37,0.08)',
             textAlign:   'center',
           }}
         >

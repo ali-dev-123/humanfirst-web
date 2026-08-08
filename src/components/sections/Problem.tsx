@@ -75,22 +75,22 @@ const ACCENT: Record<ApproachCard['accentHue'], {
   glow:   string
 }> = {
   red: {
-    icon:   'rgba(239, 68, 68, 0.85)',
-    badge:  'rgba(239, 68, 68, 0.10)',
-    border: 'rgba(239, 68, 68, 0.22)',
-    glow:   'rgba(239, 68, 68, 0.10)',
+    icon:   'var(--color-brand-green)',
+    badge:  'var(--color-accent)',
+    border: 'rgba(202, 255, 112, 0.30)',
+    glow:   'rgba(202, 255, 112, 0.16)',
   },
   amber: {
-    icon:   'rgba(245, 158, 11, 0.90)',
-    badge:  'rgba(245, 158, 11, 0.10)',
-    border: 'rgba(245, 158, 11, 0.22)',
-    glow:   'rgba(245, 158, 11, 0.08)',
+    icon:   'var(--color-brand-green)',
+    badge:  'var(--color-accent)',
+    border: 'rgba(202, 255, 112, 0.30)',
+    glow:   'rgba(202, 255, 112, 0.16)',
   },
   neutral: {
-    icon:   'rgba(140, 154, 142, 0.75)',
-    badge:  'rgba(255, 255, 255, 0.05)',
-    border: 'rgba(255, 255, 255, 0.09)',
-    glow:   'rgba(255, 255, 255, 0.03)',
+    icon:   'var(--color-brand-green)',
+    badge:  'var(--color-accent)',
+    border: 'rgba(202, 255, 112, 0.30)',
+    glow:   'rgba(202, 255, 112, 0.16)',
   },
 }
 
@@ -230,7 +230,7 @@ function ApproachCardItem({ card, index, shouldReduce }: ApproachCardProps) {
       <p
         style={{
           fontSize:   'var(--text-sm)',
-          color:      '#9CAE9E',
+          color:      '#5F6D65',
           lineHeight: 'var(--leading-relaxed)',
           flexGrow:   1,
         }}
@@ -272,7 +272,7 @@ function Problem() {
             transform:  'translateX(-50%)',
             width:      '55%',
             height:     280,
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.06) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, rgba(202,255,112,0.20) 0%, transparent 70%)',
             filter:     'blur(50px)',
           }}
         />
@@ -289,8 +289,8 @@ function Problem() {
               gap:           7,
               padding:       '5px 14px',
               borderRadius:  'var(--radius-full)',
-              border:        '1px solid rgba(34,197,94,0.28)',
-              background:    'rgba(34,197,94,0.07)',
+              border:        '1px solid rgba(202, 255, 112, 0.30)',
+              background:    'var(--color-accent)',
             }}
           >
             <span
@@ -298,7 +298,7 @@ function Problem() {
                 width:        5,
                 height:       5,
                 borderRadius: '50%',
-                background:   'var(--color-accent)',
+                background:   'var(--color-brand-green)',
                 flexShrink:   0,
               }}
               aria-hidden="true"
@@ -309,7 +309,7 @@ function Problem() {
                 fontWeight:    'var(--font-semibold)',
                 letterSpacing: 'var(--tracking-widest)',
                 textTransform: 'uppercase',
-                color:         'var(--color-accent)',
+                color:         'var(--color-text-primary)',
               }}
             >
               The Challenge
@@ -339,7 +339,7 @@ function Problem() {
                 style={{
                   position:     'absolute',
                   inset:        '-20%',
-                  background:   'radial-gradient(ellipse, rgba(34,197,94,0.18) 0%, transparent 70%)',
+                  background:   'radial-gradient(ellipse, rgba(202,255,112,0.24) 0%, transparent 70%)',
                   filter:       'blur(30px)',
                   pointerEvents:'none',
                 }}
@@ -396,7 +396,7 @@ function Problem() {
             <p
               style={{
                 fontSize:   'var(--text-base)',
-                color:      '#9CAE9E',
+                color:      '#5F6D65',
                 lineHeight: 'var(--leading-relaxed)',
                 maxWidth:   520,
                 marginBottom: 'var(--space-6)',
@@ -526,7 +526,7 @@ function Problem() {
                 fontWeight:    'var(--font-semibold)',
                 letterSpacing: 'var(--tracking-widest)',
                 textTransform: 'uppercase',
-                color:         'rgba(245,158,11,0.85)',
+                color:         'rgba(182,122,31,0.90)',
                 fontFamily:    'var(--font-mono)',
                 marginBottom:  'var(--space-2)',
               }}
@@ -548,7 +548,7 @@ function Problem() {
             <p
               style={{
                 fontSize:   'var(--text-sm)',
-                color:      '#9CAE9E',
+                color:      '#5F6D65',
                 lineHeight: 'var(--leading-relaxed)',
                 maxWidth:   640,
               }}

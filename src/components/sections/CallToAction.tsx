@@ -71,7 +71,7 @@ function CallToAction() {
 
   return (
     <section
-      id="cta"
+      id="opportunity"
       aria-labelledby="cta-heading"
       style={{
         position:        'relative',
@@ -106,7 +106,7 @@ function CallToAction() {
             transform:  'translate(-50%, -50%)',
             width:      '85%',
             height:     '75%',
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.20) 0%, transparent 62%)',
+            background: 'radial-gradient(ellipse, rgba(202,255,112,0.28) 0%, transparent 62%)',
             filter:     'blur(60px)',
           }}
         />
@@ -119,7 +119,7 @@ function CallToAction() {
             right:      '5%',
             width:      '45%',
             height:     '55%',
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.07) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, rgba(8,47,37,0.06) 0%, transparent 70%)',
             filter:     'blur(80px)',
           }}
         />
@@ -132,7 +132,7 @@ function CallToAction() {
             left:       '5%',
             width:      '40%',
             height:     '50%',
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.05) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, rgba(202,255,112,0.12) 0%, transparent 70%)',
             filter:     'blur(80px)',
           }}
         />
@@ -150,16 +150,16 @@ function CallToAction() {
             margin:         '0 auto',
             textAlign:      'center',
             /* Glassmorphism */
-            background:     'rgba(22, 30, 23, 0.80)',
+            background:     'rgba(255, 255, 255, 0.88)',
             backdropFilter: 'blur(28px)',
             WebkitBackdropFilter: 'blur(28px)',
-            border:         '1px solid rgba(34, 197, 94, 0.22)',
+            border:         '1px solid rgba(8, 47, 37, 0.10)',
             borderRadius:   'var(--radius-2xl)',
             padding:        'clamp(3rem, 6vw, 5rem) clamp(2rem, 5vw, 4rem)',
             boxShadow: [
               'var(--shadow-xl)',
-              '0 0 90px 0 rgba(34, 197, 94, 0.16)',
-              '0 0 0 1px rgba(34, 197, 94, 0.06)',
+              '0 0 90px 0 rgba(202, 255, 112, 0.18)',
+              '0 0 0 1px rgba(8, 47, 37, 0.05)',
             ].join(', '),
           }}
         >
@@ -172,7 +172,7 @@ function CallToAction() {
               left:       '15%',
               right:      '15%',
               height:     1,
-              background: 'linear-gradient(to right, transparent, rgba(34,197,94,0.45), transparent)',
+              background: 'linear-gradient(to right, transparent, rgba(8,47,37,0.16), transparent)',
             }}
           />
 
@@ -188,8 +188,8 @@ function CallToAction() {
                 gap:          7,
                 padding:      '5px 14px',
                 borderRadius: 'var(--radius-full)',
-                border:       '1px solid rgba(34,197,94,0.28)',
-                background:   'rgba(34,197,94,0.08)',
+                border:       '1px solid rgba(8,47,37,0.10)',
+                background:   'var(--color-accent)',
               }}
             >
               <span
@@ -198,7 +198,7 @@ function CallToAction() {
                   width:        5,
                   height:       5,
                   borderRadius: '50%',
-                  background:   'var(--color-accent)',
+                  background:   'var(--color-brand-green)',
                   flexShrink:   0,
                 }}
                 aria-hidden="true"
@@ -209,7 +209,7 @@ function CallToAction() {
                   fontWeight:    'var(--font-semibold)',
                   letterSpacing: 'var(--tracking-widest)',
                   textTransform: 'uppercase',
-                  color:         'var(--color-accent)',
+                  color:         'var(--color-brand-green)',
                 }}
               >
                 Ready to Get Started
@@ -264,7 +264,7 @@ function CallToAction() {
             <p
               style={{
                 fontSize:   'var(--text-lg)',
-                color:      '#B0C4B2',
+                color:      '#5F6D65',
                 lineHeight: 1.80,
                 maxWidth:   540,
                 margin:     '0 auto',
@@ -299,7 +299,7 @@ function CallToAction() {
                 style={{ textDecoration: 'none' }}
                 whileHover={shouldReduce ? {} : {
                   y:         -2,
-                  boxShadow: '0 12px 32px rgba(34, 197, 94, 0.45)',
+                  boxShadow: '0 12px 32px rgba(202, 255, 112, 0.34)',
                 }}
                 transition={{ duration: 0.25, ease: 'easeOut' }}
               >
@@ -316,19 +316,19 @@ function CallToAction() {
                   gap:            'var(--space-2)',
                   fontSize:       'var(--text-sm)',
                   fontWeight:     600,
-                  color:          'rgba(240, 245, 241, 0.72)',
+                  color:          'rgba(16, 32, 26, 0.72)',
                   letterSpacing:  '0.01em',
                   textDecoration: 'none',
                   padding:        '0.75rem 1.5rem',
-                  border:         '1px solid rgba(240,245,241,0.12)',
+                  border:         '1px solid rgba(8,47,37,0.10)',
                   borderRadius:   'var(--radius-full)',
-                  background:     'rgba(255,255,255,0.04)',
+                  background:     'rgba(8,47,37,0.03)',
                   backdropFilter: 'blur(8px)',
                 }}
                 whileHover={shouldReduce ? {} : {
-                  color:       'rgba(240, 245, 241, 1)',
-                  borderColor: 'rgba(240,245,241,0.25)',
-                  background:  'rgba(255,255,255,0.07)',
+                  color:       'rgba(16, 32, 26, 1)',
+                  borderColor: 'rgba(8,47,37,0.16)',
+                  background:  'rgba(8,47,37,0.05)',
                   y:           -1,
                 }}
                 transition={{ duration: 0.20, ease: 'easeOut' }}
@@ -368,14 +368,14 @@ function CallToAction() {
                 <CheckCircle2
                   size={14}
                   strokeWidth={2.5}
-                  style={{ color: 'var(--color-accent)', flexShrink: 0 }}
+                  style={{ color: 'var(--color-brand-green)', flexShrink: 0 }}
                   aria-hidden="true"
                 />
                 <span
                   style={{
                     fontSize:   'var(--text-sm)',
                     fontWeight: 'var(--font-medium)',
-                    color:      '#9CAE9E',
+                    color:      '#5F6D65',
                     whiteSpace: 'nowrap',
                   }}
                 >

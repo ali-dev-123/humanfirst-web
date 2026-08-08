@@ -8,62 +8,72 @@
 
   /* ----------------------------------------------------------
      COLOR SYSTEM
-     Philosophy: Near-black canvas, precise greens, restrained.
-     Green is used with precision — accent, not decoration.
+     Philosophy: rich forest green and lime on light editorial surfaces.
+     The palette should feel premium, calm, and intentional.
      ---------------------------------------------------------- */
 
   /* Canvas / Background Scale */
-  --color-bg-base:        #080A09;   /* Deepest background — almost black with green tint */
-  --color-bg-subtle:      #0D110E;   /* Page sections that need slight elevation */
-  --color-bg-elevated:    #111712;   /* Card surfaces, panels */
-  --color-bg-overlay:     #161E17;   /* Modals, tooltips, dropdown surfaces */
-  --color-bg-inset:       #0A0E0B;   /* Inset elements within cards */
+  --color-bg-base:        #F7F8F3;   /* Warm off-white canvas */
+  --color-bg-subtle:      #FAFBF7;   /* Soft section lifts */
+  --color-bg-elevated:    #FFFFFF;   /* Card surfaces, panels */
+  --color-bg-overlay:     #F4F7F4;   /* Elevated overlays */
+  --color-bg-inset:       #EEF3EC;   /* Inset elements within cards */
 
   /* Border Scale */
-  --color-border-subtle:  rgba(255, 255, 255, 0.05);  /* Almost invisible dividers */
-  --color-border-default: rgba(255, 255, 255, 0.08);  /* Standard card borders */
-  --color-border-strong:  rgba(255, 255, 255, 0.14);  /* Emphasized borders */
-  --color-border-accent:  rgba(74, 222, 128, 0.20);   /* Green-tinted borders */
+  --color-border-subtle:  rgba(16, 32, 26, 0.06);  /* Soft dividers */
+  --color-border-default: rgba(16, 32, 26, 0.10);  /* Standard card borders */
+  --color-border-strong:  rgba(16, 32, 26, 0.16);  /* Emphasized borders */
+  --color-border-accent:  rgba(8, 47, 37, 0.16);   /* Forest-tinted borders */
 
   /* Text Scale */
-  --color-text-primary:   #F0F5F1;   /* Headlines — warm off-white with green tint */
-  --color-text-secondary: #8C9A8E;   /* Body text, descriptions */
-  --color-text-muted:     #4A574C;   /* Placeholder, disabled */
-  --color-text-inverse:   #080A09;   /* Text on accent/green backgrounds */
+  --color-text-primary:   #10201A;   /* Dark forest text */
+  --color-text-secondary: #5F6D65;   /* Body text, descriptions */
+  --color-text-muted:     #7C8781;   /* Placeholder, disabled */
+  --color-text-inverse:   #F7F8F3;   /* Text on dark backgrounds */
 
-  /* Green Accent Scale — HumanF1RST Brand */
-  --color-green-50:       #EDFCF2;
-  --color-green-100:      #D3F9E1;
-  --color-green-200:      #A8F2C3;
-  --color-green-300:      #6EE7A0;
-  --color-green-400:      #3FD579;   /* Primary interactive accent */
-  --color-green-500:      #22C55E;   /* Brand green — Tailwind green-500 base */
-  --color-green-600:      #16A34A;   /* Buttons, strong CTAs */
-  --color-green-700:      #15803D;
-  --color-green-800:      #166534;
-  --color-green-900:      #14532D;
-  --color-green-950:      #052E16;
+  /* Forest + Lime Scale */
+  --color-forest-50:      #F3F8F3;
+  --color-forest-100:     #E6F0E8;
+  --color-forest-200:     #CFE1D4;
+  --color-forest-300:     #A5C2B1;
+  --color-forest-400:     #6F8F7E;
+  --color-forest-500:     #123F32;
+  --color-forest-600:     #0B3A2E;
+  --color-forest-700:     #082F25;
+  --color-forest-800:     #06241D;
+  --color-forest-900:     #031A14;
 
-  /* Semantic Green Tokens */
-  --color-accent:           var(--color-green-400);   /* Primary accent */
-  --color-accent-bright:    var(--color-green-300);   /* Highlights, glows */
-  --color-accent-muted:     rgba(34, 197, 94, 0.12);  /* Subtle tinted surfaces */
-  --color-accent-glow:      rgba(63, 213, 121, 0.15); /* Ambient glow effects */
-  --color-accent-border:    rgba(34, 197, 94, 0.25);  /* Accent-tinted borders */
+  --color-lime-300:       #D8F79C;
+  --color-lime-400:       #CAFF70;   /* Primary lime accent */
+  --color-lime-500:       #B8F45F;   /* Hover accent */
+
+  /* Semantic Accent Tokens */
+  --color-accent:           var(--color-lime-400);   /* Primary accent */
+  --color-accent-hover:     var(--color-lime-500);   /* Hover accent */
+  --color-accent-bright:    var(--color-lime-300);   /* Highlights, glows */
+  --color-accent-muted:     rgba(202, 255, 112, 0.24);  /* Subtle tinted surfaces */
+  --color-accent-soft:      rgba(202, 255, 112, 0.16);  /* Soft tinted surfaces */
+  --color-accent-glow:      rgba(202, 255, 112, 0.18); /* Ambient glow effects */
+  --color-accent-border:    rgba(8, 47, 37, 0.14);    /* Accent-tinted borders */
+  --color-forest-strong:    var(--color-forest-700);
+
+  /* Brand Green Tokens — used for emphasized headings and branding */
+  --color-brand-green:      #0B3A2E;   /* Dark parrot green for emphasis */
+  --color-brand-green-dark: #082F25;   /* Darker variant for stronger emphasis */
 
   /* Status Colors (minimal palette) */
-  --color-success:          #22C55E;
-  --color-warning:          #F59E0B;
-  --color-error:            #EF4444;
+  --color-success:          #2E7D5B;
+  --color-warning:          #B67A1F;
+  --color-error:            #C14A3C;
   --color-neutral:          #6B7280;
 
   /* Gradient Definitions */
-  --gradient-hero:          radial-gradient(ellipse 80% 60% at 50% -10%, rgba(34, 197, 94, 0.12) 0%, transparent 70%);
-  --gradient-accent-glow:   radial-gradient(ellipse 60% 40% at 50% 50%, rgba(63, 213, 121, 0.08) 0%, transparent 70%);
-  --gradient-card-top:      linear-gradient(180deg, rgba(255,255,255,0.04) 0%, transparent 100%);
-  --gradient-card-border:   linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.03) 100%);
-  --gradient-text-accent:   linear-gradient(135deg, var(--color-green-300) 0%, var(--color-green-500) 100%);
-  --gradient-text-primary:  linear-gradient(180deg, #F0F5F1 0%, #8C9A8E 100%);
+  --gradient-hero:          radial-gradient(ellipse 80% 60% at 50% -10%, rgba(202, 255, 112, 0.18) 0%, transparent 70%);
+  --gradient-accent-glow:   radial-gradient(ellipse 60% 40% at 50% 50%, rgba(202, 255, 112, 0.12) 0%, transparent 70%);
+  --gradient-card-top:      linear-gradient(180deg, rgba(8, 47, 37, 0.03) 0%, transparent 100%);
+  --gradient-card-border:   linear-gradient(135deg, rgba(8, 47, 37, 0.10) 0%, rgba(8, 47, 37, 0.03) 100%);
+  --gradient-text-accent:   linear-gradient(135deg, var(--color-lime-400) 0%, var(--color-lime-500) 100%);
+  --gradient-text-primary:  linear-gradient(180deg, #10201A 0%, #5F6D65 100%);
   --gradient-section-fade:  linear-gradient(180deg, transparent 0%, var(--color-bg-base) 100%);
 
 
@@ -75,6 +85,7 @@
 
   /* Font Families */
   --font-sans:   'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-display:'Playfair Display', 'Georgia', 'Times New Roman', serif;
   --font-mono:   'JetBrains Mono', 'Fira Code', 'SF Mono', 'Consolas', monospace;
 
   /* Font Size Scale — Type scale with 1.250 ratio (Major Third) */
@@ -178,30 +189,30 @@
      ---------------------------------------------------------- */
 
   /* Elevation Shadows */
-  --shadow-xs:      0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-sm:      0 2px 4px rgba(0, 0, 0, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-md:      0 4px 8px rgba(0, 0, 0, 0.5), 0 2px 4px rgba(0, 0, 0, 0.3);
-  --shadow-lg:      0 8px 24px rgba(0, 0, 0, 0.6), 0 4px 8px rgba(0, 0, 0, 0.4);
-  --shadow-xl:      0 16px 48px rgba(0, 0, 0, 0.7), 0 8px 16px rgba(0, 0, 0, 0.4);
-  --shadow-2xl:     0 24px 64px rgba(0, 0, 0, 0.8), 0 12px 24px rgba(0, 0, 0, 0.5);
+  --shadow-xs:      0 1px 2px rgba(8, 47, 37, 0.06);
+  --shadow-sm:      0 8px 20px rgba(8, 47, 37, 0.06), 0 1px 2px rgba(8, 47, 37, 0.04);
+  --shadow-md:      0 12px 28px rgba(8, 47, 37, 0.07), 0 4px 8px rgba(8, 47, 37, 0.04);
+  --shadow-lg:      0 20px 50px rgba(8, 47, 37, 0.08), 0 8px 16px rgba(8, 47, 37, 0.05);
+  --shadow-xl:      0 28px 70px rgba(8, 47, 37, 0.10), 0 10px 24px rgba(8, 47, 37, 0.06);
+  --shadow-2xl:     0 36px 90px rgba(8, 47, 37, 0.12), 0 16px 30px rgba(8, 47, 37, 0.08);
 
   /* Brand Glow Shadows — used on interactive/accent elements */
-  --shadow-glow-xs: 0 0 8px rgba(34, 197, 94, 0.20);
-  --shadow-glow-sm: 0 0 16px rgba(34, 197, 94, 0.25);
-  --shadow-glow-md: 0 0 32px rgba(34, 197, 94, 0.20), 0 0 8px rgba(34, 197, 94, 0.15);
-  --shadow-glow-lg: 0 0 48px rgba(34, 197, 94, 0.18), 0 0 16px rgba(34, 197, 94, 0.12);
+  --shadow-glow-xs: 0 0 8px rgba(202, 255, 112, 0.24);
+  --shadow-glow-sm: 0 0 16px rgba(202, 255, 112, 0.26);
+  --shadow-glow-md: 0 0 32px rgba(202, 255, 112, 0.20), 0 0 8px rgba(202, 255, 112, 0.14);
+  --shadow-glow-lg: 0 0 48px rgba(202, 255, 112, 0.18), 0 0 16px rgba(202, 255, 112, 0.12);
 
   /* Card Shadows */
-  --shadow-card:        0 1px 0 rgba(255,255,255,0.04) inset,
-                        0 8px 24px rgba(0, 0, 0, 0.5);
-  --shadow-card-hover:  0 1px 0 rgba(255,255,255,0.06) inset,
-                        0 16px 40px rgba(0, 0, 0, 0.6),
-                        0 0 0 1px rgba(34, 197, 94, 0.12);
+  --shadow-card:        0 1px 0 rgba(8, 47, 37, 0.03) inset,
+                        0 12px 32px rgba(8, 47, 37, 0.06);
+  --shadow-card-hover:  0 1px 0 rgba(8, 47, 37, 0.04) inset,
+                        0 18px 44px rgba(8, 47, 37, 0.08),
+                        0 0 0 1px rgba(8, 47, 37, 0.08);
 
   /* Inset / Input Shadows */
-  --shadow-inset:       inset 0 1px 3px rgba(0, 0, 0, 0.4);
-  --shadow-inset-focus: inset 0 0 0 1px rgba(34, 197, 94, 0.5),
-                        0 0 0 3px rgba(34, 197, 94, 0.10);
+  --shadow-inset:       inset 0 1px 3px rgba(8, 47, 37, 0.05);
+  --shadow-inset-focus: inset 0 0 0 1px rgba(8, 47, 37, 0.18),
+                        0 0 0 3px rgba(202, 255, 112, 0.14);
 
 
   /* ----------------------------------------------------------

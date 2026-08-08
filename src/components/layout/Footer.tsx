@@ -37,7 +37,6 @@ const LEGAL_LINKS = [
 
 // ─── Color tokens ──────────────────────────────────────────────────────────────
 
-const C_PRIMARY   = '#E5E7EB'   /* logo, strong headings */
 const C_SECONDARY = '#9CA3AF'   /* description, link resting, col headings */
 const C_META      = '#6B7280'   /* copyright, legal, bottom bar */
 
@@ -99,7 +98,7 @@ function FooterLink({ href, children, shouldReduce, delay }: FooterLinkProps) {
           display:        'inline-block',
           fontSize:       'var(--text-sm)',
           fontWeight:     'var(--font-medium)',
-          color:          C_SECONDARY,
+          color:          'var(--color-text-secondary)',
           textDecoration: 'none',
           letterSpacing:  '0.005em',
           lineHeight:     1.5,
@@ -107,7 +106,7 @@ function FooterLink({ href, children, shouldReduce, delay }: FooterLinkProps) {
         }}
         whileHover={shouldReduce ? {} : {
           x:     3,
-          color: C_PRIMARY,
+          color: 'var(--color-brand-green)',
         }}
         transition={{ duration: 0.18, ease: 'easeOut' }}
       >
@@ -142,18 +141,18 @@ function FooterLogoLink() {
           fontSize:      'var(--text-xl)',
           fontWeight:    'var(--font-extrabold)',
           letterSpacing: 'var(--tracking-tight)',
-          color:         C_PRIMARY,
+          color:         'var(--color-forest-500)',
           lineHeight:    1,
         }}
       >
-        Human
+        HUMΛN
       </span>
       <span
-        className="text-gradient-accent"
         style={{
           fontSize:      'var(--text-xl)',
           fontWeight:    'var(--font-extrabold)',
           letterSpacing: 'var(--tracking-tight)',
+          color:         'var(--color-accent)',
           lineHeight:    1,
         }}
       >
@@ -178,7 +177,7 @@ function FooterContactLink({ shouldReduce }: { shouldReduce: boolean | null }) {
         gap:            5,
         fontSize:       'var(--text-sm)',
         fontWeight:     'var(--font-medium)',
-        color:          C_SECONDARY,
+        color:          'var(--color-text-secondary)',
         textDecoration: 'none',
         letterSpacing:  '0.005em',
         background:     'none',
@@ -188,8 +187,9 @@ function FooterContactLink({ shouldReduce }: { shouldReduce: boolean | null }) {
       }}
       whileHover={shouldReduce ? {} : {
         x:     2,
-        color: C_PRIMARY,
+        color: 'var(--color-brand-green)',
       }}
+      whileTap={shouldReduce ? {} : { scale: 0.98 }}
       transition={{ duration: 0.18, ease: 'easeOut' }}
     >
       Contact Us
@@ -215,29 +215,22 @@ function Footer() {
       role="contentinfo"
       style={{
         position:        'relative',
-        backgroundColor: 'var(--color-bg-base)',
+        backgroundColor: 'var(--color-bg-subtle)',
         paddingTop:      'var(--space-16)',
         paddingBottom:   'var(--space-8)',
         overflow:        'hidden',
       }}
     >
-      {/* ── Premium gradient divider ─────────────────────────────────────── */}
+      {/* ── Footer separator line — clean page boundary ───────────────────── */}
       <div
         aria-hidden="true"
         style={{
-          position:   'absolute',
-          top:        0,
-          left:       0,
-          right:      0,
-          height:     1,
-          background: [
-            'linear-gradient(to right,',
-            '  transparent 0%,',
-            '  rgba(34,197,94,0.28) 25%,',
-            '  rgba(255,255,255,0.10) 50%,',
-            '  rgba(34,197,94,0.28) 75%,',
-            '  transparent 100%)',
-          ].join(''),
+          position:      'absolute',
+          top:           0,
+          left:          0,
+          right:         0,
+          height:        1,
+          background:    'var(--color-brand-green)',
           pointerEvents: 'none',
         }}
       />
@@ -251,7 +244,7 @@ function Footer() {
           left:          '20%',
           right:         '20%',
           height:        120,
-          background:    'radial-gradient(ellipse, rgba(34,197,94,0.04) 0%, transparent 70%)',
+          background:    'radial-gradient(ellipse, rgba(202,255,112,0.16) 0%, transparent 70%)',
           filter:        'blur(30px)',
           pointerEvents: 'none',
         }}
@@ -330,7 +323,7 @@ function Footer() {
                 marginBottom:'var(--space-6)',
               }}
             >
-              Ready to explore HumanFirst?
+              Ready to explore HUMΛNF1RST?
             </p>
 
             {/* Primary button */}
@@ -353,13 +346,13 @@ function Footer() {
                 borderRadius:   'var(--radius-full)',
                 textDecoration: 'none',
                 letterSpacing:  '0.01em',
-                boxShadow:      '0 4px 16px rgba(34,197,94,0.28)',
+                boxShadow:      '0 4px 16px rgba(202,255,112,0.28)',
                 cursor:         'pointer',
                 marginBottom:   'var(--space-4)',
               }}
               whileHover={shouldReduce ? {} : {
                 y:         -2,
-                boxShadow: '0 8px 24px rgba(34,197,94,0.42)',
+                boxShadow: '0 8px 24px rgba(202,255,112,0.34)',
               }}
               transition={{ duration: 0.22, ease: 'easeOut' }}
             >
@@ -377,7 +370,7 @@ function Footer() {
           {...fadeUp(shouldReduce, 0.30)}
           style={{
             height:       1,
-            background:   'rgba(255,255,255,0.06)',
+            background:   'rgba(8,47,37,0.08)',
             marginBottom: 'var(--space-6)',
           }}
           aria-hidden="true"
@@ -400,7 +393,7 @@ function Footer() {
                 whiteSpace:   'nowrap',
               }}
             >
-              © 2026 HumanF1RST. All rights reserved.
+              © 2026 HUMΛNF1RST. All rights reserved.
             </p>
             <p
               style={{

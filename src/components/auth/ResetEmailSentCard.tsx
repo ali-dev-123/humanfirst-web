@@ -35,8 +35,14 @@ export default function ResetEmailSentCard() {
     >
       {/* ── SUCCESS ICON & HEADER SECTION ─────────────────────────────── */}
       <header className="login-header">
-        <div className="w-16 h-16 rounded-full bg-[#22C55E]/10 border border-[#22C55E]/20 flex items-center justify-center mx-auto mb-5">
-          <MailCheck className="w-8 h-8 text-[#22C55E]" />
+        <div
+          className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5"
+          style={{
+            background: 'var(--color-accent-soft)',
+            border: '1px solid var(--color-accent-border)',
+          }}
+        >
+          <MailCheck className="w-8 h-8" style={{ color: 'var(--color-brand-green)' }} />
         </div>
         <h1 className="login-title">Check Your Email</h1>
         <p className="login-subtitle">
@@ -46,7 +52,14 @@ export default function ResetEmailSentCard() {
 
       {/* ── RESEND NOTIFICATION STATE ─────────────────────────────────── */}
       {isResent && (
-        <div className="p-3.5 mb-6 rounded-[12px] bg-[#22C55E]/10 border border-[#22C55E]/20 text-center text-xs text-[#22C55E] font-medium">
+        <div
+          className="p-3.5 mb-6 rounded-[12px] text-center text-xs font-medium"
+          style={{
+            background: 'var(--color-accent-soft)',
+            border: '1px solid var(--color-accent-border)',
+            color: 'var(--color-brand-green)',
+          }}
+        >
           Reset link resent! Please check your inbox and spam folder.
         </div>
       )}
@@ -63,6 +76,7 @@ export default function ResetEmailSentCard() {
               alignItems: 'center',
               justifyContent: 'center',
               textDecoration: 'none',
+              cursor: 'pointer',
             }}
           >
             Open Email App
@@ -74,7 +88,7 @@ export default function ResetEmailSentCard() {
           <Link
             to="/login"
             className="google-button"
-            style={{ textDecoration: 'none' }}
+            style={{ textDecoration: 'none', cursor: 'pointer' }}
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Sign In</span>

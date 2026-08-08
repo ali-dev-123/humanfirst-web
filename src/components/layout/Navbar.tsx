@@ -109,22 +109,22 @@ function NavLogo() {
       <span
         style={{
           fontFamily: 'var(--font-sans)',
-          fontSize: 'var(--text-base)',
-          fontWeight: 'var(--font-bold)',
+          fontSize: 'var(--text-lg)',
+          fontWeight: 'var(--font-extrabold)',
           letterSpacing: 'var(--tracking-snug)',
-          color: 'var(--color-text-primary)',
+          color: 'var(--color-brand-green)',
           lineHeight: 1,
         }}
       >
-        HUMAN   
+        HUMΛN  
       </span>
       <span
-        className="text-gradient-accent"
         style={{
           fontFamily: 'var(--font-sans)',
-          fontSize: 'var(--text-base)',
+          fontSize: 'var(--text-lg)',
           fontWeight: 'var(--font-extrabold)',
           letterSpacing: 'var(--tracking-snug)',
+          color: 'var(--color-accent)',
           lineHeight: 1,
         }}
       >
@@ -228,10 +228,10 @@ function MenuButton({ isOpen, onClick, shouldReduce }: MenuButtonProps) {
         borderRadius: 'var(--radius-md)',
         border: '1px solid',
         borderColor: isOpen
-          ? 'rgba(63, 213, 121, 0.25)'
-          : 'rgba(255,255,255,0.07)',
+          ? 'rgba(8, 47, 37, 0.16)'
+          : 'rgba(8, 47, 37, 0.10)',
         background: isOpen
-          ? 'rgba(34,197,94,0.06)'
+          ? 'rgba(202, 255, 112, 0.20)'
           : 'transparent',
         transition: 'border-color 200ms ease, background 200ms ease',
         cursor: 'pointer',
@@ -332,11 +332,11 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce }: MobileMenuProps
             maxHeight: 'calc(100vh - 80px)',
             overflowY: 'auto',
             overflowX: 'hidden',
-            background: 'rgba(8, 10, 9, 0.95)',
+            background: 'rgba(247, 248, 243, 0.96)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
-            borderBottom: '1px solid rgba(255,255,255,0.08)',
-            borderTop: '1px solid rgba(255,255,255,0.05)',
+            borderBottom: '1px solid rgba(8, 47, 37, 0.08)',
+            borderTop: '1px solid rgba(8, 47, 37, 0.06)',
             padding: '16px 24px 28px',
             zIndex: 40,
           }}
@@ -372,10 +372,10 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce }: MobileMenuProps
                         fontSize: '18px',
                         fontWeight: 500,
                         color: isActive
-                          ? '#FFFFFF'
-                          : 'rgba(255, 255, 255, 0.70)',
+                          ? 'var(--color-forest-700)'
+                          : 'var(--color-text-secondary)',
                         textDecoration: 'none',
-                        borderBottom: '1px solid rgba(255,255,255,0.06)',
+                        borderBottom: '1px solid rgba(8, 47, 37, 0.08)',
                         transition: 'color 200ms ease',
                         cursor: 'pointer',
                       }}
@@ -387,7 +387,7 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce }: MobileMenuProps
                             width: 6,
                             height: 6,
                             borderRadius: '50%',
-                            background: '#22C55E',
+                            background: 'var(--color-accent)',
                             flexShrink: 0,
                           }}
                           aria-hidden="true"
@@ -418,7 +418,7 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce }: MobileMenuProps
                 onClose()
                 go('#opportunity')
               }}
-              className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-white bg-transparent border border-white/[0.18] hover:border-[#22C55E] hover:text-[#22C55E] hover:bg-[#22C55E]/10 rounded-[10px] transition-all duration-200 cursor-pointer select-none no-underline text-center"
+              className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-[var(--color-forest-700)] bg-transparent border border-[rgba(8,47,37,0.14)] hover:border-[var(--color-forest-700)] hover:text-[var(--color-forest-700)] hover:bg-[rgba(202,255,112,0.24)] rounded-[10px] transition-all duration-200 cursor-pointer select-none no-underline text-center"
             >
               For Investors
             </a>
@@ -430,7 +430,7 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce }: MobileMenuProps
                 onClose()
                 go('#pilot')
               }}
-              className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-white bg-[#22C55E] hover:bg-[#16A34A] rounded-[10px] shadow-sm transition-all duration-200 cursor-pointer select-none no-underline text-center"
+              className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-[var(--color-forest-900)] bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] rounded-[10px] shadow-sm transition-all duration-200 cursor-pointer select-none no-underline text-center"
             >
               Request a Pilot
             </a>
@@ -438,7 +438,7 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce }: MobileMenuProps
             <Link
               to="/login"
               onClick={onClose}
-              className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-white bg-transparent border border-white/[0.18] hover:border-[#22C55E] hover:text-[#22C55E] hover:bg-[#22C55E]/10 rounded-[10px] transition-all duration-200 cursor-pointer select-none no-underline text-center"
+              className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-[var(--color-forest-700)] bg-transparent border border-[rgba(8,47,37,0.14)] hover:border-[var(--color-forest-700)] hover:text-[var(--color-forest-700)] hover:bg-[rgba(202,255,112,0.24)] rounded-[10px] transition-all duration-200 cursor-pointer select-none no-underline text-center"
             >
               Login
             </Link>
@@ -458,19 +458,32 @@ function Navbar() {
   const location = useLocation()
   const { go } = useSmartNavigate()
 
-  const isAuthPage = location.pathname === '/login' || location.pathname === '/signup'
+  const isAuthPage = ['/login', '/signup', '/forgot-password', '/reset-email-sent', '/reset-password', '/password-changed'].some((path) => {
+    return location.pathname === path || location.pathname.startsWith(`${path}/`)
+  })
 
-  const sectionIds = ['problem', 'solution', 'privacy']
+  const currentHash = location.hash || ''
+  const sectionIds = ['hero', 'problem', 'solution', 'privacy']
   const activeSectionId = useActiveSection(sectionIds)
 
   /* Active navigation state for current page or section */
-  let activeId = ''
+  let activeId = 'home'
   if (location.pathname === '/about') {
     activeId = 'about'
   } else if (location.pathname === '/contact') {
     activeId = 'contact'
   } else if (location.pathname === '/') {
-    activeId = activeSectionId || 'home'
+    if (currentHash === '#problem') {
+      activeId = 'problem'
+    } else if (currentHash === '#solution') {
+      activeId = 'solution'
+    } else if (currentHash === '#privacy') {
+      activeId = 'privacy'
+    } else if (activeSectionId === 'problem' || activeSectionId === 'solution' || activeSectionId === 'privacy') {
+      activeId = activeSectionId
+    } else {
+      activeId = 'home'
+    }
   }
 
   /* Close mobile menu on Escape */
@@ -506,14 +519,16 @@ function Navbar() {
         left: 0,
         right: 0,
         zIndex: 50,
-        background: scrolled
-          ? 'rgba(8, 10, 9, 0.88)'
-          : 'transparent',
-        backdropFilter: scrolled ? 'blur(20px)' : 'none',
-        WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
-        borderBottom: scrolled
-          ? '1px solid rgba(255,255,255,0.06)'
-          : '1px solid transparent',
+        background: isAuthPage
+          ? 'rgba(247, 248, 243, 0.86)'
+          : scrolled
+            ? 'rgba(247, 248, 243, 0.86)'
+            : 'transparent',
+        backdropFilter: isAuthPage ? 'blur(20px)' : scrolled ? 'blur(20px)' : 'none',
+        WebkitBackdropFilter: isAuthPage ? 'blur(20px)' : scrolled ? 'blur(20px)' : 'none',
+        borderBottom: isAuthPage
+          ? '1px solid rgba(16, 32, 26, 0.08)'
+          : '1px solid var(--color-brand-green)',
         transition: [
           'background 300ms ease',
           'backdrop-filter 300ms ease',
@@ -567,12 +582,12 @@ function Navbar() {
                 style={{
                   fontSize: 'var(--text-sm)',
                   fontWeight: 'var(--font-semibold)',
-                  color: 'rgba(240, 245, 241, 0.65)',
+                  color: 'var(--color-text-secondary)',
                   letterSpacing: '0.01em',
                   textDecoration: 'none',
                   cursor: 'pointer',
                 }}
-                whileHover={{ color: 'rgba(240, 245, 241, 1)' }}
+                whileHover={{ color: 'var(--color-forest-700)' }}
                 transition={{ duration: 0.18, ease: 'easeOut' }}
               >
                 For Investors
@@ -588,7 +603,7 @@ function Navbar() {
                 aria-label="Request a pilot programme"
                 whileHover={{
                   y: -1,
-                  boxShadow: '0 6px 20px rgba(34, 197, 94, 0.38)',
+                  boxShadow: '0 6px 20px rgba(202, 255, 112, 0.34)',
                 }}
                 transition={{ duration: 0.22, ease: 'easeOut' }}
                 style={{ textDecoration: 'none', cursor: 'pointer' }}
@@ -600,8 +615,13 @@ function Navbar() {
 
           <Link
             to={isAuthPage ? '/' : '/login'}
-            className="inline-flex items-center justify-center w-[110px] h-[38px] text-[15px] font-semibold text-white bg-transparent border border-white/[0.18] hover:border-[#22C55E] hover:text-[#22C55E] hover:bg-[#22C55E]/10 transition-all duration-200 cursor-pointer select-none no-underline text-center"
-            style={{ borderRadius: 'var(--radius-sm)' }}
+            className="inline-flex items-center justify-center w-[110px] h-[38px] text-[15px] font-semibold transition-all duration-200 cursor-pointer select-none no-underline text-center"
+            style={{
+              borderRadius: 'var(--radius-sm)',
+              color: 'var(--color-forest-700)',
+              background: 'transparent',
+              border: '1px solid rgba(8, 47, 37, 0.12)',
+            }}
           >
             {isAuthPage ? 'Back to Home' : 'Login'}
           </Link>

@@ -24,9 +24,9 @@ const variantClass: Record<BadgeVariant, string> = {
 }
 
 const dotColor: Record<BadgeVariant, string> = {
-  accent:  'bg-[var(--color-accent)]',
+  accent:  'bg-[var(--color-forest-700)]',
   neutral: 'bg-[var(--color-text-muted)]',
-  success: 'bg-[var(--color-green-400)]',
+  success: 'bg-[var(--color-accent)]',
 }
 
 function Badge({

@@ -105,7 +105,7 @@ function ConnectorLine({ index, shouldReduce }: ConnectorProps) {
           style={{
             position:     'absolute',
             inset:        0,
-            background:   'rgba(34, 197, 94, 0.12)',
+            background:   'rgba(8, 47, 37, 0.08)',
             borderRadius: 1,
           }}
         />
@@ -116,7 +116,7 @@ function ConnectorLine({ index, shouldReduce }: ConnectorProps) {
             top:             0,
             left:            0,
             bottom:          0,
-            background:      'linear-gradient(to right, rgba(34,197,94,0.70), rgba(34,197,94,0.30))',
+            background:      'linear-gradient(to right, rgba(8,47,37,0.70), rgba(202,255,112,0.40))',
             borderRadius:    1,
             transformOrigin: 'left center',
             scaleX:          0,
@@ -140,7 +140,7 @@ function ConnectorLine({ index, shouldReduce }: ConnectorProps) {
             height:      0,
             borderTop:    '5px solid transparent',
             borderBottom: '5px solid transparent',
-            borderLeft:   '7px solid rgba(34, 197, 94, 0.65)',
+            borderLeft:   '7px solid rgba(8, 47, 37, 0.72)',
           }}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: [0, 1] }}
@@ -170,7 +170,7 @@ function VerticalConnector({ shouldReduce }: { shouldReduce: boolean | null }) {
         style={{
           width:        1.5,
           height:       28,
-          background:   'linear-gradient(to bottom, rgba(34,197,94,0.60), rgba(34,197,94,0.20))',
+          background:   'linear-gradient(to bottom, rgba(8,47,37,0.70), rgba(202,255,112,0.28))',
           borderRadius: 1,
           transformOrigin: 'top center',
           scaleY:       0,
@@ -189,7 +189,7 @@ function VerticalConnector({ shouldReduce }: { shouldReduce: boolean | null }) {
           height:      0,
           borderLeft:  '5px solid transparent',
           borderRight: '5px solid transparent',
-          borderTop:   '6px solid rgba(34, 197, 94, 0.50)',
+          borderTop:   '6px solid rgba(8, 47, 37, 0.60)',
         }}
       />
     </div>
@@ -212,14 +212,14 @@ function StepCard({ step, index, shouldReduce }: StepCardProps) {
    * Step 01 gets slightly stronger border + glow to signal it as the entry point.
    * All other cards use the standard treatment.
    */
-  const borderColor    = step.isFirst ? 'rgba(34, 197, 94, 0.32)' : 'rgba(34, 197, 94, 0.14)'
+  const borderColor    = step.isFirst ? 'rgba(8, 47, 37, 0.16)' : 'rgba(8, 47, 37, 0.10)'
   const glowBase       = step.isFirst
-    ? '0 0 56px 0 rgba(34, 197, 94, 0.16)'
-    : '0 0 36px 0 rgba(34, 197, 94, 0.06)'
+    ? '0 0 56px 0 rgba(202, 255, 112, 0.22)'
+    : '0 0 36px 0 rgba(202, 255, 112, 0.10)'
   const glowHover      = step.isFirst
-    ? '0 0 72px 0 rgba(34, 197, 94, 0.28)'
-    : '0 0 60px 0 rgba(34, 197, 94, 0.16)'
-  const borderHover    = step.isFirst ? 'rgba(34, 197, 94, 0.50)' : 'rgba(34, 197, 94, 0.30)'
+    ? '0 0 72px 0 rgba(202, 255, 112, 0.28)'
+    : '0 0 60px 0 rgba(202, 255, 112, 0.16)'
+  const borderHover    = step.isFirst ? 'rgba(8, 47, 37, 0.20)' : 'rgba(8, 47, 37, 0.14)'
 
   return (
     <div className="hiw-step-wrap">
@@ -255,8 +255,8 @@ function StepCard({ step, index, shouldReduce }: StepCardProps) {
             right:      '8%',
             height:     1,
             background: step.isFirst
-              ? 'linear-gradient(to right, transparent, rgba(34,197,94,0.40), transparent)'
-              : 'linear-gradient(to right, transparent, rgba(34,197,94,0.18), transparent)',
+              ? 'linear-gradient(to right, transparent, rgba(202,255,112,0.40), transparent)'
+              : 'linear-gradient(to right, transparent, rgba(8,47,37,0.10), transparent)',
           }}
         />
 
@@ -295,9 +295,7 @@ function StepCard({ step, index, shouldReduce }: StepCardProps) {
               width:          46,
               height:         46,
               borderRadius:   'var(--radius-xl)',
-              background:     step.isFirst
-                ? 'rgba(34, 197, 94, 0.14)'
-                : 'rgba(34, 197, 94, 0.09)',
+              background:     'var(--color-accent)',
               border:         `1px solid ${borderColor}`,
               flexShrink:     0,
             }}
@@ -307,7 +305,7 @@ function StepCard({ step, index, shouldReduce }: StepCardProps) {
             <Icon
               size={24}
               strokeWidth={1.6}
-              style={{ color: 'var(--color-accent)' }}
+              style={{ color: 'var(--color-brand-green)' }}
               aria-hidden="true"
             />
           </motion.div>
@@ -331,7 +329,7 @@ function StepCard({ step, index, shouldReduce }: StepCardProps) {
         <p
           style={{
             fontSize:   'var(--text-sm)',
-            color:      '#B0C4B2',
+            color:      '#5F6D65',
             lineHeight: 'var(--leading-relaxed)',
             flexGrow:   1,
           }}
@@ -371,7 +369,7 @@ function HowItWorks() {
             transform:  'translateX(-50%)',
             width:      '60%',
             height:     300,
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.07) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, rgba(202,255,112,0.20) 0%, transparent 70%)',
             filter:     'blur(50px)',
           }}
         />
@@ -388,8 +386,8 @@ function HowItWorks() {
               gap:          7,
               padding:      '5px 14px',
               borderRadius: 'var(--radius-full)',
-              border:       '1px solid rgba(34,197,94,0.28)',
-              background:   'rgba(34,197,94,0.07)',
+              border:       '1px solid rgba(202, 255, 112, 0.30)',
+              background:   'var(--color-accent)',
             }}
           >
             {/* Pulsing dot — same premium treatment as Hero badge */}
@@ -399,7 +397,7 @@ function HowItWorks() {
                 width:        5,
                 height:       5,
                 borderRadius: '50%',
-                background:   'var(--color-accent)',
+                background:   'var(--color-brand-green)',
                 flexShrink:   0,
               }}
               aria-hidden="true"
@@ -410,7 +408,7 @@ function HowItWorks() {
                 fontWeight:    'var(--font-semibold)',
                 letterSpacing: 'var(--tracking-widest)',
                 textTransform: 'uppercase',
-                color:         'var(--color-accent)',
+                color:         'var(--color-text-primary)',
               }}
             >
               How It Works
@@ -465,7 +463,7 @@ function HowItWorks() {
           <p
             style={{
               fontSize:   'var(--text-lg)',
-              color:      '#B0C4B2',    /* +15% from #9CAE9E — meets contrast, premium */
+              color:      '#5F6D65',
               lineHeight: 'var(--leading-relaxed)',
             }}
           >
@@ -517,7 +515,7 @@ function HowItWorks() {
           style={{
             marginTop:      'var(--space-16)',
             paddingTop:     'var(--space-12)',
-            borderTop:      '1px solid rgba(255,255,255,0.06)',
+            borderTop:      '1px solid rgba(8,47,37,0.08)',
             display:        'flex',
             flexDirection:  'column',
             alignItems:     'center',
@@ -551,7 +549,7 @@ function HowItWorks() {
               aria-label="Request a pilot programme"
               whileHover={shouldReduce ? {} : {
                 y:         -2,
-                boxShadow: '0 10px 28px rgba(34, 197, 94, 0.42)',
+                boxShadow: '0 10px 28px rgba(202, 255, 112, 0.36)',
               }}
               transition={{ duration: 0.25, ease: 'easeOut' }}
               style={{ textDecoration: 'none' }}
@@ -566,11 +564,11 @@ function HowItWorks() {
               style={{
                 fontSize:      'var(--text-sm)',
                 fontWeight:    600,
-                color:         'rgba(240, 245, 241, 0.70)',
+                color:         'var(--color-text-secondary)',
                 letterSpacing: '0.01em',
                 textDecoration:'none',
               }}
-              whileHover={shouldReduce ? {} : { color: 'rgba(240, 245, 241, 1)' }}
+              whileHover={shouldReduce ? {} : { color: 'var(--color-forest-700)' }}
               transition={{ duration: 0.18, ease: 'easeOut' }}
               aria-label="See privacy guarantees"
             >

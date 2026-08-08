@@ -127,7 +127,7 @@ function FeatureCard({ feature, index, shouldReduce }: FeatureCardProps) {
         border:        '1px solid rgba(34, 197, 94, 0.14)',
         borderRadius:  'var(--radius-2xl)',
         padding:       'var(--space-8)',
-        boxShadow:     'var(--shadow-lg), 0 0 36px 0 rgba(34, 197, 94, 0.05)',
+        boxShadow:     'var(--shadow-lg), 0 0 36px 0 rgba(202, 255, 112, 0.10)',
         overflow:      'visible',
         willChange:    'transform',
         cursor:        'default',
@@ -136,8 +136,8 @@ function FeatureCard({ feature, index, shouldReduce }: FeatureCardProps) {
         y:         -4,
         boxShadow: [
           'var(--shadow-xl)',
-          '0 0 64px 0 rgba(34, 197, 94, 0.14)',
-          '0 0 0 1px rgba(34, 197, 94, 0.28)',
+          '0 0 64px 0 rgba(202, 255, 112, 0.18)',
+          '0 0 0 1px rgba(8, 47, 37, 0.12)',
         ].join(', '),
       }}
       transition={{ duration: 0.22, ease: 'easeOut' }}
@@ -151,7 +151,7 @@ function FeatureCard({ feature, index, shouldReduce }: FeatureCardProps) {
           left:       '10%',
           right:      '10%',
           height:     1,
-          background: 'linear-gradient(to right, transparent, rgba(34,197,94,0.20), transparent)',
+          background: 'linear-gradient(to right, transparent, rgba(202,255,112,0.24), transparent)',
         }}
       />
 
@@ -165,8 +165,8 @@ function FeatureCard({ feature, index, shouldReduce }: FeatureCardProps) {
           width:          52,
           height:         52,
           borderRadius:   'var(--radius-xl)',
-          background:     'rgba(34, 197, 94, 0.09)',
-          border:         '1px solid rgba(34, 197, 94, 0.18)',
+          background:     'var(--color-accent)',
+          border:         '1px solid rgba(202, 255, 112, 0.40)',
           marginBottom:   'var(--space-6)',
           flexShrink:     0,
         }}
@@ -176,7 +176,7 @@ function FeatureCard({ feature, index, shouldReduce }: FeatureCardProps) {
         <Icon
           size={24}
           strokeWidth={1.6}
-          style={{ color: 'var(--color-accent)' }}
+          style={{ color: 'var(--color-brand-green)' }}
           aria-hidden="true"
         />
       </motion.div>
@@ -199,7 +199,7 @@ function FeatureCard({ feature, index, shouldReduce }: FeatureCardProps) {
       <p
         style={{
           fontSize:   'var(--text-sm)',
-          color:      '#B0C4B2',
+          color:      '#5F6D65',
           lineHeight: 'var(--leading-relaxed)',
           flexGrow:   1,
         }}
@@ -240,7 +240,7 @@ function CoreFeatures() {
             transform:  'translateX(-50%)',
             width:      '65%',
             height:     300,
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.07) 0%, transparent 70%)',
+            background: 'radial-gradient(ellipse, rgba(202,255,112,0.20) 0%, transparent 70%)',
             filter:     'blur(50px)',
           }}
         />
@@ -257,8 +257,8 @@ function CoreFeatures() {
               gap:          7,
               padding:      '5px 14px',
               borderRadius: 'var(--radius-full)',
-              border:       '1px solid rgba(34,197,94,0.28)',
-              background:   'rgba(34,197,94,0.07)',
+              border:       '1px solid rgba(202, 255, 112, 0.30)',
+              background:   'var(--color-accent)',
             }}
           >
             <span
@@ -267,7 +267,7 @@ function CoreFeatures() {
                 width:        5,
                 height:       5,
                 borderRadius: '50%',
-                background:   'var(--color-accent)',
+                background:   'var(--color-brand-green)',
                 flexShrink:   0,
               }}
               aria-hidden="true"
@@ -278,7 +278,7 @@ function CoreFeatures() {
                 fontWeight:    'var(--font-semibold)',
                 letterSpacing: 'var(--tracking-widest)',
                 textTransform: 'uppercase',
-                color:         'var(--color-accent)',
+                color:         'var(--color-text-primary)',
               }}
             >
               Core Features
@@ -331,7 +331,7 @@ function CoreFeatures() {
           <p
             style={{
               fontSize:   'var(--text-lg)',
-              color:      '#B0C4B2',
+              color:      '#5F6D65',
               lineHeight: 'var(--leading-relaxed)',
             }}
           >
