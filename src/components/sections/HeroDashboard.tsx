@@ -465,10 +465,11 @@ function HeroDashboard() {
     /*
      * Outer wrapper is the positioning context for all floating cards.
      * Padding gives cards room to overflow the panel edges without clipping.
-     * overflow: visible is critical — cards must not be cropped.
+     * overflow-x: hidden prevents decorative card overflow from creating
+     * horizontal scroll on narrow mobile viewports.
      */
     <div
-      className="relative"
+      className="relative overflow-x-hidden px-4 sm:px-8 md:px-9"
       style={{
         /*
          * Padding creates breathing room for floating cards that
@@ -477,8 +478,6 @@ function HeroDashboard() {
          */
         paddingTop:    24,
         paddingBottom: 28,
-        paddingLeft:   36,
-        paddingRight:  32,
         contain: 'layout',
       }}
     >

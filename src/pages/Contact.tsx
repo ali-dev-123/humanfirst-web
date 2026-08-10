@@ -18,19 +18,20 @@
 import { useState, useId } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import {
-  Mail,
-  MapPin,
-  Clock,
-  Users,
   Send,
   CheckCircle2,
   ChevronDown,
   ArrowRight,
 } from 'lucide-react'
+import { IoTimeSharp } from 'react-icons/io5'
+import { FaLocationDot } from 'react-icons/fa6'
+import { MdEmail, MdPeople } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
 import { useSmartNavigate } from '../hooks/useSmartNavigate'
 import Seo from '../components/Seo'
 import Footer from '../components/layout/Footer'
+
+const CONTACT_CARD_ICON_SIZE = 22.68
 
 // ─── Shared animation helpers ──────────────────────────────────────────────────
 
@@ -106,11 +107,7 @@ function SectionBadge({ children }: { children: React.ReactNode }) {
 function ContactHero() {
   const shouldReduce = useReducedMotion()
   const navigate     = useNavigate()
-
-  const scrollToForm = (e: React.MouseEvent) => {
-    e.preventDefault()
-    document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })
-  }
+  const { go }       = useSmartNavigate()
 
   return (
     <section
@@ -218,7 +215,7 @@ function ContactHero() {
         >
           <motion.a
             href="#contact-form"
-            onClick={scrollToForm}
+            onClick={(e) => { e.preventDefault(); go('#contact-form') }}
             className="btn btn-primary btn-lg"
             aria-label="Go to contact form"
             whileHover={shouldReduce ? {} : {
@@ -335,7 +332,7 @@ function ContactForm() {
       style={{
         position:    'relative',
         background:  'var(--color-bg-elevated)',
-        border:      '1px solid var(--color-border-default)',
+        border:      '1px solid var(--color-accent)',
         borderRadius:'var(--radius-xl)',
         boxShadow:   'var(--shadow-card)',
         padding:     'clamp(1.25rem, 4vw, 3rem)',
@@ -369,7 +366,7 @@ function ContactForm() {
               justifyContent:  'center',
             }}
           >
-            <CheckCircle2 size={26} color="var(--color-accent)" strokeWidth={1.8} />
+            <CheckCircle2 size={26} color="var(--color-brand-green)" strokeWidth={1.8} />
           </div>
           <h3
             style={{
@@ -659,31 +656,42 @@ function InfoCard({ icon, label, children, delay = 0, shouldReduce }: InfoCardPr
         alignItems:   'flex-start',
         gap:          'var(--space-4)',
         background:   'var(--color-bg-elevated)',
-        border:       '1px solid var(--color-border-default)',
+        border:       '1px solid var(--color-accent)',
         borderRadius: 'var(--radius-xl)',
         padding:      'var(--space-6)',
         boxShadow:    'var(--shadow-card)',
         width:        '100%',
         boxSizing:    'border-box',
       }}
+      whileHover={shouldReduce ? {} : {
+        y:         -4,
+        boxShadow: [
+          'var(--shadow-xl)',
+          '0 0 60px 0 rgba(202, 255, 112, 0.16)',
+          '0 0 0 1px rgba(202, 255, 112, 0.30)',
+        ].join(', '),
+      }}
+      transition={{ duration: 0.22, ease: 'easeOut' }}
     >
       {/* Icon badge */}
-      <div
+      <motion.div
         style={{
           width:        40,
           height:       40,
           borderRadius: 'var(--radius-md)',
-          background:   'var(--color-accent)',
-          border:       '1px solid rgba(202,255,112,0.40)',
+          background:   'transparent',
+          border:       '1px solid #32CD32',
           display:      'flex',
           alignItems:   'center',
           justifyContent: 'center',
           flexShrink:   0,
         }}
         aria-hidden="true"
+        whileHover={shouldReduce ? {} : { scale: 1.10 }}
+        transition={{ duration: 0.18, ease: 'easeOut' }}
       >
         {icon}
-      </div>
+      </motion.div>
 
       {/* Content */}
       <div style={{ flex: 1, minWidth: 0 }}>
@@ -752,7 +760,7 @@ function ContactMain() {
             }}
           >
             <InfoCard
-              icon={<Mail size={18} color="var(--color-brand-green)" strokeWidth={1.8} />}
+              icon={<MdEmail size={CONTACT_CARD_ICON_SIZE} color="var(--color-brand-green)" />}
               label="Email"
               delay={0.10}
               shouldReduce={shouldReduce}
@@ -776,7 +784,7 @@ function ContactMain() {
             </InfoCard>
 
             <InfoCard
-              icon={<MapPin size={18} color="var(--color-brand-green)" strokeWidth={1.8} />}
+              icon={<FaLocationDot size={CONTACT_CARD_ICON_SIZE} color="var(--color-brand-green)" />}
               label="Location"
               delay={0.18}
               shouldReduce={shouldReduce}
@@ -785,7 +793,7 @@ function ContactMain() {
             </InfoCard>
 
             <InfoCard
-              icon={<Clock size={18} color="var(--color-brand-green)" strokeWidth={1.8} />}
+              icon={<IoTimeSharp size={CONTACT_CARD_ICON_SIZE} color="var(--color-brand-green)" />}
               label="Response Time"
               delay={0.26}
               shouldReduce={shouldReduce}
@@ -794,7 +802,7 @@ function ContactMain() {
             </InfoCard>
 
             <InfoCard
-              icon={<Users size={18} color="var(--color-brand-green)" strokeWidth={1.8} />}
+              icon={<MdPeople size={CONTACT_CARD_ICON_SIZE} color="var(--color-brand-green)" />}
               label="Who We Work With"
               delay={0.34}
               shouldReduce={shouldReduce}
@@ -899,7 +907,7 @@ function AccordionItem({ item, isOpen, onToggle, delay, shouldReduce }: Accordio
       {...fadeUp(shouldReduce, delay)}
       style={{
         background:   'var(--color-bg-elevated)',
-        border:       '1px solid var(--color-border-default)',
+        border:       '1px solid var(--color-accent)',
         borderRadius: 'var(--radius-xl)',
         boxShadow:    'var(--shadow-card)',
         overflow:     'hidden',
@@ -1076,7 +1084,6 @@ function ContactFaq() {
 
 function ContactCta() {
   const shouldReduce = useReducedMotion()
-  const { go }       = useSmartNavigate()
   const navigate     = useNavigate()
 
   return (
@@ -1117,7 +1124,7 @@ function ContactCta() {
           {...slideUp(shouldReduce, 0)}
           style={{
             background:  'var(--color-bg-elevated)',
-            border:      '1px solid var(--color-border-default)',
+            border:      '1px solid var(--color-accent)',
             borderRadius:'var(--radius-2xl)',
             boxShadow:   'var(--shadow-card)',
             padding:     'clamp(1.75rem, 5vw, 4rem)',
@@ -1164,9 +1171,8 @@ function ContactCta() {
           >
             <motion.a
               href="/#pilot"
-              onClick={(e) => { e.preventDefault(); go('#pilot') }}
               className="btn btn-primary btn-lg"
-              aria-label="Request a pilot programme"
+              onClick={(e) => { e.preventDefault() }}
               whileHover={shouldReduce ? {} : {
                 y:         -2,
                 boxShadow: '0 12px 32px rgba(34,197,94,0.42)',

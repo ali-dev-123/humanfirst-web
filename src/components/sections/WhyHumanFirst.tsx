@@ -22,35 +22,85 @@
  */
 
 import { motion, useReducedMotion } from 'framer-motion'
-import { ShieldCheck, Building2, Sparkles, Users } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+import { MdPeople } from 'react-icons/md'
+import { PiShootingStarFill } from 'react-icons/pi'
+import { FaGraduationCap } from 'react-icons/fa'
+import type { ComponentType, SVGProps } from 'react'
+
+type IconSvgProps = SVGProps<SVGSVGElement> & { size?: string | number }
+
+function ShieldCheckmarkIcon({ size = 24, ...rest }: IconSvgProps) {
+  const passedStyle = (rest as any).style || {}
+  const mergedStyle = { display: 'block', margin: 'auto', ...passedStyle }
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 512 512"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+      {...rest}
+      style={mergedStyle}
+    >
+      <g transform="translate(256 256) scale(1.0925) translate(-256 -256)">
+        <path
+          d="M256 20 L460 140 V260 C460 380 360 470 256 500 C152 470 52 380 52 260 V140 Z"
+          fill="currentColor"
+        />
+        <path
+          d="M256 60 L420 150 V260 C420 360 340 430 256 460 C172 430 92 360 92 260 V150 Z"
+          fill="rgba(255,255,255,0.65)"
+        />
+        <path
+          d="M256 90 L390 170 V260 C390 340 320 400 256 430 C192 400 122 340 122 260 V170 Z"
+          fill="currentColor"
+        />
+        <path
+          d="M180 260 L240 320 L360 200"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth="40"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+    </svg>
+  )
+}
 
 // ─── Content ───────────────────────────────────────────────────────────────────
 
 interface ValueCard {
-  icon:  LucideIcon
+  icon:  ComponentType<IconSvgProps>
   title: string
   body:  string
 }
 
+function GraduationCapIcon({ size = 24, style, ...rest }: IconSvgProps) {
+  const { strokeWidth, ...safeProps } = rest as any
+  return <FaGraduationCap size={size} style={style} {...safeProps} />
+}
+
 const VALUE_CARDS: ValueCard[] = [
   {
-    icon:  ShieldCheck,
+    icon:  ShieldCheckmarkIcon,
     title: 'Privacy Without Compromise',
     body:  'Protect student privacy without sacrificing academic integrity. HumanFirst proves you never have to choose.',
   },
   {
-    icon:  Building2,
+    icon:  GraduationCapIcon,
     title: 'Institution First',
     body:  'Universities define the rules and remain in control of every assessment. No automated decisions. No black boxes.',
   },
   {
-    icon:  Sparkles,
+    icon:  PiShootingStarFill,
     title: 'Future Ready',
     body:  'Built for an education system where AI is permanent — not a problem to be solved once and forgotten.',
   },
   {
-    icon:  Users,
+    icon:  MdPeople,
     title: 'Trust by Design',
     body:  'Reduce friction between students and educators through transparent assessment practices that everyone can understand.',
   },
@@ -150,8 +200,8 @@ function ValueCardItem({ card, index, shouldReduce }: ValueCardProps) {
           width:          54,
           height:         54,
           borderRadius:   'var(--radius-xl)',
-          background:     'var(--color-accent)',
-          border:         '1px solid rgba(202, 255, 112, 0.40)',
+          background:     'transparent',
+          border:         '1px solid #32CD32',
           marginBottom:   'var(--space-8)',
           flexShrink:     0,
         }}
@@ -159,7 +209,7 @@ function ValueCardItem({ card, index, shouldReduce }: ValueCardProps) {
         transition={{ duration: 0.18, ease: 'easeOut' }}
       >
         <Icon
-          size={24}
+          size={27.6}
           strokeWidth={1.6}
           style={{ color: 'var(--color-brand-green)' }}
           aria-hidden="true"

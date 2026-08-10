@@ -10,6 +10,7 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { useSmartNavigate } from '../../hooks/useSmartNavigate'
+import humanFirstLogo from '../../assets/human-first-logo.png'
 
 // ─── Content ───────────────────────────────────────────────────────────────────
 
@@ -117,48 +118,34 @@ function FooterLink({ href, children, shouldReduce, delay }: FooterLinkProps) {
 }
 
 /**
- * Footer wordmark/logo — navigates to home via useSmartNavigate.
+ * Footer wordmark/logo — non-interactive branding element.
  */
 function FooterLogoLink() {
-  const { go } = useSmartNavigate()
   return (
-    <button
-      onClick={() => go('/')}
-      aria-label="HumanFirst — return to home"
+    <div
       style={{
         display:        'inline-flex',
         alignItems:     'center',
-        gap:            1,
         background:     'none',
         border:         'none',
         padding:        0,
-        cursor:         'pointer',
+        cursor:         'default',
         textDecoration: 'none',
       }}
     >
-      <span
+      <img
+        src={humanFirstLogo}
+        alt="HumanFirst"
         style={{
-          fontSize:      'var(--text-xl)',
-          fontWeight:    'var(--font-extrabold)',
-          letterSpacing: 'var(--tracking-tight)',
-          color:         'var(--color-forest-500)',
-          lineHeight:    1,
+          display: 'block',
+          width: 'auto',
+          height: 42,
+          maxHeight: 46,
+          objectFit: 'contain',
+          transform: 'translateY(-3px)',
         }}
-      >
-        HUMΛN
-      </span>
-      <span
-        style={{
-          fontSize:      'var(--text-xl)',
-          fontWeight:    'var(--font-extrabold)',
-          letterSpacing: 'var(--tracking-tight)',
-          color:         'var(--color-accent)',
-          lineHeight:    1,
-        }}
-      >
-        F1RST
-      </span>
-    </button>
+      />
+    </div>
   )
 }
 

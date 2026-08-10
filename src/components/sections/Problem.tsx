@@ -29,13 +29,75 @@
  */
 
 import { motion, useReducedMotion } from 'framer-motion'
-import { Eye, Keyboard, VideoOff, AlertTriangle } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+import type { ComponentType, SVGProps } from 'react'
+import { FaEye } from 'react-icons/fa'
+
+interface IconProps extends SVGProps<SVGSVGElement> {
+  size?: number
+}
+
+function KeystrokeLoggingIcon({ size = 24, ...rest }: IconProps) {
+  const passedStyle = (rest as any).style || {}
+  const mergedStyle = { display: 'block', margin: 'auto', ...passedStyle }
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...rest}
+      style={mergedStyle}
+    >
+      <image
+        href="/keystroke-logging.png"
+        x="0"
+        y="0"
+        width="24"
+        height="24"
+        preserveAspectRatio="xMidYMid meet"
+      />
+    </svg>
+  )
+}
+
+function CameraOffIcon({ size = 24, ...rest }: IconProps) {
+  const passedStyle = (rest as any).style || {}
+  const mergedStyle = { display: 'block', margin: 'auto', ...passedStyle }
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 512 512"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+      {...rest}
+      style={mergedStyle}
+    >
+      <rect x="60" y="150" width="300" height="220" rx="50" ry="50" fill="currentColor" />
+      <polygon points="360,200 470,150 470,360 360,310" fill="currentColor" />
+      <line
+        x1="60"
+        y1="460"
+        x2="460"
+        y2="60"
+        stroke="currentColor"
+        strokeWidth="40"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
 
 // ─── Content ───────────────────────────────────────────────────────────────────
 
+type ApproachIcon = ComponentType<IconProps>
+
 interface ApproachCard {
-  icon:      LucideIcon
+  icon:      ApproachIcon
   eyebrow:   string
   title:     string
   body:      string
@@ -44,21 +106,21 @@ interface ApproachCard {
 
 const APPROACHES: ApproachCard[] = [
   {
-    icon:      Eye,
+    icon:      FaEye as ApproachIcon,
     eyebrow:   'Approach 01',
     title:     'Full Surveillance',
     body:      'Traditional proctoring tools record screens, webcams, and keystrokes. Students are watched like suspects. Institutions bear the legal risk of storing that footage — and students feel it.',
     accentHue: 'red',
   },
   {
-    icon:      Keyboard,
+    icon:      KeystrokeLoggingIcon,
     eyebrow:   'Approach 02',
     title:     'Keystroke Logging',
     body:      'Behavioral biometrics capture every pause, deletion, and typing rhythm. The data is deeply personal and never truly anonymised. A single breach exposes thousands of students.',
     accentHue: 'amber',
   },
   {
-    icon:      VideoOff,
+    icon:      CameraOffIcon,
     eyebrow:   'Approach 03',
     title:     'Do Nothing',
     body:      'Assignments submitted with AI assistance are indistinguishable from genuine work by existing detectors. Pass rates rise, learning outcomes fall, and the credential loses its meaning.',
@@ -188,13 +250,15 @@ function ApproachCardItem({ card, index, shouldReduce }: ApproachCardProps) {
           width:          44,
           height:         44,
           borderRadius:   'var(--radius-xl)',
-          background:     colors.badge,
-          border:         `1px solid ${colors.border}`,
+          background:     'transparent',
+          border:         '1px solid #32CD32',
           marginBottom:   'var(--space-6)',
           flexShrink:     0,
         }}
+        whileHover={shouldReduce ? {} : { scale: 1.10 }}
+        transition={{ duration: 0.18, ease: 'easeOut' }}
       >
-        <Icon size={20} strokeWidth={1.75} style={{ color: colors.icon }} aria-hidden="true" />
+        <Icon size={26.45} strokeWidth={1.75} style={{ color: colors.icon }} aria-hidden="true" />
       </motion.div>
 
       {/* Eyebrow mono label */}
@@ -480,7 +544,18 @@ function Problem() {
             gap:          'var(--space-6)',
             position:     'relative',
             overflow:     'hidden',
+            willChange:   'transform',
+            cursor:       'default',
           }}
+          whileHover={shouldReduce ? {} : {
+            y:         -4,
+            boxShadow: [
+              'var(--shadow-xl)',
+              '0 0 60px 0 rgba(245, 158, 11, 0.16)',
+              '0 0 0 1px rgba(245, 158, 11, 0.20)',
+            ].join(', '),
+          }}
+          transition={{ duration: 0.22, ease: 'easeOut' }}
         >
           {/* Top accent line */}
           <span
@@ -496,7 +571,8 @@ function Problem() {
           />
 
           {/* Icon */}
-          <div
+          <motion.div
+            {...scaleIn(shouldReduce, 0.45)}
             style={{
               display:        'inline-flex',
               alignItems:     'center',
@@ -504,19 +580,39 @@ function Problem() {
               width:          48,
               height:         48,
               borderRadius:   'var(--radius-xl)',
-              background:     'rgba(245,158,11,0.10)',
-              border:         '1px solid rgba(245,158,11,0.22)',
+              background:     '#ffffff',
+              border:         '1.5px solid rgba(245,158,11,0.22)',
               flexShrink:     0,
               marginTop:      2,
             }}
+            whileHover={shouldReduce ? {} : { scale: 1.10 }}
+            transition={{ duration: 0.18, ease: 'easeOut' }}
           >
-            <AlertTriangle
-              size={22}
-              strokeWidth={1.75}
-              style={{ color: 'rgba(245,158,11,0.90)' }}
+            <svg
+              width={28.22215}
+              height={28.22215}
+              viewBox="0 0 512 512"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              preserveAspectRatio="xMidYMid meet"
               aria-hidden="true"
-            />
-          </div>
+              style={{ display: 'block', margin: 'auto' }}
+            >
+              <circle cx="256" cy="256" r="256" fill="rgba(245,158,11,0.90)" />
+
+              <path
+                d="M256 110 L110 360 Q100 380 120 390 L392 390 Q412 380 402 360 Z"
+                fill="none"
+                stroke="#e6e6e6"
+                strokeWidth="24"
+                strokeLinejoin="round"
+              />
+
+              <rect x="236" y="200" width="40" height="120" fill="#e6e6e6" rx="4" />
+
+              <rect x="236" y="335" width="40" height="40" fill="#e6e6e6" rx="4" />
+            </svg>
+          </motion.div>
 
           {/* Text */}
           <div>

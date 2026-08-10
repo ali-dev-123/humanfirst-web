@@ -724,6 +724,97 @@ button {
   }
 }
 
+/* Prevent inner hero container from creating its own vertical scrollbar
+   — some nested hero wrappers use `overflow-y: auto` for layout which
+   created an unwanted vertical track. Make the hero visual static
+   while preserving layout and sizing. */
+.hero-grid .relative.overflow-x-hidden {
+  overflow-y: visible !important;
+  max-height: none !important;
+}
+
+/* Broader selector in case classes are reordered by tooling or utility variants;
+   target any element inside the hero that includes the `overflow-x-hidden`
+   utility and force full visibility to prevent an independent scrollbar. */
+.hero-grid [class*="overflow-x-hidden"] {
+  overflow: visible !important;
+  overflow-y: visible !important;
+  max-height: none !important;
+}
+
+
+/* ----------------------------------------------------------
+   NAVBAR — Responsive logo layout tweaks
+   Mobile/tablet only: keep logo visible, centered, and non-overlapping.
+   Desktop remains unchanged.
+   ---------------------------------------------------------- */
+.nav-logo {
+  transform: none !important;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+@media (max-width: 1023px) {
+  .nav-logo {
+    flex-shrink: 1;
+    min-width: 0;
+    max-width: calc(100% - 92px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 767px) {
+  .nav-logo {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: calc(100% - 84px);
+  }
+}
+
+@media (min-width: 1280px) {
+  header[role="banner"] > .container-v2 {
+    position: relative;
+    padding-left: 280px;
+  }
+
+  header[role="banner"] .nav-logo {
+    position: absolute;
+    left: 0;
+    top: calc(34% - 14px);
+    transform: none;
+  }
+}
+
+.auth-nav-logo {
+  min-width: 0;
+  flex-shrink: 1;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+@media (max-width: 1023px) {
+  .auth-nav-logo {
+    max-width: calc(100% - 130px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .auth-nav-logo {
+    max-width: calc(100% - 140px);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    font-size: 0.9rem;
+  }
+}
+
 
 /* ----------------------------------------------------------
    HERO — Floating card positions
@@ -752,8 +843,8 @@ button {
    Desktop/tablet: mid-left of the panel
    Mobile:         bottom-left, scaled 88%, no translateY needed */
 .hero-fc-privacy {
-  top: 38%;
-  left: 0;
+  top: 34%;
+  left: -30px;
   transform: translateY(-50%) rotate(-1deg);
   transform-origin: center left;
 }

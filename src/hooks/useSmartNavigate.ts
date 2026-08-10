@@ -43,7 +43,12 @@ export function useSmartNavigate(): SmartNavigate {
       // Handle Home routes
       if (cleanHref === '/' || cleanHref === '#hero' || cleanHref === '/#hero') {
         if (pathname === '/') {
-          window.scrollTo({ top: 0, behavior: 'smooth' })
+          if (window.location.hash) {
+            navigate('/')
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+          }
         } else {
           navigate('/')
         }
@@ -66,6 +71,7 @@ export function useSmartNavigate(): SmartNavigate {
 
       if (hashTarget) {
         if (pathname === '/') {
+          navigate(`#${hashTarget}`, { replace: true })
           const el = document.getElementById(hashTarget)
           if (el) {
             el.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -74,7 +80,7 @@ export function useSmartNavigate(): SmartNavigate {
           }
         } else {
           sessionStorage.setItem('scrollTarget', hashTarget)
-          navigate('/')
+          navigate(`/#${hashTarget}`)
         }
         return
       }

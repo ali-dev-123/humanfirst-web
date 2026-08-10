@@ -27,6 +27,7 @@
 
 import { motion, useReducedMotion } from 'framer-motion'
 import { CheckCircle2, ArrowRight } from 'lucide-react'
+import { useSmartNavigate } from '../../hooks/useSmartNavigate'
 
 // ─── Content ───────────────────────────────────────────────────────────────────
 
@@ -68,6 +69,7 @@ function scaleIn(shouldReduce: boolean | null, delay = 0) {
 
 function CallToAction() {
   const shouldReduce = useReducedMotion()
+  const { go } = useSmartNavigate()
 
   return (
     <section
@@ -296,6 +298,7 @@ function CallToAction() {
                 href="#pilot"
                 className="btn btn-primary btn-lg"
                 aria-label="Request a pilot programme"
+                onClick={(e) => { e.preventDefault(); go('#pilot') }}
                 style={{ textDecoration: 'none' }}
                 whileHover={shouldReduce ? {} : {
                   y:         -2,
@@ -308,7 +311,8 @@ function CallToAction() {
 
               {/* Secondary CTA */}
               <motion.a
-                href="#demo"
+                href="/contact"
+                onClick={(e) => { e.preventDefault(); go('/contact') }}
                 aria-label="Schedule a demo"
                 style={{
                   display:        'inline-flex',

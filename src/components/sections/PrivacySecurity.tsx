@@ -27,42 +27,169 @@
  */
 
 import { motion, useReducedMotion } from 'framer-motion'
-import {
-  Shield,
-  VideoOff,
-  EyeOff,
-  Keyboard,
-  Building2,
-  CheckCircle2,
-} from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+import { Shield, CheckCircle2 } from 'lucide-react'
+import type { ComponentType, SVGProps } from 'react'
+import { IoEyeOffSharp } from 'react-icons/io5'
+
+type PrivacySecurityIconSvgProps = SVGProps<SVGSVGElement> & { size?: string | number }
+
+function CameraOffIcon({ size = 24, ...rest }: PrivacySecurityIconSvgProps) {
+  const passedStyle = (rest as any).style || {}
+  const mergedStyle = { display: 'block', margin: 'auto', ...passedStyle }
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 512 512"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+      {...rest}
+      style={mergedStyle}
+    >
+      <rect x="60" y="150" width="300" height="220" rx="50" ry="50" fill="currentColor" />
+      <polygon points="360,200 470,150 470,360 360,310" fill="currentColor" />
+      <line
+        x1="60"
+        y1="460"
+        x2="460"
+        y2="60"
+        stroke="currentColor"
+        strokeWidth="40"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+function KeystrokeLoggingIcon({ size = 24, ...rest }: PrivacySecurityIconSvgProps) {
+  const passedStyle = (rest as any).style || {}
+  const mergedStyle = { display: 'block', margin: 'auto', ...passedStyle }
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...rest}
+      style={mergedStyle}
+    >
+      <image
+        href="/keystroke-logging.png"
+        x="0"
+        y="0"
+        width="24"
+        height="24"
+        preserveAspectRatio="xMidYMid meet"
+      />
+    </svg>
+  )
+}
+
+function ChecklistDocumentIcon({ size = 24, ...rest }: PrivacySecurityIconSvgProps) {
+  const passedStyle = (rest as any).style || {}
+  const mergedStyle = { display: 'block', margin: 'auto', ...passedStyle }
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+      {...rest}
+      style={mergedStyle}
+    >
+      <rect x="10" y="6" width="44" height="52" rx="6" fill="currentColor" />
+      <rect x="20" y="12" width="24" height="6" rx="3" fill="white" />
+      <rect x="14" y="24" width="6" height="6" rx="2" fill="white" />
+      <polyline
+        points="15.5,27 17,28.5 19,25.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <line
+        x1="24"
+        y1="27"
+        x2="46"
+        y2="27"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <rect x="14" y="34" width="6" height="6" rx="2" fill="white" />
+      <polyline
+        points="15.5,37 17,38.5 19,35.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <line
+        x1="24"
+        y1="37"
+        x2="40"
+        y2="37"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <rect x="14" y="44" width="6" height="6" rx="2" fill="white" />
+      <polyline
+        points="15.5,47 17,48.5 19,45.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <line
+        x1="24"
+        y1="47"
+        x2="46"
+        y2="47"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
 
 // ─── Content ───────────────────────────────────────────────────────────────────
 
 interface TrustCard {
-  icon:  LucideIcon
+  icon:  ComponentType<PrivacySecurityIconSvgProps>
   title: string
   body:  string
 }
 
 const TRUST_CARDS: TrustCard[] = [
   {
-    icon:  VideoOff,
+    icon:  CameraOffIcon,
     title: 'No Webcam Recording',
     body:  'HumanFirst never records students through webcams. The camera is never accessed.',
   },
   {
-    icon:  EyeOff,
+    icon:  IoEyeOffSharp,
     title: 'No Screen Monitoring',
     body:  'No continuous screen recording or surveillance — ever. What students see stays private.',
   },
   {
-    icon:  Keyboard,
+    icon:  KeystrokeLoggingIcon,
     title: 'No Keystroke Logging',
     body:  'Typing behaviour is never collected or analysed. Writing remains the student\'s own.',
   },
   {
-    icon:  Building2,
+    icon:  ChecklistDocumentIcon,
     title: 'Institution Controlled',
     body:  'Assessment policies remain under institutional control, not automated surveillance systems.',
   },
@@ -301,7 +428,8 @@ function TrustCardItem({ card, index, shouldReduce }: TrustCardProps) {
       transition={{ duration: 0.22, ease: 'easeOut' }}
     >
       {/* Icon badge */}
-      <div
+      <motion.div
+        {...scaleIn(shouldReduce, 0.06)}
         style={{
           display:        'inline-flex',
           alignItems:     'center',
@@ -309,19 +437,21 @@ function TrustCardItem({ card, index, shouldReduce }: TrustCardProps) {
           width:          40,
           height:         40,
           borderRadius:   'var(--radius-lg)',
-          background:     'var(--color-accent)',
-          border:         '1px solid rgba(202, 255, 112, 0.40)',
+          background:     'transparent',
+          border:         '1px solid #32CD32',
           flexShrink:     0,
           marginTop:      2,
         }}
+        whileHover={shouldReduce ? {} : { scale: 1.10 }}
+        transition={{ duration: 0.18, ease: 'easeOut' }}
       >
         <Icon
-          size={18}
+          size={24.84}
           strokeWidth={1.7}
           style={{ color: 'var(--color-brand-green)' }}
           aria-hidden="true"
         />
-      </div>
+      </motion.div>
 
       {/* Text */}
       <div style={{ minWidth: 0 }}>

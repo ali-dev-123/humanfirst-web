@@ -32,6 +32,7 @@ import CoreFeatures from './components/sections/CoreFeatures'
 import PrivacySecurity from './components/sections/PrivacySecurity'
 import WhyHumanFirst from './components/sections/WhyHumanFirst'
 import CallToAction from './components/sections/CallToAction'
+import Seo from './components/Seo'
 
 /** Layout Shell for Marketing Landing Pages */
 function LandingLayout() {
@@ -47,6 +48,12 @@ function LandingLayout() {
 function Home() {
   return (
     <>
+      <Seo
+        title="Human > AI."
+        description={
+          "Verified integrity. Zero surveillance. HumanFirst proves student work is genuinely human — without cameras, keystroke logging, or a single frame of video ever leaving the device."
+        }
+      />
       <Hero />
       <Problem />
       <Solution />

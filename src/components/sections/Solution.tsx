@@ -17,8 +17,108 @@
  */
 
 import { motion, useReducedMotion } from 'framer-motion'
-import { Shield, Lock, BadgeCheck } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+import type { ComponentType, SVGProps } from 'react'
+
+type IconSvgProps = SVGProps<SVGSVGElement> & { size?: number }
+
+export function UserProtectionShieldIcon({ size = 22, ...rest }: IconSvgProps) {
+  const passedStyle = (rest as any).style || {}
+  const mergedStyle = { display: 'block', margin: 'auto', ...passedStyle }
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 14 14"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+      {...rest}
+      style={mergedStyle}
+    >
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M2 .499939c-.82843 0-1.5.671571-1.5 1.500001v2.67544c0 2.39651.92056 4.6316 2.47575 6.30852 1.0355 1.1166 2.35234 1.9858 3.86614 2.4904.10263.0342.21359.0342.31622 0 1.5138-.5046 2.83065-1.3738 3.86619-2.4903C12.5794 9.30698 13.5 7.07188 13.5 4.67538V1.99994c0-.82843-.6716-1.500001-1.5-1.500001H2ZM3.88577 9.75161C4.69421 8.97635 5.79147 8.49994 7 8.49994c1.20854 0 2.3058.47641 3.1142 1.25167C9.2897 10.7085 8.22872 11.4692 7 11.9383c-1.22872-.4691-2.28971-1.2298-3.11423-2.18669ZM7 6.99994c1.10457 0 2-.89543 2-2s-.89543-2-2-2-2 .89543-2 2 .89543 2 2 2Z"
+      />
+    </svg>
+  )
+}
+
+export function VerifiableBadgeIcon({ size = 22, ...rest }: IconSvgProps) {
+  const passedStyle = (rest as any).style || {}
+  const mergedStyle = { display: 'block', margin: 'auto', ...passedStyle }
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 512 512"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+      {...rest}
+      style={mergedStyle}
+    >
+      <g transform="translate(256 256) scale(1.12) translate(-256 -256)">
+        <path
+          d="M256 60 C290 60, 300 90, 330 95 C360 100, 390 80, 410 110 C430 140, 410 170, 420 200 C430 230, 470 250, 470 256 C470 262, 430 282, 420 312 C410 342, 430 372, 410 402 C390 432, 360 412, 330 417 C300 422, 290 452, 256 452 C222 452, 212 422, 182 417 C152 412, 122 432, 102 402 C82 372, 102 342, 92 312 C82 282, 42 262, 42 256 C42 250, 82 230, 92 200 C102 170, 82 140, 102 110 C122 80, 152 100, 182 95 C212 90, 222 60, 256 60 Z"
+          fill="currentColor"
+        />
+        <path
+          d="M180 260 L230 310 L340 200"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth="40"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+    </svg>
+  )
+}
+
+function ShieldLockUserIcon({ size = 22, ...rest }: IconSvgProps) {
+  const passedStyle = (rest as any).style || {}
+  const mergedStyle = { display: 'block', margin: 'auto', ...passedStyle }
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 512 512"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+      {...rest}
+      style={mergedStyle}
+    >
+      <g transform="translate(256 256) scale(1.2) translate(-256 -256)">
+        <path
+          d="M256 40 L440 120 V260 C440 360 360 440 256 460 C152 440 72 360 72 260 V120 Z"
+          fill="currentColor"
+        />
+        <rect x="150" y="220" width="200" height="150" rx="20" fill="#ffffff" />
+        <path
+          d="M200 220 V180 A56 56 0 0 1 312 180 V220"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth="24"
+          strokeLinecap="round"
+        />
+        <circle cx="250" cy="290" r="20" fill="currentColor" />
+        <rect x="240" y="300" width="20" height="50" rx="10" fill="currentColor" />
+        <circle cx="380" cy="360" r="100" fill="currentColor" />
+        <circle cx="380" cy="320" r="30" fill="#ffffff" />
+        <path
+          d="M340 390 A40 40 0 0 1 420 390 Z"
+          fill="#ffffff"
+        />
+      </g>
+    </svg>
+  )
+}
 
 // ─── Content ───────────────────────────────────────────────────────────────────
 
@@ -27,7 +127,7 @@ type CardContent =
   | { type: 'paragraph'; text:  string   }
 
 interface SolutionCardData {
-  icon:      LucideIcon
+  icon:      ComponentType<IconSvgProps>
   eyebrow:   string
   title:     string
   content:   CardContent
@@ -36,7 +136,7 @@ interface SolutionCardData {
 
 const SOLUTION_CARDS: SolutionCardData[] = [
   {
-    icon:      Shield,
+    icon:      UserProtectionShieldIcon,
     eyebrow:   'Card 01',
     title:     'Privacy First',
     content: {
@@ -51,7 +151,7 @@ const SOLUTION_CARDS: SolutionCardData[] = [
     accentHue: 'green',
   },
   {
-    icon:      Lock,
+    icon:      ShieldLockUserIcon,
     eyebrow:   'Card 02',
     title:     'Controlled AI Access',
     content: {
@@ -61,7 +161,7 @@ const SOLUTION_CARDS: SolutionCardData[] = [
     accentHue: 'teal',
   },
   {
-    icon:      BadgeCheck,
+    icon:      VerifiableBadgeIcon,
     eyebrow:   'Card 03',
     title:     'Verifiable Human Work',
     content: {
@@ -198,14 +298,16 @@ function SolutionCard({ card, index, shouldReduce }: SolutionCardProps) {
           width:          46,
           height:         46,
           borderRadius:   'var(--radius-xl)',
-          background:     colors.badge,
-          border:         `1px solid ${colors.border}`,
+          background:     'transparent',
+          border:         '1px solid #32CD32',
           marginBottom:   'var(--space-6)',
           flexShrink:     0,
         }}
+        whileHover={shouldReduce ? {} : { scale: 1.10 }}
+        transition={{ duration: 0.18, ease: 'easeOut' }}
       >
         <Icon
-          size={22}
+          size={25.3}
           strokeWidth={1.75}
           style={{ color: colors.icon }}
           aria-hidden="true"

@@ -19,6 +19,7 @@
 
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import { useSmartNavigate } from '../../hooks/useSmartNavigate'
 import Badge from '../ui/Badge'
 import HeroDashboard from './HeroDashboard'
 
@@ -70,6 +71,7 @@ const NOISE_DATA_URI =
 function Hero() {
   const shouldReduce = useReducedMotion()
   const itemVariant  = makeItemVariant(shouldReduce)
+  const { go }      = useSmartNavigate()
 
   return (
     <section
@@ -245,6 +247,7 @@ function Hero() {
               href="#pilot"
               className="btn btn-primary btn-lg w-full sm:w-auto"
               aria-label="Request a pilot programme"
+              onClick={(e) => { e.preventDefault(); go('#pilot') }}
               whileHover={{
                 y:         -2,
                 boxShadow: '0 10px 28px rgba(202, 255, 112, 0.40)',

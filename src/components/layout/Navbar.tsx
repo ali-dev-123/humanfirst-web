@@ -10,11 +10,13 @@
  *   — prefers-reduced-motion respected
  */
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 import { useSmartNavigate } from '../../hooks/useSmartNavigate'
 import { Link } from "react-router-dom";
+import humanFirstLogo from '../../assets/human-first-logo.png'
+import humanFirstLogo1 from '../../assets/human-first-logo-1.png'
 // ─── Nav items ─────────────────────────────────────────────────────────────────
 
 interface NavItem {
@@ -57,29 +59,55 @@ function useScrolled(threshold = 20): boolean {
  * for the fixed navbar height.
  */
 function useActiveSection(ids: string[]): string {
-  const [activeId, setActiveId] = useState<string>('')
+  const [activeId, setActiveId] = useState<string>('home')
 
   useEffect(() => {
-    const observers: IntersectionObserver[] = []
+    const sectionEls = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null)
 
-    ids.forEach((id) => {
-      const el = document.getElementById(id)
-      if (!el) return
+    if (!sectionEls.length) {
+      return
+    }
 
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setActiveId(id)
-        },
-        {
-          threshold: 0.25,
-          rootMargin: '-80px 0px -40% 0px',
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .map((entry) => ({
+            id: entry.target.id,
+            ratio: entry.intersectionRatio,
+            top: entry.boundingClientRect.top,
+          }))
+
+        if (visible.length > 0) {
+          visible.sort((a, b) => {
+            if (b.ratio !== a.ratio) return b.ratio - a.ratio
+            return a.top - b.top
+          })
+
+          const nextId = visible[0].id
+          setActiveId((current) => (current !== nextId ? nextId : current))
+          return
         }
-      )
-      observer.observe(el)
-      observers.push(observer)
-    })
 
-    return () => observers.forEach((obs) => obs.disconnect())
+        const above = entries
+          .filter((entry) => entry.boundingClientRect.top < 0)
+          .sort((a, b) => b.boundingClientRect.top - a.boundingClientRect.top)
+
+        if (above.length > 0) {
+          const nextId = above[0].target.id
+          setActiveId((current) => (current !== nextId ? nextId : current))
+        }
+      },
+      {
+        threshold: [0, 0.15, 0.35, 0.5, 0.75],
+        rootMargin: '-80px 0px -55% 0px',
+      }
+    )
+
+    sectionEls.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
   }, [ids])
 
   return activeId
@@ -89,48 +117,39 @@ function useActiveSection(ids: string[]): string {
 
 /**
  * Logo mark — "Human" regular + "F1RST" green gradient.
- * Navigates cleanly to "/" without full page reload.
+ * Non-interactive branding element.
  */
 function NavLogo() {
-  const { go } = useSmartNavigate()
   return (
-    <motion.a
-      href="/"
-      onClick={(e) => {
-        e.preventDefault()
-        go('/')
-      }}
-      aria-label="HumanF1RST — back to home"
-      className="flex items-center gap-0 select-none"
-      whileHover={{ scale: 1.02 }}
+    <motion.div
+      className="nav-logo flex items-center gap-1 select-none"
       transition={{ duration: 0.18, ease: 'easeOut' }}
-      style={{ textDecoration: 'none', cursor: 'pointer' }}
+      style={{ textDecoration: 'none' }}
     >
-      <span
+      <img
+        src={humanFirstLogo1}
+        alt=""
         style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: 'var(--text-lg)',
-          fontWeight: 'var(--font-extrabold)',
-          letterSpacing: 'var(--tracking-snug)',
-          color: 'var(--color-brand-green)',
-          lineHeight: 1,
+          display: 'block',
+          width: 'auto',
+          height: 53,
+          maxHeight: 48,
+          objectFit: 'contain',
         }}
-      >
-        HUMΛN  
-      </span>
-      <span
+      />
+      <img
+        src={humanFirstLogo}
+        alt="HumanFirst"
         style={{
-          fontFamily: 'var(--font-sans)',
-          fontSize: 'var(--text-lg)',
-          fontWeight: 'var(--font-extrabold)',
-          letterSpacing: 'var(--tracking-snug)',
-          color: 'var(--color-accent)',
-          lineHeight: 1,
+          display: 'block',
+          width: 'auto',
+          height: 36,
+          maxHeight: 40,
+          objectFit: 'contain',
+          transform: 'translateY(7.3px)',
         }}
-      >
-        F1RST
-      </span>
-    </motion.a>
+      />
+    </motion.div>
   )
 }
 
@@ -211,14 +230,20 @@ interface MenuButtonProps {
   isOpen: boolean
   onClick: () => void
   shouldReduce: boolean | null
+  ariaControls?: string
+  // accept either nullable or non-nullable ref object shapes to avoid
+  // intermittent TS mismatches from different compiler passes
+  buttonRef?: React.RefObject<HTMLButtonElement | null> | React.RefObject<HTMLButtonElement>
 }
 
-function MenuButton({ isOpen, onClick, shouldReduce }: MenuButtonProps) {
+function MenuButton({ isOpen, onClick, shouldReduce, ariaControls, buttonRef }: MenuButtonProps) {
   const dur = shouldReduce ? 0 : 0.22
 
   return (
     <button
+      ref={buttonRef}
       onClick={onClick}
+      aria-controls={ariaControls}
       aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
       aria-expanded={isOpen}
       className="relative flex flex-col justify-center items-center"
@@ -300,6 +325,9 @@ interface MobileMenuProps {
   activeId: string
   onClose: () => void
   shouldReduce: boolean | null
+  panelId: string
+  // accept either nullable or non-nullable ref object shapes
+  firstLinkRef: React.RefObject<HTMLAnchorElement | null> | React.RefObject<HTMLAnchorElement>
 }
 
 const MOBILE_ITEM_VARIANTS = {
@@ -312,7 +340,7 @@ const MOBILE_CONTAINER_VARIANTS = {
   visible: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } },
 } as const
 
-function MobileMenu({ isOpen, activeId, onClose, shouldReduce }: MobileMenuProps) {
+function MobileMenu({ isOpen, activeId, onClose, shouldReduce, panelId, firstLinkRef }: MobileMenuProps) {
   const { go } = useSmartNavigate()
 
   return (
@@ -320,6 +348,7 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce }: MobileMenuProps
       {isOpen && (
         <motion.div
           key="mobile-menu"
+          id={panelId}
           initial={{ opacity: 0, y: shouldReduce ? 0 : -8 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: shouldReduce ? 0 : -8 }}
@@ -412,6 +441,7 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce }: MobileMenuProps
             }}
           >
             <a
+              ref={firstLinkRef}
               href="#opportunity"
               onClick={(e) => {
                 e.preventDefault()
@@ -457,6 +487,18 @@ function Navbar() {
   const shouldReduce = useReducedMotion()
   const location = useLocation()
   const { go } = useSmartNavigate()
+  const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null)
+  const mobileMenuFirstLinkRef = useRef<HTMLAnchorElement | null>(null)
+  const prevMenuOpenRef = useRef(menuOpen)
+
+  useEffect(() => {
+    if (menuOpen && !prevMenuOpenRef.current) {
+      mobileMenuFirstLinkRef.current?.focus()
+    } else if (!menuOpen && prevMenuOpenRef.current) {
+      mobileMenuButtonRef.current?.focus()
+    }
+    prevMenuOpenRef.current = menuOpen
+  }, [menuOpen])
 
   const isAuthPage = ['/login', '/signup', '/forgot-password', '/reset-email-sent', '/reset-password', '/password-changed'].some((path) => {
     return location.pathname === path || location.pathname.startsWith(`${path}/`)
@@ -586,6 +628,8 @@ function Navbar() {
                   letterSpacing: '0.01em',
                   textDecoration: 'none',
                   cursor: 'pointer',
+                  marginLeft: 32,
+                  whiteSpace: 'nowrap',
                 }}
                 whileHover={{ color: 'var(--color-forest-700)' }}
                 transition={{ duration: 0.18, ease: 'easeOut' }}
@@ -621,6 +665,19 @@ function Navbar() {
               color: 'var(--color-forest-700)',
               background: 'transparent',
               border: '1px solid rgba(8, 47, 37, 0.12)',
+              transition: 'background 200ms ease, transform 200ms ease, border-color 200ms ease, color 200ms ease',
+            }}
+            onMouseEnter={(e) => {
+              const target = e.currentTarget as HTMLAnchorElement
+              target.style.background = 'rgba(202, 255, 112, 0.12)'
+              target.style.borderColor = 'rgba(8, 47, 37, 0.18)'
+              target.style.transform = 'translateY(-1px)'
+            }}
+            onMouseLeave={(e) => {
+              const target = e.currentTarget as HTMLAnchorElement
+              target.style.background = 'transparent'
+              target.style.borderColor = 'rgba(8, 47, 37, 0.12)'
+              target.style.transform = 'none'
             }}
           >
             {isAuthPage ? 'Back to Home' : 'Login'}
@@ -633,6 +690,8 @@ function Navbar() {
             isOpen={menuOpen}
             onClick={() => setMenuOpen((prev) => !prev)}
             shouldReduce={shouldReduce}
+            ariaControls="mobile-menu-panel"
+            buttonRef={mobileMenuButtonRef}
           />
         </div>
       </div>
@@ -643,6 +702,8 @@ function Navbar() {
         activeId={activeId}
         onClose={() => setMenuOpen(false)}
         shouldReduce={shouldReduce}
+        panelId="mobile-menu-panel"
+        firstLinkRef={mobileMenuFirstLinkRef}
       />
     </motion.header>
   )

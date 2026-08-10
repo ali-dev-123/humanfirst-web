@@ -26,18 +26,16 @@
 
 import { motion, useReducedMotion } from 'framer-motion'
 import {
-  ShieldCheck,
-  BadgeCheck,
-  Eye,
-  Building2,
-  Users,
-  Sparkles,
   ArrowRight,
   Quote,
 } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+import type { ComponentType, SVGProps } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useSmartNavigate } from '../hooks/useSmartNavigate'
+import { FaEye } from 'react-icons/fa'
+import { MdPeople } from 'react-icons/md'
+import { PiShootingStarFill } from 'react-icons/pi'
+import { ChecklistDocumentIcon } from '../components/sections/HowItWorks'
+import { UserProtectionShieldIcon, VerifiableBadgeIcon } from '../components/sections/Solution'
 import Seo from '../components/Seo'
 import Footer from '../components/layout/Footer'
 
@@ -114,7 +112,6 @@ function SectionBadge({ children }: { children: React.ReactNode }) {
 
 function AboutHero() {
   const shouldReduce = useReducedMotion()
-  const { go }       = useSmartNavigate()
   const navigate     = useNavigate()
 
   return (
@@ -214,7 +211,7 @@ function AboutHero() {
             href="/#pilot"
             className="btn btn-primary btn-lg"
             style={{ textDecoration: 'none' }}
-            onClick={(e) => { e.preventDefault(); go('#pilot') }}
+            onClick={(e) => { e.preventDefault() }}
             whileHover={shouldReduce ? {} : {
               y: -2,
               boxShadow: '0 12px 32px rgba(202,255,112,0.42)',
@@ -484,40 +481,42 @@ function OurStory() {
 
 // ─── Section 3: Our Principles ─────────────────────────────────────────────────
 
+type PrincipleIcon = ComponentType<SVGProps<SVGSVGElement> & { size?: number; strokeWidth?: number }>
+
 interface Principle {
-  icon:  LucideIcon
+  icon:  PrincipleIcon
   title: string
   body:  string
 }
 
 const PRINCIPLES: Principle[] = [
   {
-    icon:  ShieldCheck,
+    icon:  UserProtectionShieldIcon,
     title: 'Privacy First',
     body:  'Student privacy should never be compromised. Every feature is designed with privacy as the foundation, not an afterthought.',
   },
   {
-    icon:  BadgeCheck,
+    icon:  VerifiableBadgeIcon,
     title: 'Integrity',
     body:  'Protect genuine learning. Authentic thinking is the only currency that matters in education.',
   },
   {
-    icon:  Eye,
+    icon:  FaEye,
     title: 'Transparency',
     body:  'Clear, understandable systems. Students and educators should always understand how HumanFirst works.',
   },
   {
-    icon:  Building2,
+    icon:  ChecklistDocumentIcon,
     title: 'Institution Control',
     body:  'Educators stay in control. Policies, rules, and assessment structures remain with the people who understand their students.',
   },
   {
-    icon:  Users,
+    icon:  MdPeople,
     title: 'Human-Centered Design',
     body:  'Technology supports people — it does not replace them. HumanFirst is a tool, not a judge.',
   },
   {
-    icon:  Sparkles,
+    icon:  PiShootingStarFill,
     title: 'Future Ready',
     body:  'Built for the AI era. HumanFirst evolves alongside education, not against it.',
   },
@@ -664,8 +663,8 @@ function OurPrinciples() {
                     width:          54,
                     height:         54,
                     borderRadius:   'var(--radius-xl)',
-                    background:     'var(--color-accent)',
-                    border:         '1px solid rgba(202,255,112,0.40)',
+                    background:     'transparent',
+                    border:         '1px solid #32CD32',
                     marginBottom:   'var(--space-6)',
                     flexShrink:     0,
                     alignSelf:      'flex-start',
@@ -674,7 +673,7 @@ function OurPrinciples() {
                   transition={{ duration: 0.18, ease: 'easeOut' }}
                 >
                   <Icon
-                    size={24}
+                    size={27.6}
                     strokeWidth={1.6}
                     style={{ color: 'var(--color-brand-green)' }}
                     aria-hidden="true"
@@ -847,7 +846,7 @@ function FounderMessage() {
           style={{
             position:       'relative',
             background:     'var(--color-bg-elevated)',
-            border:         '1px solid var(--color-border-default)',
+            border:         '1px solid var(--color-accent)',
             borderRadius:   'var(--radius-2xl)',
             padding:        'clamp(2.5rem, 6vw, 4.5rem)',
             boxShadow:      'var(--shadow-xl)',
@@ -931,7 +930,7 @@ function FounderMessage() {
             }}
           >
             {/* Monogram badge */}
-            <div
+            <motion.div
               style={{
                 display:        'inline-flex',
                 alignItems:     'center',
@@ -940,16 +939,18 @@ function FounderMessage() {
                 height:         44,
                 borderRadius:   'var(--radius-full)',
                 background:     'var(--color-bg-elevated)',
-                border:         '1px solid var(--color-accent-soft)',
+                border:         '1px solid #32CD32',
                 fontSize:       'var(--text-sm)',
                 fontWeight:     'var(--font-bold)',
                 color:          'var(--color-brand-green)',
                 flexShrink:     0,
               }}
               aria-hidden="true"
+              whileHover={shouldReduce ? {} : { scale: 1.10 }}
+              transition={{ duration: 0.18, ease: 'easeOut' }}
             >
               AH
-            </div>
+            </motion.div>
             <div>
               <p
                 style={{
@@ -982,7 +983,6 @@ function FounderMessage() {
 
 function AboutCTA() {
   const shouldReduce = useReducedMotion()
-  const { go }       = useSmartNavigate()
   const navigate     = useNavigate()
 
   return (
@@ -1088,7 +1088,7 @@ function AboutCTA() {
               href="/#pilot"
               className="btn btn-primary btn-lg"
               style={{ textDecoration: 'none' }}
-              onClick={(e) => { e.preventDefault(); go('#pilot') }}
+              onClick={(e) => { e.preventDefault() }}
               whileHover={shouldReduce ? {} : {
                 y:         -2,
                 boxShadow: '0 12px 32px rgba(202,255,112,0.42)',

@@ -16,44 +16,271 @@
  *  12. Consistent premium HumanFirst voice
  */
 
-import { Fragment } from 'react'
+import { Fragment, type ComponentType, type SVGProps } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { SlidersHorizontal, ShieldCheck, PenLine, BadgeCheck, ArrowRight } from 'lucide-react'
-import type { LucideIcon } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 
 // ─── Content ───────────────────────────────────────────────────────────────────
 
+type IconSvgProps = SVGProps<SVGSVGElement> & { size?: string | number }
+
+type IconComponent = ComponentType<IconSvgProps>
+
+type ShieldIconProps = IconSvgProps
+
 interface Step {
   number:  string
-  icon:    LucideIcon
+  icon:    IconComponent
   title:   string
   body:    string
   isFirst?: boolean
 }
 
+function ShieldCheckmarkIcon({ size = 24, ...rest }: ShieldIconProps) {
+  const passedStyle = (rest as any).style || {}
+  const mergedStyle = { display: 'block', margin: 'auto', ...passedStyle }
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 512 512"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+      {...rest}
+      style={mergedStyle}
+    >
+      <g transform="translate(256 256) scale(1.0925) translate(-256 -256)">
+        <path
+          d="M256 20 L460 140 V260 C460 380 360 470 256 500 C152 470 52 380 52 260 V140 Z"
+          fill="currentColor"
+        />
+        <path
+          d="M256 60 L420 150 V260 C420 360 340 430 256 460 C172 430 92 360 92 260 V150 Z"
+          fill="rgba(255,255,255,0.65)"
+        />
+        <path
+          d="M256 90 L390 170 V260 C390 340 320 400 256 430 C192 400 122 340 122 260 V170 Z"
+          fill="currentColor"
+        />
+        <path
+          d="M180 260 L240 320 L360 200"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth="40"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+    </svg>
+  )
+}
+
+export function ChecklistDocumentIcon({ size = 24, ...rest }: IconSvgProps) {
+  const passedStyle = (rest as any).style || {}
+  const mergedStyle = { display: 'block', margin: 'auto', ...passedStyle }
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+      {...rest}
+      style={mergedStyle}
+    >
+      <rect x="10" y="6" width="44" height="52" rx="6" fill="currentColor" />
+      <rect x="20" y="12" width="24" height="6" rx="3" fill="white" />
+      <rect x="14" y="24" width="6" height="6" rx="2" fill="white" />
+      <polyline
+        points="15.5,27 17,28.5 19,25.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <line
+        x1="24"
+        y1="27"
+        x2="46"
+        y2="27"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <rect x="14" y="34" width="6" height="6" rx="2" fill="white" />
+      <polyline
+        points="15.5,37 17,38.5 19,35.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <line
+        x1="24"
+        y1="37"
+        x2="46"
+        y2="37"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <rect x="14" y="44" width="6" height="6" rx="2" fill="white" />
+      <polyline
+        points="15.5,47 17,48.5 19,45.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <line
+        x1="24"
+        y1="47"
+        x2="40"
+        y2="47"
+        stroke="white"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
+
+function DocumentPencilIcon({ size = 24, ...rest }: IconSvgProps) {
+  const passedStyle = (rest as any).style || {}
+  const mergedStyle = { display: 'block', margin: 'auto', ...passedStyle }
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 64 64"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+      {...rest}
+      style={mergedStyle}
+    >
+      <path
+        d="M14 6H36L50 20V54C50 56.2 48.2 58 46 58H14C11.8 58 10 56.2 10 54V10C10 7.8 11.8 6 14 6Z"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        fill="white"
+      />
+      <path
+        d="M36 6V20H50"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        fill="white"
+      />
+      <line
+        x1="18"
+        y1="24"
+        x2="38"
+        y2="24"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <line
+        x1="18"
+        y1="30"
+        x2="38"
+        y2="30"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <line
+        x1="18"
+        y1="36"
+        x2="34"
+        y2="36"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <line
+        x1="18"
+        y1="42"
+        x2="30"
+        y2="42"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <g transform="rotate(45 40 40)">
+        <rect x="38" y="26" width="6" height="22" fill="currentColor" />
+        <polygon points="38,26 44,26 41,20" fill="currentColor" />
+        <polygon points="39.5,26 42.5,26 41,22.5" fill="white" />
+        <rect x="38" y="48" width="6" height="4" fill="currentColor" />
+      </g>
+    </svg>
+  )
+}
+
+function VerifiableBadgeIcon({ size = 22, ...rest }: IconSvgProps) {
+  const passedStyle = (rest as any).style || {}
+  const mergedStyle = { display: 'block', margin: 'auto', ...passedStyle }
+
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 512 512"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+      {...rest}
+      style={mergedStyle}
+    >
+      <g transform="translate(256 256) scale(1.12) translate(-256 -256)">
+        <path
+          d="M256 60 C290 60, 300 90, 330 95 C360 100, 390 80, 410 110 C430 140, 410 170, 420 200 C430 230, 470 250, 470 256 C470 262, 430 282, 420 312 C410 342, 430 372, 410 402 C390 432, 360 412, 330 417 C300 422, 290 452, 256 452 C222 452, 212 422, 182 417 C152 412, 122 432, 102 402 C82 372, 102 342, 92 312 C82 282, 42 262, 42 256 C42 250, 82 230, 92 200 C102 170, 82 140, 102 110 C122 80, 152 100, 182 95 C212 90, 222 60, 256 60 Z"
+          fill="currentColor"
+        />
+        <path
+          d="M180 260 L230 310 L340 200"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth="40"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+    </svg>
+  )
+}
+
 const STEPS: Step[] = [
   {
     number:  '01',
-    icon:    SlidersHorizontal,
+    icon:    ChecklistDocumentIcon,
     title:   'Set the rules.',
     body:    'Institution configures AI access policies before the session begins. One setup. Consistent enforcement across every submission.',
     isFirst: true,
   },
   {
     number: '02',
-    icon:   ShieldCheck,
+    icon:   ShieldCheckmarkIcon,
     title:  'Block AI at the source.',
     body:   'Selected AI tools are blocked network-wide. Approved educational resources stay fully accessible. No ambiguity, no gaps.',
   },
   {
     number: '03',
-    icon:   PenLine,
+    icon:   DocumentPencilIcon,
     title:  'Work freely.',
     body:   'No webcams. No screen recording. No keystroke logging. Students focus on their work — not on being watched.',
   },
   {
     number: '04',
-    icon:   BadgeCheck,
+    icon:   VerifiableBadgeIcon,
     title:  'Submit with proof.',
     body:   'Work completed inside a verified environment. Educators receive submissions they can trust — without surveillance data.',
   },
@@ -295,15 +522,15 @@ function StepCard({ step, index, shouldReduce }: StepCardProps) {
               width:          46,
               height:         46,
               borderRadius:   'var(--radius-xl)',
-              background:     'var(--color-accent)',
-              border:         `1px solid ${borderColor}`,
+              background:     'transparent',
+              border:         '1px solid #32CD32',
               flexShrink:     0,
             }}
             whileHover={shouldReduce ? {} : { scale: 1.10 }}
             transition={{ duration: 0.18, ease: 'easeOut' }}
           >
             <Icon
-              size={24}
+              size={27.6}
               strokeWidth={1.6}
               style={{ color: 'var(--color-brand-green)' }}
               aria-hidden="true"
@@ -547,6 +774,7 @@ function HowItWorks() {
               href="#pilot"
               className="btn btn-primary btn-lg"
               aria-label="Request a pilot programme"
+              onClick={(e) => { e.preventDefault() }}
               whileHover={shouldReduce ? {} : {
                 y:         -2,
                 boxShadow: '0 10px 28px rgba(202, 255, 112, 0.36)',
