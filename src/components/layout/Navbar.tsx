@@ -612,7 +612,7 @@ function Navbar() {
         )}
 
         {/* ── Desktop Actions ── */}
-        <div className="hidden md:flex items-center" style={{ gap: 16 }}>
+        <div className="hidden md:flex items-center" style={{ gap: 16, ...(isAuthPage ? { marginLeft: 'auto' } : {}) }}>
           {!isAuthPage && (
             <>
               <motion.a

@@ -301,7 +301,7 @@ function ContactForm() {
   const inputStyle = (field: string): React.CSSProperties => ({
     width:        '100%',
     background:   focused === field ? 'rgba(34,197,94,0.04)' : 'rgba(255,255,255,0.03)',
-    border:       focused === field ? '1px solid var(--color-border-accent)' : '1px solid var(--color-border-strong)',
+    border:       focused === field ? '1px solid var(--color-accent)' : '1px solid var(--color-border-strong)',
     borderRadius: 'var(--radius-lg)',
     padding:      '12px 16px',
     fontSize:     'var(--text-sm)',
@@ -768,16 +768,9 @@ function ContactMain() {
               <a
                 href="mailto:hello@humanfirst.app"
                 style={{
-                  color:          'var(--color-text-primary)',
                   textDecoration: 'none',
                   transition:     'color 150ms ease',
                 }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = 'var(--color-accent)')
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = 'var(--color-text-primary)')
-                }
               >
                 hello@humanfirst.app
               </a>
