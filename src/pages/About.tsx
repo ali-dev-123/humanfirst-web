@@ -30,7 +30,6 @@ import {
   Quote,
 } from 'lucide-react'
 import type { ComponentType, SVGProps } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { FaEye } from 'react-icons/fa'
 import { MdPeople } from 'react-icons/md'
 import { PiShootingStarFill } from 'react-icons/pi'
@@ -112,7 +111,6 @@ function SectionBadge({ children }: { children: React.ReactNode }) {
 
 function AboutHero() {
   const shouldReduce = useReducedMotion()
-  const navigate     = useNavigate()
 
   return (
     <section
@@ -222,7 +220,9 @@ function AboutHero() {
           </motion.a>
 
           <motion.a
-            href="/contact"
+            href="https://wa.me/923286956197"
+            target="_blank"
+            rel="noreferrer noopener"
             style={{
               display:        'inline-flex',
               alignItems:     'center',
@@ -236,7 +236,6 @@ function AboutHero() {
               borderRadius:   'var(--radius-full)',
               background:     'rgba(8, 47, 37, 0.04)',
             }}
-            onClick={(e) => { e.preventDefault(); navigate('/contact') }}
             whileHover={shouldReduce ? {} : {
               y: -1,
             }}
@@ -983,7 +982,6 @@ function FounderMessage() {
 
 function AboutCTA() {
   const shouldReduce = useReducedMotion()
-  const navigate     = useNavigate()
 
   return (
     <section
@@ -1099,7 +1097,9 @@ function AboutCTA() {
             </motion.a>
 
             <motion.a
-              href="/contact"
+              href="https://wa.me/923286956197"
+              target="_blank"
+              rel="noreferrer noopener"
               style={{
                 display:        'inline-flex',
                 alignItems:     'center',
@@ -1113,7 +1113,6 @@ function AboutCTA() {
                 borderRadius:   'var(--radius-full)',
                 background:     'rgba(8, 47, 37, 0.04)',
               }}
-              onClick={(e) => { e.preventDefault(); navigate('/contact') }}
               whileHover={shouldReduce ? {} : {
                 y: -1,
               }}

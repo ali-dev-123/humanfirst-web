@@ -22,6 +22,7 @@ import { ArrowRight } from 'lucide-react'
 import { useSmartNavigate } from '../../hooks/useSmartNavigate'
 import Badge from '../ui/Badge'
 import HeroDashboard from './HeroDashboard'
+import humanFirstLogo from '../../assets/human-first-logo.png'
 
 // ─── Animation variants ────────────────────────────────────────────────────────
 
@@ -81,6 +82,8 @@ function Hero() {
         position:   'relative',
         minHeight:  '85vh',
         display:    'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
         alignItems: 'center',
         paddingTop:    96,
         paddingBottom: 100,    /* increased from 80 — gives balanced breathing room below */
@@ -146,7 +149,20 @@ function Hero() {
         />
       </div>
 
-      {/* ── Content Grid ──────────────────────────────────────────────────────
+      {/* ── Logo row (full-width, centered) ─────────────────────────────────── */}
+      <motion.div
+        variants={itemVariant}
+        style={{ width: '100%', display: 'flex', justifyContent: 'center', paddingTop: '6px', paddingBottom: '8px' }}
+        aria-hidden={false}
+      >
+        <img
+          src={humanFirstLogo}
+          alt="HumanFirst"
+          style={{ display: 'block', width: 'auto', height: 40, maxHeight: 40, objectFit: 'contain' }}
+        />
+      </motion.div>
+
+      {/* ── Content Grid ─────────────────────────────────────────────────────-
           hero-grid:  1fr on mobile, 55fr 45fr at lg+
           container-v2: centered, max-width 1120px, horizontal padding
       ─────────────────────────────────────────────────────────────────────── */}

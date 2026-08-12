@@ -6,10 +6,12 @@
  * and component hierarchy remain 100% identical to LoginCard.
  */
 
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Mail, User } from 'lucide-react'
+import { useAuth } from '../../context/AuthContext'
+import { useGoogleSignIn } from '../../hooks/useGoogleSignIn'
 import './LoginCard.css'
 
 function GoogleIcon() {
@@ -44,9 +46,53 @@ export default function SignupCard() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const { register, googleLogin } = useAuth()
+  const navigate = useNavigate()
+  const [googleError, setGoogleError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { signIn, isReady } = useGoogleSignIn({
+    onSuccess: async (credential) => {
+      setGoogleError(null)
+      setIsSubmitting(true)
+      try {
+        await googleLogin(credential)
+        navigate('/')
+      } catch (error) {
+        setGoogleError(error instanceof Error ? error.message : 'Google login failed')
+      } finally {
+        setIsSubmitting(false)
+      }
+    },
+    onError: (error) => {
+      setGoogleError(error.message)
+    },
+  })
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    setError(null)
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match')
+      return
+    }
+
+    if (!agreeTerms) {
+      setError('You must agree to the Terms of Service and Privacy Policy')
+      return
+    }
+
+    setIsSubmitting(true)
+    try {
+      await register(fullName, email, password)
+      navigate('/')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Registration failed')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -194,9 +240,14 @@ export default function SignupCard() {
         </div>
 
         {/* ── PRIMARY CREATE ACCOUNT BUTTON SECTION ─────────────────── */}
+        {error ? (
+          <div className="login-error-message" role="alert" style={{ color: '#F87171', marginBottom: '16px' }}>
+            {error}
+          </div>
+        ) : null}
         <div className="login-button-container">
-          <button type="submit" className="login-button">
-            Create Account
+          <button type="submit" className="login-button" disabled={isSubmitting}>
+            {isSubmitting ? 'Creating Account...' : 'Create Account'}
           </button>
         </div>
       </form>
@@ -209,11 +260,24 @@ export default function SignupCard() {
 
       {/* ── GOOGLE BUTTON SECTION ─────────────────────────────────────── */}
       <div className="google-button-container">
-        <button type="button" onClick={() => {}} className="google-button">
+        <button
+          type="button"
+          onClick={() => {
+            setGoogleError(null)
+            signIn()
+          }}
+          className="google-button"
+          disabled={!isReady || isSubmitting}
+        >
           <GoogleIcon />
-          <span>Continue with Google</span>
+          <span>{isReady ? 'Continue with Google' : 'Loading Google...'}</span>
         </button>
       </div>
+      {googleError ? (
+        <div className="login-error-message" role="alert" style={{ color: '#F87171', marginBottom: '16px' }}>
+          {googleError}
+        </div>
+      ) : null}
 
       {/* ── BOTTOM LINK SECTION ───────────────────────────────────────── */}
       <footer className="login-footer">

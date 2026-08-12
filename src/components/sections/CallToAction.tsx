@@ -311,8 +311,9 @@ function CallToAction() {
 
               {/* Secondary CTA */}
               <motion.a
-                href="/contact"
-                onClick={(e) => { e.preventDefault(); go('/contact') }}
+                href="https://wa.me/923286956197"
+                target="_blank"
+                rel="noreferrer noopener"
                 aria-label="Schedule a demo"
                 style={{
                   display:        'inline-flex',

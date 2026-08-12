@@ -8,10 +8,12 @@
  * - Reference layout inspired, HumanF1RST dark green branding
  */
 
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Eye, EyeOff, Mail } from 'lucide-react'
+import { useAuth } from '../../context/AuthContext'
+import { useGoogleSignIn } from '../../hooks/useGoogleSignIn'
 import './LoginCard.css'
 
 function GoogleIcon() {
@@ -43,9 +45,43 @@ export default function LoginCard() {
   const [rememberMe, setRememberMe] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const { login, googleLogin } = useAuth()
+  const navigate = useNavigate()
+  const [googleError, setGoogleError] = useState<string | null>(null)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const { signIn, isReady } = useGoogleSignIn({
+    onSuccess: async (credential) => {
+      setGoogleError(null)
+      setIsSubmitting(true)
+      try {
+        await googleLogin(credential)
+        navigate('/')
+      } catch (error) {
+        setGoogleError(error instanceof Error ? error.message : 'Google login failed')
+      } finally {
+        setIsSubmitting(false)
+      }
+    },
+    onError: (error) => {
+      setGoogleError(error.message)
+    },
+  })
+
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    setError(null)
+    setIsSubmitting(true)
+
+    try {
+      await login(email, password)
+      navigate('/')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Login failed')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -134,9 +170,14 @@ export default function LoginCard() {
         </div>
 
         {/* ── PRIMARY SIGN IN BUTTON SECTION ──────────────────────────── */}
+        {error ? (
+          <div className="login-error-message" role="alert" style={{ color: '#F87171', marginBottom: '16px' }}>
+            {error}
+          </div>
+        ) : null}
         <div className="login-button-container">
-          <button type="submit" className="login-button">
-            Sign In
+          <button type="submit" className="login-button" disabled={isSubmitting}>
+            {isSubmitting ? 'Signing In...' : 'Sign In'}
           </button>
         </div>
       </form>
@@ -149,11 +190,24 @@ export default function LoginCard() {
 
       {/* ── GOOGLE BUTTON SECTION ─────────────────────────────────────── */}
       <div className="google-button-container">
-        <button type="button" onClick={() => {}} className="google-button">
+        <button
+          type="button"
+          onClick={() => {
+            setGoogleError(null)
+            signIn()
+          }}
+          className="google-button"
+          disabled={!isReady || isSubmitting}
+        >
           <GoogleIcon />
-          <span>Continue with Google</span>
+          <span>{isReady ? 'Continue with Google' : 'Loading Google...'}</span>
         </button>
       </div>
+      {googleError ? (
+        <div className="login-error-message" role="alert" style={{ color: '#F87171', marginBottom: '16px' }}>
+          {googleError}
+        </div>
+      ) : null}
 
       {/* ── BOTTOM LINK SECTION ───────────────────────────────────────── */}
       <footer className="login-footer">

@@ -153,10 +153,10 @@ function FooterLogoLink() {
  * Footer "Contact Us" link — navigates to /contact page.
  */
 function FooterContactLink({ shouldReduce }: { shouldReduce: boolean | null }) {
-  const { go } = useSmartNavigate()
+  const WHATSAPP_URL = 'https://wa.me/923286956197'
   return (
     <motion.button
-      onClick={() => go('/contact')}
+      onClick={() => window.open(WHATSAPP_URL, '_blank')}
       aria-label="Contact the HumanFirst team"
       style={{
         display:        'inline-flex',

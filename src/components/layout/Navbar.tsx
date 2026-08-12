@@ -15,7 +15,6 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 import { useSmartNavigate } from '../../hooks/useSmartNavigate'
 import { Link } from "react-router-dom";
-import humanFirstLogo from '../../assets/human-first-logo.png'
 import humanFirstLogo1 from '../../assets/human-first-logo-1.png'
 // ─── Nav items ─────────────────────────────────────────────────────────────────
 
@@ -132,23 +131,13 @@ function NavLogo() {
         style={{
           display: 'block',
           width: 'auto',
-          height: 53,
-          maxHeight: 48,
+          height: 68,
+          maxHeight: '100%',
           objectFit: 'contain',
+          transform: 'translateX(55px) translateY(-5px)',
         }}
       />
-      <img
-        src={humanFirstLogo}
-        alt="HumanFirst"
-        style={{
-          display: 'block',
-          width: 'auto',
-          height: 36,
-          maxHeight: 40,
-          objectFit: 'contain',
-          transform: 'translateY(7.3px)',
-        }}
-      />
+      {/* human-first-logo.png removed from navbar per request; kept only the mark image */}
     </motion.div>
   )
 }
