@@ -1,7 +1,14 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 type GoogleCredentialResponse = {
   credential?: string
+}
+
+type GoogleNotification = {
+  isNotDisplayed?: () => boolean
+  isSkippedMoment?: () => boolean
+  getNotDisplayedReason?: () => string
+  getSkippedReason?: () => string
 }
 
 type GoogleAccountsId = {
@@ -12,7 +19,7 @@ type GoogleAccountsId = {
     cancel_on_tap_outside?: boolean
     ux_mode?: 'popup' | 'redirect'
   }) => void
-  prompt: () => void
+  prompt: (momentListener?: (notification: GoogleNotification) => void) => void
   cancel: () => void
   disableAutoSelect: () => void
 }
@@ -37,6 +44,19 @@ export function useGoogleSignIn(options: {
   const [isReady, setIsReady] = useState(false)
   const [loadError, setLoadError] = useState<string | null>(null)
 
+  // Keep the latest callbacks in refs so the init effect below does not
+  // need onSuccess/onError in its dependency array. Those props are
+  // recreated on every LoginCard render, which was causing this effect
+  // to re-run on every keystroke and call google.accounts.id.initialize()
+  // repeatedly — aborting any in-flight FedCM/Google prompt request.
+  const onSuccessRef = useRef(onSuccess)
+  const onErrorRef = useRef(onError)
+
+  useEffect(() => {
+    onSuccessRef.current = onSuccess
+    onErrorRef.current = onError
+  }, [onSuccess, onError])
+
   useEffect(() => {
     if (typeof window === 'undefined') return
 
@@ -59,12 +79,12 @@ export function useGoogleSignIn(options: {
         callback: async (response) => {
           if (response?.credential) {
             try {
-              await onSuccess(response.credential)
+              await onSuccessRef.current(response.credential)
             } catch (error) {
-              onError(error instanceof Error ? error : new Error('Google login failed.'))
+              onErrorRef.current(error instanceof Error ? error : new Error('Google login failed.'))
             }
           } else {
-            onError(new Error('Google sign-in was not completed.'))
+            onErrorRef.current(new Error('Google sign-in was not completed.'))
           }
         },
         auto_select: false,
@@ -105,20 +125,41 @@ export function useGoogleSignIn(options: {
     return () => {
       script.removeEventListener('load', initializeGoogle)
     }
-  }, [onSuccess, onError])
+    // Intentionally run once on mount — onSuccess/onError are read via refs above.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const signIn = useCallback(() => {
     if (!isReady) {
-      onError(new Error(loadError ?? 'Google Sign-In is not ready.'))
+      onErrorRef.current(new Error(loadError ?? 'Google Sign-In is not ready.'))
       return
     }
 
     try {
-      window.google?.accounts?.id.prompt()
+      window.google?.accounts?.id.prompt((notification) => {
+        if (
+          typeof notification?.isNotDisplayed === 'function' &&
+          notification.isNotDisplayed()
+        ) {
+          onErrorRef.current(
+            new Error(
+              notification.getNotDisplayedReason?.() ??
+                'Google Sign-In was not displayed. Check that this domain is added to Authorized JavaScript origins in Google Cloud Console, and that third-party cookies are not blocked.'
+            )
+          )
+        } else if (
+          typeof notification?.isSkippedMoment === 'function' &&
+          notification.isSkippedMoment()
+        ) {
+          onErrorRef.current(
+            new Error(notification.getSkippedReason?.() ?? 'Google Sign-In was skipped.')
+          )
+        }
+      })
     } catch {
-      onError(new Error('Unable to open Google Sign-In.'))
+      onErrorRef.current(new Error('Unable to open Google Sign-In.'))
     }
-  }, [isReady, loadError, onError])
+  }, [isReady, loadError])
 
   return {
     signIn,
