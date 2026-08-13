@@ -99,7 +99,7 @@ function initializeGoogle() {
     // IMPORTANT:
     // Prevent Chrome FedCM from trying to automatically request
     // Google credentials. We only use the official rendered button.
-    use_fedcm_for_prompt: true,
+    use_fedcm_for_prompt: false,
   })
 
   // Explicitly disable auto-select to prevent any FedCM credential checking
