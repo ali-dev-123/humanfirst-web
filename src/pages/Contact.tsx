@@ -10,9 +10,11 @@
  *   4. ContactCta    — large centered glass panel, final conversion
  *   5. Footer        — global footer
  *
- * Design conventions follow HumanF1RST v2:
- *   container-v2 · text-gradient-accent · btn btn-primary btn-lg
- *   bg-dots · GPU-only transforms · prefers-reduced-motion safe
+ * Backend:
+ *   POST /api/contact
+ *
+ * Google Sheets:
+ *   Backend handles saving the submission to Google Sheets.
  */
 
 import { useState, useId } from 'react'
@@ -33,13 +35,18 @@ import Footer from '../components/layout/Footer'
 
 const CONTACT_CARD_ICON_SIZE = 22.68
 
+// Use your local backend in development.
+// For production, set VITE_API_BASE_URL in the frontend .env.
+const API_BASE =
+  import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000'
+
 // ─── Shared animation helpers ──────────────────────────────────────────────────
 
 function fadeUp(shouldReduce: boolean | null, delay = 0) {
   return {
-    initial:     { opacity: 0, y: shouldReduce ? 0 : 24 },
+    initial: { opacity: 0, y: shouldReduce ? 0 : 24 },
     whileInView: { opacity: 1, y: 0 },
-    viewport:    { once: true, margin: '-80px 0px' },
+    viewport: { once: true, margin: '-80px 0px' },
     transition: {
       duration: 0.55,
       delay,
@@ -50,9 +57,9 @@ function fadeUp(shouldReduce: boolean | null, delay = 0) {
 
 function slideUp(shouldReduce: boolean | null, delay = 0) {
   return {
-    initial:     { opacity: 0, y: shouldReduce ? 0 : 40 },
+    initial: { opacity: 0, y: shouldReduce ? 0 : 40 },
     whileInView: { opacity: 1, y: 0 },
-    viewport:    { once: true, margin: '-60px 0px' },
+    viewport: { once: true, margin: '-60px 0px' },
     transition: {
       duration: 0.60,
       delay,
@@ -66,34 +73,35 @@ function SectionBadge({ children }: { children: React.ReactNode }) {
   return (
     <div
       style={{
-        display:      'inline-flex',
-        alignItems:   'center',
-        gap:          7,
-        padding:      '5px 14px',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 7,
+        padding: '5px 14px',
         borderRadius: 'var(--radius-full)',
-        border:       '1px solid rgba(8,47,37,0.10)',
-        background:   'var(--color-accent)',
+        border: '1px solid rgba(8,47,37,0.10)',
+        background: 'var(--color-accent)',
         marginBottom: 'var(--space-10)',
       }}
     >
       <span
         className="animate-pulse"
         style={{
-          width:        5,
-          height:       5,
+          width: 5,
+          height: 5,
           borderRadius: '50%',
-          background:   'var(--color-brand-green)',
-          flexShrink:   0,
+          background: 'var(--color-brand-green)',
+          flexShrink: 0,
         }}
         aria-hidden="true"
       />
+
       <span
         style={{
-          fontSize:      'var(--text-xs)',
-          fontWeight:    'var(--font-semibold)',
+          fontSize: 'var(--text-xs)',
+          fontWeight: 'var(--font-semibold)',
           letterSpacing: 'var(--tracking-widest)',
           textTransform: 'uppercase' as const,
-          color:         'var(--color-brand-green)',
+          color: 'var(--color-brand-green)',
         }}
       >
         {children}
@@ -106,61 +114,69 @@ function SectionBadge({ children }: { children: React.ReactNode }) {
 
 function ContactHero() {
   const shouldReduce = useReducedMotion()
-  const navigate     = useNavigate()
-  const { go }       = useSmartNavigate()
+  const navigate = useNavigate()
+  const { go } = useSmartNavigate()
 
   return (
     <section
       id="contact-hero"
       aria-labelledby="contact-hero-heading"
       style={{
-        position:        'relative',
+        position: 'relative',
         backgroundColor: 'var(--color-bg-base)',
-        paddingTop:      'clamp(7rem, 16vw, 11rem)',
-        paddingBottom:   'clamp(4rem, 9vw, 7rem)',
-        overflow:        'hidden',
-        textAlign:       'center',
+        paddingTop: 'clamp(7rem, 16vw, 11rem)',
+        paddingBottom: 'clamp(4rem, 9vw, 7rem)',
+        overflow: 'hidden',
+        textAlign: 'center',
       }}
     >
       {/* Background decorations */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute inset-0 bg-dots" style={{ opacity: 0.45 }} />
 
-        {/* Central radial glow — ambient animation */}
+        {/* Central radial glow */}
         <motion.div
-          animate={shouldReduce ? {} : {
-            opacity: [0.55, 0.80, 0.55],
-            scale:   [1, 1.08, 1],
-          }}
+          animate={
+            shouldReduce
+              ? {}
+              : {
+                  opacity: [0.55, 0.80, 0.55],
+                  scale: [1, 1.08, 1],
+                }
+          }
           transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
           style={{
-            position:   'absolute',
-            top:        '10%',
-            left:       '50%',
-            transform:  'translateX(-50%)',
-            width:      '70%',
-            height:     420,
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.10) 0%, transparent 68%)',
-            filter:     'blur(60px)',
+            position: 'absolute',
+            top: '10%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: '70%',
+            height: 420,
+            background:
+              'radial-gradient(ellipse, rgba(34,197,94,0.10) 0%, transparent 68%)',
+            filter: 'blur(60px)',
           }}
         />
 
         {/* Soft left ambient */}
         <div
           style={{
-            position:   'absolute',
-            top:        '20%',
-            left:       '-10%',
-            width:      400,
-            height:     400,
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.05) 0%, transparent 70%)',
-            filter:     'blur(80px)',
+            position: 'absolute',
+            top: '20%',
+            left: '-10%',
+            width: 400,
+            height: 400,
+            background:
+              'radial-gradient(ellipse, rgba(34,197,94,0.05) 0%, transparent 70%)',
+            filter: 'blur(80px)',
           }}
         />
       </div>
 
-      <div className="container-v2" style={{ position: 'relative', zIndex: 1 }}>
-
+      <div
+        className="container-v2"
+        style={{ position: 'relative', zIndex: 1 }}
+      >
         {/* Badge */}
         <motion.div
           {...fadeUp(shouldReduce, 0)}
@@ -174,29 +190,28 @@ function ContactHero() {
           id="contact-hero-heading"
           {...fadeUp(shouldReduce, 0.08)}
           style={{
-            fontSize:      'clamp(2.25rem, 6.5vw, 5.5rem)',
-            fontWeight:    'var(--font-extrabold)',
+            fontSize: 'clamp(2.25rem, 6.5vw, 5.5rem)',
+            fontWeight: 'var(--font-extrabold)',
             letterSpacing: 'var(--tracking-tight)',
-            lineHeight:    1.04,
-            color:         'var(--color-brand-green)',
-            margin:        '0 auto var(--space-6)',
-            maxWidth:      680,
+            lineHeight: 1.04,
+            color: 'var(--color-brand-green)',
+            margin: '0 auto var(--space-6)',
+            maxWidth: 680,
           }}
         >
-          Let's{' '}
-          <span className="text-gradient-accent">Talk.</span>
+          Let's <span className="text-gradient-accent">Talk.</span>
         </motion.h1>
 
         {/* Supporting text */}
         <motion.p
           {...fadeUp(shouldReduce, 0.16)}
           style={{
-            fontSize:    'clamp(var(--text-base), 2vw, var(--text-lg))',
-            color:       'var(--color-text-secondary)',
-            lineHeight:  1.75,
-            maxWidth:    560,
-            width:       '100%',
-            margin:      '0 auto var(--space-10)',
+            fontSize: 'clamp(var(--text-base), 2vw, var(--text-lg))',
+            color: 'var(--color-text-secondary)',
+            lineHeight: 1.75,
+            maxWidth: 560,
+            width: '100%',
+            margin: '0 auto var(--space-10)',
           }}
         >
           Whether you're exploring HUMΛNF1RST for your institution, interested
@@ -215,41 +230,53 @@ function ContactHero() {
         >
           <motion.a
             href="#contact-form"
-            onClick={(e) => { e.preventDefault(); go('#contact-form') }}
+            onClick={(e) => {
+              e.preventDefault()
+              go('#contact-form')
+            }}
             className="btn btn-primary btn-lg"
             aria-label="Go to contact form"
-            whileHover={shouldReduce ? {} : {
-              y:         -2,
-              boxShadow: '0 12px 32px rgba(34,197,94,0.42)',
-            }}
+            whileHover={
+              shouldReduce
+                ? {}
+                : {
+                    y: -2,
+                    boxShadow: '0 12px 32px rgba(34,197,94,0.42)',
+                  }
+            }
             transition={{ duration: 0.22, ease: 'easeOut' }}
-            style={{ textDecoration: 'none', minHeight: '48px', justifyContent: 'center' }}
+            style={{
+              textDecoration: 'none',
+              minHeight: '48px',
+              justifyContent: 'center',
+            }}
           >
             Request a Pilot
           </motion.a>
 
           <motion.a
             href="/about"
-            onClick={(e) => { e.preventDefault(); navigate('/about') }}
+            onClick={(e) => {
+              e.preventDefault()
+              navigate('/about')
+            }}
             style={{
-              display:        'inline-flex',
-              alignItems:     'center',
+              display: 'inline-flex',
+              alignItems: 'center',
               justifyContent: 'center',
-              gap:            'var(--space-2)',
-              fontSize:       'var(--text-sm)',
-              fontWeight:     600,
-              color:          'var(--color-text-primary)',
+              gap: 'var(--space-2)',
+              fontSize: 'var(--text-sm)',
+              fontWeight: 600,
+              color: 'var(--color-text-primary)',
               textDecoration: 'none',
-              padding:        '0.75rem 1.5rem',
-              minHeight:      '48px',
-              border:         '1px solid var(--color-border-default)',
-              borderRadius:   'var(--radius-full)',
-              background:     'rgba(8, 47, 37, 0.04)',
-              cursor:         'pointer',
+              padding: '0.75rem 1.5rem',
+              minHeight: '48px',
+              border: '1px solid var(--color-border-default)',
+              borderRadius: 'var(--radius-full)',
+              background: 'rgba(8, 47, 37, 0.04)',
+              cursor: 'pointer',
             }}
-            whileHover={shouldReduce ? {} : {
-              y: -1,
-            }}
+            whileHover={shouldReduce ? {} : { y: -1 }}
             whileTap={shouldReduce ? {} : { scale: 0.98 }}
             transition={{ duration: 0.20, ease: 'easeOut' }}
           >
@@ -265,64 +292,211 @@ function ContactHero() {
 // ─── Section 2a: Glass Form ────────────────────────────────────────────────────
 
 interface FormState {
-  name:        string
-  email:       string
+  name: string
+  email: string
   institution: string
-  subject:     string
-  message:     string
+  subject: string
+  message: string
+}
+
+interface FormErrors {
+  name?: string
+  email?: string
+  subject?: string
+  message?: string
+}
+
+// Simple email validation regex
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+function validateEmail(email: string): boolean {
+  return EMAIL_REGEX.test(email)
 }
 
 function ContactForm() {
   const shouldReduce = useReducedMotion()
-  const nameId       = useId()
-  const emailId      = useId()
-  const instId       = useId()
-  const subjectId    = useId()
-  const messageId    = useId()
 
-  const [form, setForm]           = useState<FormState>({
-    name: '', email: '', institution: '', subject: '', message: '',
+  const nameId = useId()
+  const emailId = useId()
+  const instId = useId()
+  const subjectId = useId()
+  const messageId = useId()
+
+  const [form, setForm] = useState<FormState>({
+    name: '',
+    email: '',
+    institution: '',
+    subject: '',
+    message: '',
   })
+
   const [submitted, setSubmitted] = useState(false)
-  const [focused, setFocused]     = useState<string | null>(null)
+  const [focused, setFocused] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errors, setErrors] = useState<FormErrors>({})
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    const fieldName = e.target.name
+    setForm((prev) => ({
+      ...prev,
+      [fieldName]: e.target.value,
+    }))
+
+    // Clear error for this field when user starts editing
+    if (errors[fieldName as keyof FormErrors]) {
+      setErrors((prev) => ({
+        ...prev,
+        [fieldName]: undefined,
+      }))
+    }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Contact form submitted:', form)
-    setSubmitted(true)
+
+    if (isSubmitting) return
+
+    const newErrors: FormErrors = {}
+
+    // Validate name
+    if (!form.name.trim()) {
+      newErrors.name = 'Please enter your full name.'
+    }
+
+    // Validate email
+    if (!form.email.trim()) {
+      newErrors.email = 'Please enter your email address.'
+    } else if (!validateEmail(form.email.trim())) {
+      newErrors.email = 'Please enter a valid email address.'
+    }
+
+    // Validate subject
+    if (!form.subject.trim()) {
+      newErrors.subject = 'Please enter a subject.'
+    }
+
+    // Validate message
+    if (!form.message.trim()) {
+      newErrors.message = 'Please enter your message.'
+    }
+
+    // If there are any errors, display them and don't submit
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors)
+      return
+    }
+
+    // Clear errors if validation passed
+    setErrors({})
+    setIsSubmitting(true)
+
+    try {
+      const response = await fetch(`${API_BASE}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          institution: form.institution.trim(),
+          subject: form.subject.trim(),
+          message: form.message.trim(),
+        }),
+      })
+
+      let data: {
+        success?: boolean
+        message?: string
+      } | null = null
+
+      try {
+        data = await response.json()
+      } catch {
+        data = null
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          data?.message || 'Unable to send your message. Please try again.'
+        )
+      }
+
+      if (data?.success === false) {
+        throw new Error(
+          data.message || 'Unable to send your message. Please try again.'
+        )
+      }
+
+      // Only show success after backend confirms the submission.
+      setSubmitted(true)
+
+      // Reset the form after successful submission.
+      setForm({
+        name: '',
+        email: '',
+        institution: '',
+        subject: '',
+        message: '',
+      })
+    } catch (error) {
+      console.error('Contact form submission error:', error)
+
+      // Show error at top of form or in a field-specific way
+      if (error instanceof TypeError) {
+        setErrors({
+          name: 'Unable to connect to the server. Please make sure the backend is running.',
+        })
+      } else {
+        setErrors({
+          name: error instanceof Error
+            ? error.message
+            : 'Unable to send your message. Please try again.',
+        })
+      }
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
-  const inputStyle = (field: string): React.CSSProperties => ({
-    width:        '100%',
-    background:   focused === field ? 'rgba(34,197,94,0.04)' : 'rgba(255,255,255,0.03)',
-    border:       focused === field ? '1px solid var(--color-accent)' : '1px solid var(--color-border-strong)',
-    borderRadius: 'var(--radius-lg)',
-    padding:      '12px 16px',
-    fontSize:     'var(--text-sm)',
-    color:        'var(--color-text-primary)',
-    outline:      'none',
-    transition:   'border-color 180ms ease, background 180ms ease',
-    boxSizing:    'border-box' as const,
-  })
+  const inputStyle = (field: string): React.CSSProperties => {
+    const hasError = Boolean(errors[field as keyof FormErrors])
+    return {
+      width: '100%',
+      background:
+        focused === field
+          ? 'rgba(34,197,94,0.04)'
+          : 'rgba(255,255,255,0.03)',
+      border:
+        hasError
+          ? '1px solid rgba(248,113,113,0.50)'
+          : focused === field
+            ? '1px solid var(--color-accent)'
+            : '1px solid var(--color-border-strong)',
+      borderRadius: 'var(--radius-lg)',
+      padding: '12px 16px',
+      fontSize: 'var(--text-sm)',
+      color: 'var(--color-text-primary)',
+      outline: 'none',
+      transition: 'border-color 180ms ease, background 180ms ease',
+      boxSizing: 'border-box' as const,
+    }
+  }
 
   const labelStyle: React.CSSProperties = {
-    display:       'block',
-    fontSize:      'var(--text-sm)',
-    fontWeight:    'var(--font-medium)',
-    color:         'var(--color-text-secondary)',
-    marginBottom:  'var(--space-2)',
+    display: 'block',
+    fontSize: 'var(--text-sm)',
+    fontWeight: 'var(--font-medium)',
+    color: 'var(--color-text-secondary)',
+    marginBottom: 'var(--space-2)',
     letterSpacing: '0.01em',
   }
 
   const fieldEvents = (field: string) => ({
     onFocus: () => setFocused(field),
-    onBlur:  () => setFocused(null),
+    onBlur: () => setFocused(null),
   })
 
   return (
@@ -330,12 +504,12 @@ function ContactForm() {
       {...slideUp(shouldReduce, 0.06)}
       id="contact-form"
       style={{
-        position:    'relative',
-        background:  'var(--color-bg-elevated)',
-        border:      '1px solid var(--color-accent)',
-        borderRadius:'var(--radius-xl)',
-        boxShadow:   'var(--shadow-card)',
-        padding:     'clamp(1.25rem, 4vw, 3rem)',
+        position: 'relative',
+        background: 'var(--color-bg-elevated)',
+        border: '1px solid var(--color-accent)',
+        borderRadius: 'var(--radius-xl)',
+        boxShadow: 'var(--shadow-card)',
+        padding: 'clamp(1.25rem, 4vw, 3rem)',
       }}
     >
       {submitted ? (
@@ -345,46 +519,52 @@ function ContactForm() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
           style={{
-            display:        'flex',
-            flexDirection:  'column',
-            alignItems:     'center',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
             justifyContent: 'center',
-            textAlign:      'center',
-            padding:        'var(--space-12) 0',
-            gap:            'var(--space-4)',
+            textAlign: 'center',
+            padding: 'var(--space-12) 0',
+            gap: 'var(--space-4)',
           }}
         >
           <div
             style={{
-              width:           56,
-              height:          56,
-              borderRadius:    '50%',
-              background:      'rgba(34,197,94,0.12)',
-              border:          '1px solid rgba(34,197,94,0.30)',
-              display:         'flex',
-              alignItems:      'center',
-              justifyContent:  'center',
+              width: 56,
+              height: 56,
+              borderRadius: '50%',
+              background: 'rgba(34,197,94,0.12)',
+              border: '1px solid rgba(34,197,94,0.30)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            <CheckCircle2 size={26} color="var(--color-brand-green)" strokeWidth={1.8} />
+            <CheckCircle2
+              size={26}
+              color="var(--color-brand-green)"
+              strokeWidth={1.8}
+            />
           </div>
+
           <h3
             style={{
-              fontSize:   'var(--text-xl)',
+              fontSize: 'var(--text-xl)',
               fontWeight: 'var(--font-bold)',
-              color:      'var(--color-brand-green)',
-              margin:     0,
+              color: 'var(--color-brand-green)',
+              margin: 0,
             }}
           >
             Message Sent
           </h3>
+
           <p
             style={{
-              fontSize:   'var(--text-sm)',
-              color:      'var(--color-text-inverse)',
+              fontSize: 'var(--text-sm)',
+              color: 'var(--color-text-inverse)',
               lineHeight: 1.70,
-              maxWidth:   340,
-              margin:     0,
+              maxWidth: 340,
+              margin: 0,
             }}
           >
             Thank you for reaching out. We'll get back to you within one
@@ -396,21 +576,22 @@ function ContactForm() {
           <motion.h2
             {...fadeUp(shouldReduce, 0.04)}
             style={{
-              fontSize:      'var(--text-2xl)',
-              fontWeight:    'var(--font-bold)',
-              color:         'var(--color-brand-green)',
-              marginBottom:  'var(--space-2)',
+              fontSize: 'var(--text-2xl)',
+              fontWeight: 'var(--font-bold)',
+              color: 'var(--color-brand-green)',
+              marginBottom: 'var(--space-2)',
               letterSpacing: 'var(--tracking-snug)',
             }}
           >
             Send us a message
           </motion.h2>
+
           <motion.p
             {...fadeUp(shouldReduce, 0.10)}
             style={{
-              fontSize:     'var(--text-sm)',
-              color:        'var(--color-text-secondary)',
-              lineHeight:   1.70,
+              fontSize: 'var(--text-sm)',
+              color: 'var(--color-text-secondary)',
+              lineHeight: 1.70,
               marginBottom: 'var(--space-8)',
             }}
           >
@@ -419,7 +600,6 @@ function ContactForm() {
           </motion.p>
 
           <form onSubmit={handleSubmit} noValidate>
-
             {/* Row 1 — Name + Email */}
             <motion.div
               {...fadeUp(shouldReduce, 0.14)}
@@ -431,19 +611,20 @@ function ContactForm() {
                   <span
                     aria-hidden="true"
                     style={{
-                      display:      'inline-flex',
-                      alignItems:    'center',
-                      justifyContent:'center',
-                      width:         5,
-                      height:        5,
-                      minWidth:      5,
-                      borderRadius:  '9999px',
-                      background:    'var(--color-accent)',
-                      flexShrink:    0,
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 5,
+                      height: 5,
+                      minWidth: 5,
+                      borderRadius: '9999px',
+                      background: 'var(--color-accent)',
+                      flexShrink: 0,
                       verticalAlign: 'middle',
                     }}
                   />
                 </label>
+
                 <input
                   id={nameId}
                   name="name"
@@ -455,27 +636,44 @@ function ContactForm() {
                   onChange={handleChange}
                   {...fieldEvents('name')}
                   style={inputStyle('name')}
+                  aria-invalid={Boolean(errors.name)}
                 />
+
+                {errors.name && (
+                  <div
+                    role="alert"
+                    style={{
+                      fontSize: 'var(--text-xs)',
+                      color: '#F87171',
+                      marginTop: '4px',
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {errors.name}
+                  </div>
+                )}
               </div>
+
               <div>
                 <label htmlFor={emailId} style={labelStyle}>
                   Email Address{' '}
                   <span
                     aria-hidden="true"
                     style={{
-                      display:      'inline-flex',
-                      alignItems:    'center',
-                      justifyContent:'center',
-                      width:         5,
-                      height:        5,
-                      minWidth:      5,
-                      borderRadius:  '9999px',
-                      background:    'var(--color-accent)',
-                      flexShrink:    0,
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 5,
+                      height: 5,
+                      minWidth: 5,
+                      borderRadius: '9999px',
+                      background: 'var(--color-accent)',
+                      flexShrink: 0,
                       verticalAlign: 'middle',
                     }}
                   />
                 </label>
+
                 <input
                   id={emailId}
                   name="email"
@@ -487,7 +685,22 @@ function ContactForm() {
                   onChange={handleChange}
                   {...fieldEvents('email')}
                   style={inputStyle('email')}
+                  aria-invalid={Boolean(errors.email)}
                 />
+
+                {errors.email && (
+                  <div
+                    role="alert"
+                    style={{
+                      fontSize: 'var(--text-xs)',
+                      color: '#F87171',
+                      marginTop: '4px',
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {errors.email}
+                  </div>
+                )}
               </div>
             </motion.div>
 
@@ -499,10 +712,16 @@ function ContactForm() {
               <div>
                 <label htmlFor={instId} style={labelStyle}>
                   Institution{' '}
-                  <span style={{ color: 'var(--color-text-secondary)', fontWeight: 400 }}>
+                  <span
+                    style={{
+                      color: 'var(--color-text-secondary)',
+                      fontWeight: 400,
+                    }}
+                  >
                     (Optional)
                   </span>
                 </label>
+
                 <input
                   id={instId}
                   name="institution"
@@ -515,25 +734,27 @@ function ContactForm() {
                   style={inputStyle('institution')}
                 />
               </div>
+
               <div>
                 <label htmlFor={subjectId} style={labelStyle}>
                   Subject{' '}
                   <span
                     aria-hidden="true"
                     style={{
-                      display:      'inline-flex',
-                      alignItems:    'center',
-                      justifyContent:'center',
-                      width:         5,
-                      height:        5,
-                      minWidth:      5,
-                      borderRadius:  '9999px',
-                      background:    'var(--color-accent)',
-                      flexShrink:    0,
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 5,
+                      height: 5,
+                      minWidth: 5,
+                      borderRadius: '9999px',
+                      background: 'var(--color-accent)',
+                      flexShrink: 0,
                       verticalAlign: 'middle',
                     }}
                   />
                 </label>
+
                 <input
                   id={subjectId}
                   name="subject"
@@ -544,7 +765,22 @@ function ContactForm() {
                   onChange={handleChange}
                   {...fieldEvents('subject')}
                   style={inputStyle('subject')}
+                  aria-invalid={Boolean(errors.subject)}
                 />
+
+                {errors.subject && (
+                  <div
+                    role="alert"
+                    style={{
+                      fontSize: 'var(--text-xs)',
+                      color: '#F87171',
+                      marginTop: '4px',
+                      lineHeight: 1.4,
+                    }}
+                  >
+                    {errors.subject}
+                  </div>
+                )}
               </div>
             </motion.div>
 
@@ -558,19 +794,20 @@ function ContactForm() {
                 <span
                   aria-hidden="true"
                   style={{
-                    display:      'inline-flex',
-                    alignItems:    'center',
-                    justifyContent:'center',
-                    width:         5,
-                    height:        5,
-                    minWidth:      5,
-                    borderRadius:  '9999px',
-                    background:    'var(--color-accent)',
-                    flexShrink:    0,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: 5,
+                    height: 5,
+                    minWidth: 5,
+                    borderRadius: '9999px',
+                    background: 'var(--color-accent)',
+                    flexShrink: 0,
                     verticalAlign: 'middle',
                   }}
                 />
               </label>
+
               <textarea
                 id={messageId}
                 name="message"
@@ -582,12 +819,27 @@ function ContactForm() {
                 {...fieldEvents('message')}
                 style={{
                   ...inputStyle('message'),
-                  resize:     'vertical',
-                  minHeight:  128,
+                  resize: 'vertical',
+                  minHeight: 128,
                   lineHeight: 1.65,
                   fontFamily: 'inherit',
                 }}
+                aria-invalid={Boolean(errors.message)}
               />
+
+              {errors.message && (
+                <div
+                  role="alert"
+                  style={{
+                    fontSize: 'var(--text-xs)',
+                    color: '#F87171',
+                    marginTop: '4px',
+                    lineHeight: 1.4,
+                  }}
+                >
+                  {errors.message}
+                </div>
+              )}
             </motion.div>
 
             {/* Submit row */}
@@ -599,32 +851,41 @@ function ContactForm() {
                 type="submit"
                 className="btn btn-primary"
                 aria-label="Send your message to HumanFirst"
-                whileHover={shouldReduce ? {} : {
-                  y:         -2,
-                  boxShadow: '0 10px 28px rgba(34,197,94,0.40)',
-                }}
+                disabled={isSubmitting}
+                whileHover={
+                  shouldReduce || isSubmitting
+                    ? {}
+                    : {
+                        y: -2,
+                        boxShadow: '0 10px 28px rgba(34,197,94,0.40)',
+                      }
+                }
                 transition={{ duration: 0.22, ease: 'easeOut' }}
                 style={{
-                  display:        'inline-flex',
-                  alignItems:     'center',
+                  display: 'inline-flex',
+                  alignItems: 'center',
                   justifyContent: 'center',
-                  gap:            'var(--space-2)',
-                  minHeight:      '48px',
-                  cursor:         'pointer',
-                  width:          '100%',
+                  gap: 'var(--space-2)',
+                  minHeight: '48px',
+                  cursor: isSubmitting ? 'wait' : 'pointer',
+                  width: '100%',
+                  opacity: isSubmitting ? 0.7 : 1,
                 }}
               >
-                Send Message
-                <Send size={14} aria-hidden="true" />
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+
+                {!isSubmitting && (
+                  <Send size={14} aria-hidden="true" />
+                )}
               </motion.button>
 
               <p
                 style={{
-                  fontSize:   'var(--text-xs)',
-                  color:      'var(--color-text-secondary)',
+                  fontSize: 'var(--text-xs)',
+                  color: 'var(--color-text-secondary)',
                   lineHeight: 1.55,
-                  margin:     0,
-                  textAlign:  'center',
+                  margin: 0,
+                  textAlign: 'center',
                 }}
               >
                 We typically reply within one business day.
@@ -640,51 +901,61 @@ function ContactForm() {
 // ─── Section 2b: Info Cards ────────────────────────────────────────────────────
 
 interface InfoCardProps {
-  icon:         React.ReactNode
-  label:        string
-  children:     React.ReactNode
-  delay?:       number
+  icon: React.ReactNode
+  label: string
+  children: React.ReactNode
+  delay?: number
   shouldReduce: boolean | null
 }
 
-function InfoCard({ icon, label, children, delay = 0, shouldReduce }: InfoCardProps) {
+function InfoCard({
+  icon,
+  label,
+  children,
+  delay = 0,
+  shouldReduce,
+}: InfoCardProps) {
   return (
     <motion.div
       {...fadeUp(shouldReduce, delay)}
       style={{
-        display:      'flex',
-        alignItems:   'flex-start',
-        gap:          'var(--space-4)',
-        background:   'var(--color-bg-elevated)',
-        border:       '1px solid var(--color-accent)',
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: 'var(--space-4)',
+        background: 'var(--color-bg-elevated)',
+        border: '1px solid var(--color-accent)',
         borderRadius: 'var(--radius-xl)',
-        padding:      'var(--space-6)',
-        boxShadow:    'var(--shadow-card)',
-        width:        '100%',
-        boxSizing:    'border-box',
+        padding: 'var(--space-6)',
+        boxShadow: 'var(--shadow-card)',
+        width: '100%',
+        boxSizing: 'border-box',
       }}
-      whileHover={shouldReduce ? {} : {
-        y:         -4,
-        boxShadow: [
-          'var(--shadow-xl)',
-          '0 0 60px 0 rgba(202, 255, 112, 0.16)',
-          '0 0 0 1px rgba(202, 255, 112, 0.30)',
-        ].join(', '),
-      }}
+      whileHover={
+        shouldReduce
+          ? {}
+          : {
+              y: -4,
+              boxShadow: [
+                'var(--shadow-xl)',
+                '0 0 60px 0 rgba(202, 255, 112, 0.16)',
+                '0 0 0 1px rgba(202, 255, 112, 0.30)',
+              ].join(', '),
+            }
+      }
       transition={{ duration: 0.22, ease: 'easeOut' }}
     >
       {/* Icon badge */}
       <motion.div
         style={{
-          width:        40,
-          height:       40,
+          width: 40,
+          height: 40,
           borderRadius: 'var(--radius-md)',
-          background:   'transparent',
-          border:       '1px solid #32CD32',
-          display:      'flex',
-          alignItems:   'center',
+          background: 'transparent',
+          border: '1px solid #32CD32',
+          display: 'flex',
+          alignItems: 'center',
           justifyContent: 'center',
-          flexShrink:   0,
+          flexShrink: 0,
         }}
         aria-hidden="true"
         whileHover={shouldReduce ? {} : { scale: 1.10 }}
@@ -697,23 +968,24 @@ function InfoCard({ icon, label, children, delay = 0, shouldReduce }: InfoCardPr
       <div style={{ flex: 1, minWidth: 0 }}>
         <p
           style={{
-            fontSize:      'var(--text-xs)',
-            fontWeight:    'var(--font-semibold)',
+            fontSize: 'var(--text-xs)',
+            fontWeight: 'var(--font-semibold)',
             letterSpacing: 'var(--tracking-widest)',
             textTransform: 'uppercase' as const,
-            color:         'var(--color-brand-green)',
-            margin:        '0 0 var(--space-1)',
+            color: 'var(--color-brand-green)',
+            margin: '0 0 var(--space-1)',
           }}
         >
           {label}
         </p>
+
         <div
           style={{
-            fontSize:   'var(--text-sm)',
-            color:      'var(--color-text-secondary)',
+            fontSize: 'var(--text-sm)',
+            color: 'var(--color-text-secondary)',
             lineHeight: 1.65,
             fontWeight: 'var(--font-medium)',
-            wordBreak:  'break-word',
+            wordBreak: 'break-word',
           }}
         >
           {children}
@@ -733,34 +1005,43 @@ function ContactMain() {
       id="contact-main"
       aria-label="Contact form and information"
       style={{
-        position:        'relative',
+        position: 'relative',
         backgroundColor: 'var(--color-bg-base)',
-        paddingTop:      'var(--space-6)',
-        paddingBottom:   'var(--space-24)',
-        overflow:        'hidden',
+        paddingTop: 'var(--space-6)',
+        paddingBottom: 'var(--space-24)',
+        overflow: 'hidden',
       }}
     >
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden="true"
+      >
         <div className="absolute inset-0 bg-dots" style={{ opacity: 0.35 }} />
       </div>
 
-      <div className="container-v2" style={{ position: 'relative', zIndex: 1 }}>
-
-        {/* 60/40 grid on desktop · stacked form first, cards below on mobile */}
+      <div
+        className="container-v2"
+        style={{ position: 'relative', zIndex: 1 }}
+      >
         <div className="contact-layout-grid">
           <ContactForm />
 
           {/* Right column — stacked info cards */}
           <div
             style={{
-              display:       'flex',
+              display: 'flex',
               flexDirection: 'column',
-              gap:           'var(--space-4)',
-              width:         '100%',
+              gap: 'var(--space-4)',
+              width: '100%',
             }}
           >
             <InfoCard
-              icon={<MdEmail size={CONTACT_CARD_ICON_SIZE} color="var(--color-brand-green)" />}
+              icon={
+                <MdEmail
+                  size={CONTACT_CARD_ICON_SIZE}
+                  color="var(--color-brand-green)"
+                />
+              }
               label="Email"
               delay={0.10}
               shouldReduce={shouldReduce}
@@ -769,7 +1050,7 @@ function ContactMain() {
                 href="mailto:hello@humanfirst.app"
                 style={{
                   textDecoration: 'none',
-                  transition:     'color 150ms ease',
+                  transition: 'color 150ms ease',
                 }}
               >
                 hello@humanfirst.app
@@ -777,7 +1058,12 @@ function ContactMain() {
             </InfoCard>
 
             <InfoCard
-              icon={<FaLocationDot size={CONTACT_CARD_ICON_SIZE} color="var(--color-brand-green)" />}
+              icon={
+                <FaLocationDot
+                  size={CONTACT_CARD_ICON_SIZE}
+                  color="var(--color-brand-green)"
+                />
+              }
               label="Location"
               delay={0.18}
               shouldReduce={shouldReduce}
@@ -786,7 +1072,12 @@ function ContactMain() {
             </InfoCard>
 
             <InfoCard
-              icon={<IoTimeSharp size={CONTACT_CARD_ICON_SIZE} color="var(--color-brand-green)" />}
+              icon={
+                <IoTimeSharp
+                  size={CONTACT_CARD_ICON_SIZE}
+                  color="var(--color-brand-green)"
+                />
+              }
               label="Response Time"
               delay={0.26}
               shouldReduce={shouldReduce}
@@ -795,19 +1086,24 @@ function ContactMain() {
             </InfoCard>
 
             <InfoCard
-              icon={<MdPeople size={CONTACT_CARD_ICON_SIZE} color="var(--color-brand-green)" />}
+              icon={
+                <MdPeople
+                  size={CONTACT_CARD_ICON_SIZE}
+                  color="var(--color-brand-green)"
+                />
+              }
               label="Who We Work With"
               delay={0.34}
               shouldReduce={shouldReduce}
             >
               <ul
                 style={{
-                  margin:        0,
-                  padding:       0,
-                  listStyle:     'none',
-                  display:       'flex',
+                  margin: 0,
+                  padding: 0,
+                  listStyle: 'none',
+                  display: 'flex',
                   flexDirection: 'column',
-                  gap:           4,
+                  gap: 4,
                 }}
               >
                 {[
@@ -819,20 +1115,20 @@ function ContactMain() {
                   <li
                     key={item}
                     style={{
-                      display:    'flex',
+                      display: 'flex',
                       alignItems: 'center',
-                      gap:        8,
-                      fontSize:   'var(--text-sm)',
-                      color:      'var(--color-text-secondary)',
+                      gap: 8,
+                      fontSize: 'var(--text-sm)',
+                      color: 'var(--color-text-secondary)',
                     }}
                   >
                     <span
                       style={{
-                        width:        5,
-                        height:       5,
+                        width: 5,
+                        height: 5,
                         borderRadius: '9999px',
-                        background:   'var(--color-accent)',
-                        flexShrink:   0,
+                        background: 'var(--color-accent)',
+                        flexShrink: 0,
                       }}
                       aria-hidden="true"
                     />
@@ -851,9 +1147,9 @@ function ContactMain() {
 // ─── Section 3: FAQ ────────────────────────────────────────────────────────────
 
 interface FaqItem {
-  id:       string
+  id: string
   question: string
-  answer:   string
+  answer: string
 }
 
 const FAQ_ITEMS: FaqItem[] = [
@@ -884,77 +1180,91 @@ const FAQ_ITEMS: FaqItem[] = [
 ]
 
 interface AccordionItemProps {
-  item:         FaqItem
-  isOpen:       boolean
-  onToggle:     () => void
-  delay:        number
+  item: FaqItem
+  isOpen: boolean
+  onToggle: () => void
+  delay: number
   shouldReduce: boolean | null
 }
 
-function AccordionItem({ item, isOpen, onToggle, delay, shouldReduce }: AccordionItemProps) {
+function AccordionItem({
+  item,
+  isOpen,
+  onToggle,
+  delay,
+  shouldReduce,
+}: AccordionItemProps) {
   const headingId = `faq-heading-${item.id}`
-  const panelId   = `faq-panel-${item.id}`
+  const panelId = `faq-panel-${item.id}`
 
   return (
     <motion.div
       {...fadeUp(shouldReduce, delay)}
       style={{
-        background:   'var(--color-bg-elevated)',
-        border:       '1px solid var(--color-accent)',
+        background: 'var(--color-bg-elevated)',
+        border: '1px solid var(--color-accent)',
         borderRadius: 'var(--radius-xl)',
-        boxShadow:    'var(--shadow-card)',
-        overflow:     'hidden',
-        transition:   'border-color 220ms ease, background 220ms ease',
-        width:        '100%',
+        boxShadow: 'var(--shadow-card)',
+        overflow: 'hidden',
+        transition: 'border-color 220ms ease, background 220ms ease',
+        width: '100%',
       }}
     >
-      {/* Question button */}
       <button
         id={headingId}
         aria-controls={panelId}
         aria-expanded={isOpen}
         onClick={onToggle}
         style={{
-          width:          '100%',
-          minHeight:      '48px',
-          display:        'flex',
-          alignItems:     'center',
+          width: '100%',
+          minHeight: '48px',
+          display: 'flex',
+          alignItems: 'center',
           justifyContent: 'space-between',
-          gap:            'var(--space-4)',
-          padding:        '14px var(--space-6)',
-          background:     'none',
-          border:         'none',
-          cursor:         'pointer',
-          textAlign:      'left' as const,
+          gap: 'var(--space-4)',
+          padding: '14px var(--space-6)',
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          textAlign: 'left' as const,
         }}
       >
         <span
           style={{
-            fontSize:      'var(--text-base)',
-            fontWeight:    isOpen ? 'var(--font-semibold)' : 'var(--font-medium)',
-            color:         'var(--color-brand-green)',
-            lineHeight:    1.55,
+            fontSize: 'var(--text-base)',
+            fontWeight: isOpen
+              ? 'var(--font-semibold)'
+              : 'var(--font-medium)',
+            color: 'var(--color-brand-green)',
+            lineHeight: 1.55,
             letterSpacing: '0.005em',
-            transition:    'color 200ms ease',
+            transition: 'color 200ms ease',
           }}
         >
           {item.question}
         </span>
+
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
-          transition={{ duration: shouldReduce ? 0 : 0.28, ease: [0.16, 1, 0.3, 1] }}
+          transition={{
+            duration: shouldReduce ? 0 : 0.28,
+            ease: [0.16, 1, 0.3, 1],
+          }}
           style={{ flexShrink: 0 }}
           aria-hidden="true"
         >
           <ChevronDown
             size={18}
-            color={isOpen ? 'var(--color-accent)' : 'var(--color-brand-green)'}
+            color={
+              isOpen
+                ? 'var(--color-accent)'
+                : 'var(--color-brand-green)'
+            }
             strokeWidth={2}
           />
         </motion.span>
       </button>
 
-      {/* Answer — animated height */}
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
@@ -966,19 +1276,25 @@ function AccordionItem({ item, isOpen, onToggle, delay, shouldReduce }: Accordio
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{
-              height:  { duration: shouldReduce ? 0 : 0.34, ease: [0.16, 1, 0.3, 1] },
-              opacity: { duration: shouldReduce ? 0 : 0.22, ease: 'easeOut' },
+              height: {
+                duration: shouldReduce ? 0 : 0.34,
+                ease: [0.16, 1, 0.3, 1],
+              },
+              opacity: {
+                duration: shouldReduce ? 0 : 0.22,
+                ease: 'easeOut',
+              },
             }}
             style={{ overflow: 'hidden' }}
           >
             <p
               style={{
-                fontSize:   'var(--text-sm)',
-                color:      'var(--color-text-secondary)',
+                fontSize: 'var(--text-sm)',
+                color: 'var(--color-text-secondary)',
                 lineHeight: 1.80,
-                margin:     0,
-                padding:    '0 var(--space-6) var(--space-6)',
-                maxWidth:   '68ch',
+                margin: 0,
+                padding: '0 var(--space-6) var(--space-6)',
+                maxWidth: '68ch',
               }}
             >
               {item.answer}
@@ -991,7 +1307,7 @@ function AccordionItem({ item, isOpen, onToggle, delay, shouldReduce }: Accordio
 }
 
 function ContactFaq() {
-  const shouldReduce        = useReducedMotion()
+  const shouldReduce = useReducedMotion()
   const [openId, setOpenId] = useState<string | null>(null)
 
   const toggle = (id: string) =>
@@ -1000,70 +1316,49 @@ function ContactFaq() {
   return (
     <section
       id="contact-faq"
-      aria-labelledby="faq-heading"
       style={{
-        position:        'relative',
         backgroundColor: 'var(--color-bg-base)',
-        paddingTop:      'var(--space-24)',
-        paddingBottom:   'var(--space-24)',
-        overflow:        'hidden',
+        padding: 'var(--space-24) 0',
       }}
     >
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-dots" style={{ opacity: 0.40 }} />
-        <div
+      <div className="container-v2">
+        <motion.div
+          {...fadeUp(shouldReduce, 0)}
           style={{
-            position:   'absolute',
-            top:        '-5%',
-            left:       '50%',
-            transform:  'translateX(-50%)',
-            width:      '60%',
-            height:     280,
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.06) 0%, transparent 70%)',
-            filter:     'blur(50px)',
+            textAlign: 'center',
+            marginBottom: 'var(--space-10)',
           }}
-        />
-      </div>
-
-      <div className="container-v2" style={{ position: 'relative', zIndex: 1 }}>
-
-        <motion.div {...fadeUp(shouldReduce, 0)}>
+        >
           <SectionBadge>FAQ</SectionBadge>
+
+          <h2
+            style={{
+              fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+              fontWeight: 'var(--font-extrabold)',
+              color: 'var(--color-brand-green)',
+              margin: 0,
+            }}
+          >
+            Frequently Asked Questions
+          </h2>
         </motion.div>
 
-        <motion.h2
-          id="faq-heading"
-          {...fadeUp(shouldReduce, 0.06)}
-          style={{
-            fontSize:      'clamp(1.85rem, 4vw, 3.25rem)',
-            fontWeight:    'var(--font-extrabold)',
-            letterSpacing: 'var(--tracking-tight)',
-            lineHeight:    1.08,
-            color:         'var(--color-brand-green)',
-            marginBottom:  'var(--space-14)',
-            maxWidth:      520,
-          }}
-        >
-          Frequently Asked{' '}
-          <span className="text-gradient-accent">Questions</span>
-        </motion.h2>
-
         <div
           style={{
-            display:       'flex',
+            display: 'flex',
             flexDirection: 'column',
-            gap:           'var(--space-3)',
-            maxWidth:      800,
-            width:         '100%',
+            gap: 'var(--space-4)',
+            maxWidth: 900,
+            margin: '0 auto',
           }}
         >
-          {FAQ_ITEMS.map((item, i) => (
+          {FAQ_ITEMS.map((item, index) => (
             <AccordionItem
               key={item.id}
               item={item}
               isOpen={openId === item.id}
               onToggle={() => toggle(item.id)}
-              delay={0.08 + i * 0.06}
+              delay={index * 0.06}
               shouldReduce={shouldReduce}
             />
           ))}
@@ -1073,138 +1368,95 @@ function ContactFaq() {
   )
 }
 
-// ─── Section 4: Final CTA ──────────────────────────────────────────────────────
+// ─── Section 4: CTA ────────────────────────────────────────────────────────────
 
 function ContactCta() {
   const shouldReduce = useReducedMotion()
-  const navigate     = useNavigate()
+  const { go } = useSmartNavigate()
 
   return (
     <section
-      id="contact-cta"
-      aria-labelledby="contact-cta-heading"
       style={{
-        position:        'relative',
         backgroundColor: 'var(--color-bg-base)',
-        paddingTop:      'clamp(4rem, 10vw, 7rem)',
-        paddingBottom:   'clamp(4rem, 10vw, 7rem)',
-        overflow:        'hidden',
+        padding: '0 0 var(--space-24)',
       }}
     >
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0 bg-dots" style={{ opacity: 0.45 }} />
+      <div className="container-v2">
         <motion.div
-          animate={shouldReduce ? {} : {
-            opacity: [0.60, 0.90, 0.60],
-            scale:   [1, 1.08, 1],
-          }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+          {...fadeUp(shouldReduce, 0)}
           style={{
-            position:   'absolute',
-            top:        '5%',
-            left:       '50%',
-            transform:  'translateX(-50%)',
-            width:      '75%',
-            height:     400,
-            background: 'radial-gradient(ellipse, rgba(34,197,94,0.09) 0%, transparent 68%)',
-            filter:     'blur(70px)',
-          }}
-        />
-      </div>
-
-      <div className="container-v2" style={{ position: 'relative', zIndex: 1 }}>
-        <motion.div
-          {...slideUp(shouldReduce, 0)}
-          style={{
-            background:  'var(--color-bg-elevated)',
-            border:      '1px solid var(--color-accent)',
-            borderRadius:'var(--radius-2xl)',
-            boxShadow:   'var(--shadow-card)',
-            padding:     'clamp(1.75rem, 5vw, 4rem)',
-            textAlign:   'center',
+            position: 'relative',
+            overflow: 'hidden',
+            textAlign: 'center',
+            background: 'var(--color-bg-elevated)',
+            border: '1px solid var(--color-accent)',
+            borderRadius: 'var(--radius-xl)',
+            boxShadow: 'var(--shadow-card)',
+            padding: 'clamp(2rem, 6vw, 5rem)',
           }}
         >
-          <motion.h2
-            id="contact-cta-heading"
-            {...fadeUp(shouldReduce, 0.06)}
+          <div
+            aria-hidden="true"
             style={{
-              fontSize:      'clamp(1.75rem, 4.5vw, 3.5rem)',
-              fontWeight:    'var(--font-extrabold)',
-              letterSpacing: 'var(--tracking-tight)',
-              lineHeight:    1.08,
-              color:         'var(--color-brand-green)',
-              marginBottom:  'var(--space-5)',
-              maxWidth:      640,
-              marginLeft:    'auto',
-              marginRight:   'auto',
+              position: 'absolute',
+              inset: 0,
+              pointerEvents: 'none',
+              background:
+                'radial-gradient(circle at center, rgba(34,197,94,0.08), transparent 65%)',
             }}
-          >
-            Let's build trusted assessment{' '}
-            <span className="text-gradient-accent">together.</span>
-          </motion.h2>
+          />
 
-          <motion.p
-            {...fadeUp(shouldReduce, 0.12)}
-            style={{
-              fontSize:    'var(--text-base)',
-              color:       'var(--color-text-secondary)',
-              lineHeight:  1.75,
-              maxWidth:    540,
-              margin:      '0 auto var(--space-10)',
-            }}
-          >
-            HumanFirst is helping institutions prepare for the future of
-            education without compromising student privacy.
-          </motion.p>
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <SectionBadge>Start a conversation</SectionBadge>
 
-          <motion.div
-            {...fadeUp(shouldReduce, 0.18)}
-            className="responsive-btn-group"
-            style={{ margin: '0 auto' }}
-          >
-            <motion.a
-              href="/#pilot"
-              className="btn btn-primary btn-lg"
-              onClick={(e) => { e.preventDefault() }}
-              whileHover={shouldReduce ? {} : {
-                y:         -2,
-                boxShadow: '0 12px 32px rgba(34,197,94,0.42)',
+            <h2
+              style={{
+                fontSize: 'clamp(2rem, 5vw, 4rem)',
+                fontWeight: 'var(--font-extrabold)',
+                color: 'var(--color-brand-green)',
+                margin: '0 0 var(--space-4)',
               }}
+            >
+              Ready to explore HUMΛNF1RST?
+            </h2>
+
+            <p
+              style={{
+                maxWidth: 650,
+                margin: '0 auto var(--space-8)',
+                color: 'var(--color-text-secondary)',
+                lineHeight: 1.75,
+              }}
+            >
+              Tell us about your institution and we'll help you understand
+              how HUMΛNF1RST can fit into your assessment workflow.
+            </p>
+
+            <motion.a
+              href="#contact-form"
+              onClick={(e) => {
+                e.preventDefault()
+                go('#contact-form')
+              }}
+              className="btn btn-primary btn-lg"
+              style={{
+                display: 'inline-flex',
+                textDecoration: 'none',
+              }}
+              whileHover={
+                shouldReduce
+                  ? {}
+                  : {
+                      y: -2,
+                      boxShadow: '0 12px 32px rgba(34,197,94,0.42)',
+                    }
+              }
               transition={{ duration: 0.22, ease: 'easeOut' }}
-              style={{ textDecoration: 'none', minHeight: '48px', justifyContent: 'center' }}
             >
               Request a Pilot
+              <ArrowRight size={15} aria-hidden="true" />
             </motion.a>
-
-            <motion.a
-              href="/about"
-              onClick={(e) => { e.preventDefault(); navigate('/about') }}
-              style={{
-                display:        'inline-flex',
-                alignItems:     'center',
-                justifyContent: 'center',
-                gap:            'var(--space-2)',
-                fontSize:       'var(--text-sm)',
-                fontWeight:     600,
-                color:          'var(--color-text-primary)',
-                textDecoration: 'none',
-                padding:        '0.75rem 1.5rem',
-                minHeight:      '48px',
-                border:         '1px solid var(--color-border-default)',
-                borderRadius:   'var(--radius-full)',
-                background:     'rgba(8, 47, 37, 0.04)',
-                cursor:         'pointer',
-              }}
-              whileHover={shouldReduce ? {} : {
-                y: -1,
-              }}
-              whileTap={shouldReduce ? {} : { scale: 0.98 }}
-              transition={{ duration: 0.20, ease: 'easeOut' }}
-            >
-              About HUMΛNF1RST
-              <ArrowRight size={14} aria-hidden="true" />
-            </motion.a>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
     </section>
@@ -1213,13 +1465,14 @@ function ContactCta() {
 
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
-function Contact() {
+export default function Contact() {
   return (
     <>
       <Seo
-        title="Contact"
-        description="Get in touch with HumanFirst. Request a pilot, ask a question, or explore bringing trusted academic integrity to your institution."
+        title="Contact | HumanF1RST"
+        description="Get in touch with HumanF1RST."
       />
+
       <ContactHero />
       <ContactMain />
       <ContactFaq />
@@ -1228,5 +1481,3 @@ function Contact() {
     </>
   )
 }
-
-export default Contact

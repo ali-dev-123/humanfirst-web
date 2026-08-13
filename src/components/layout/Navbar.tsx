@@ -14,6 +14,7 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 import { useSmartNavigate } from '../../hooks/useSmartNavigate'
+import { useAuth } from '../../context/AuthContext'
 import { Link } from "react-router-dom";
 import humanFirstLogo1 from '../../assets/human-first-logo-1.png'
 // ─── Nav items ─────────────────────────────────────────────────────────────────
@@ -317,6 +318,9 @@ interface MobileMenuProps {
   panelId: string
   // accept either nullable or non-nullable ref object shapes
   firstLinkRef: React.RefObject<HTMLAnchorElement | null> | React.RefObject<HTMLAnchorElement>
+  isAuthenticated?: boolean
+  user?: { name: string; email: string } | null
+  onLogout?: () => void
 }
 
 const MOBILE_ITEM_VARIANTS = {
@@ -329,7 +333,7 @@ const MOBILE_CONTAINER_VARIANTS = {
   visible: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } },
 } as const
 
-function MobileMenu({ isOpen, activeId, onClose, shouldReduce, panelId, firstLinkRef }: MobileMenuProps) {
+function MobileMenu({ isOpen, activeId, onClose, shouldReduce, panelId, firstLinkRef, isAuthenticated = false, user, onLogout }: MobileMenuProps) {
   const { go } = useSmartNavigate()
 
   return (
@@ -418,53 +422,279 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce, panelId, firstLin
             </ul>
           </motion.nav>
 
-          {/* Mobile Action Buttons (Equal width, 48px height, 10px rounded, 12px gap) */}
-          <motion.div
-            variants={shouldReduce ? {} : MOBILE_ITEM_VARIANTS}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 12,
-              marginTop: 20,
-            }}
-          >
-            <a
-              ref={firstLinkRef}
-              href="#opportunity"
-              onClick={(e) => {
-                e.preventDefault()
-                onClose()
-                go('#opportunity')
+          {/* Mobile Action Buttons */}
+          {!isAuthenticated ? (
+            <motion.div
+              variants={shouldReduce ? {} : MOBILE_ITEM_VARIANTS}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 12,
+                marginTop: 20,
               }}
-              className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-[var(--color-forest-700)] bg-transparent border border-[rgba(8,47,37,0.14)] hover:border-[var(--color-forest-700)] hover:text-[var(--color-forest-700)] hover:bg-[rgba(202,255,112,0.24)] rounded-[10px] transition-all duration-200 cursor-pointer select-none no-underline text-center"
             >
-              For Investors
-            </a>
+              <a
+                ref={firstLinkRef}
+                href="#opportunity"
+                onClick={(e) => {
+                  e.preventDefault()
+                  onClose()
+                  go('#opportunity')
+                }}
+                className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-[var(--color-forest-700)] bg-transparent border border-[rgba(8,47,37,0.14)] hover:border-[var(--color-forest-700)] hover:text-[var(--color-forest-700)] hover:bg-[rgba(202,255,112,0.24)] rounded-[10px] transition-all duration-200 cursor-pointer select-none no-underline text-center"
+              >
+                For Investors
+              </a>
 
-            <a
-              href="#pilot"
-              onClick={(e) => {
-                e.preventDefault()
-                onClose()
-                go('#pilot')
-              }}
-              className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-[var(--color-forest-900)] bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] rounded-[10px] shadow-sm transition-all duration-200 cursor-pointer select-none no-underline text-center"
-            >
-              Request a Pilot
-            </a>
+              <a
+                href="#pilot"
+                onClick={(e) => {
+                  e.preventDefault()
+                  onClose()
+                  go('#pilot')
+                }}
+                className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-[var(--color-forest-900)] bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] rounded-[10px] shadow-sm transition-all duration-200 cursor-pointer select-none no-underline text-center"
+              >
+                Request a Pilot
+              </a>
 
-            <Link
-              to="/login"
-              onClick={onClose}
-              className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-[var(--color-forest-700)] bg-transparent border border-[rgba(8,47,37,0.14)] hover:border-[var(--color-forest-700)] hover:text-[var(--color-forest-700)] hover:bg-[rgba(202,255,112,0.24)] rounded-[10px] transition-all duration-200 cursor-pointer select-none no-underline text-center"
-            >
-              Login
-            </Link>
-          </motion.div>
+              <Link
+                to="/login"
+                onClick={onClose}
+                className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-[var(--color-forest-700)] bg-transparent border border-[rgba(8,47,37,0.14)] hover:border-[var(--color-forest-700)] hover:text-[var(--color-forest-700)] hover:bg-[rgba(202,255,112,0.24)] rounded-[10px] transition-all duration-200 cursor-pointer select-none no-underline text-center"
+              >
+                Login
+              </Link>
+            </motion.div>
+          ) : (
+            <UserAccountDropdown
+              isMobile={true}
+              userName={user?.name}
+              userEmail={user?.email}
+              onLogout={onLogout || (() => {})}
+              onClose={onClose}
+            />
+          )}
         </motion.div>
       )}
     </AnimatePresence>
+  )
+}
+
+// ─── User Account Dropdown ──────────────────────────────────────────────────────
+
+interface UserAccountDropdownProps {
+  onLogout: () => void
+  userName?: string
+  userEmail?: string
+  isMobile?: boolean
+  onClose?: () => void
+}
+
+function UserAccountDropdown({
+  onLogout,
+  userName,
+  userEmail,
+  isMobile = false,
+  onClose,
+}: UserAccountDropdownProps) {
+  const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+  const { go } = useSmartNavigate()
+
+  // Get first letter for avatar
+  const avatarLetter = userName?.charAt(0)?.toUpperCase() || 'U'
+
+  // Close on outside click
+  useEffect(() => {
+    if (!isOpen) return
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [isOpen])
+
+  const handleLogout = () => {
+    setIsOpen(false)
+    onLogout()
+  }
+
+  // Mobile version: vertical stack in menu
+  if (isMobile) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 12,
+          marginTop: 20,
+          borderTop: '1px solid rgba(8, 47, 37, 0.08)',
+          paddingTop: 20,
+        }}
+      >
+        <div
+          style={{
+            padding: '12px 0',
+            fontSize: '14px',
+            color: 'var(--color-text-secondary)',
+          }}
+        >
+          {userName && (
+            <div style={{ fontWeight: 600, color: 'var(--color-text-primary)' }}>
+              {userName}
+            </div>
+          )}
+          {userEmail && (
+            <div style={{ fontSize: '12px', marginTop: 4 }}>{userEmail}</div>
+          )}
+        </div>
+
+        <a
+          href="#pilot"
+          onClick={(e) => {
+            e.preventDefault()
+            onClose?.()
+            go('#pilot')
+          }}
+          className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-[var(--color-forest-900)] bg-[var(--color-accent)] hover:bg-[var(--color-accent-hover)] rounded-[10px] shadow-sm transition-all duration-200 cursor-pointer select-none no-underline text-center"
+        >
+          Request a Pilot
+        </a>
+
+        <button
+          onClick={handleLogout}
+          className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-[var(--color-forest-700)] bg-transparent border border-[rgba(8,47,37,0.14)] hover:border-[var(--color-forest-700)] hover:text-[var(--color-forest-700)] hover:bg-[rgba(202,255,112,0.24)] rounded-[10px] transition-all duration-200 cursor-pointer select-none text-center"
+          style={{ borderRadius: 'var(--radius-md)' }}
+        >
+          Logout
+        </button>
+      </div>
+    )
+  }
+
+  // Desktop version: avatar + dropdown
+  return (
+    <div ref={dropdownRef} style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+      <motion.button
+        onClick={() => setIsOpen(!isOpen)}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: 38,
+          height: 38,
+          borderRadius: 'var(--radius-sm)',
+          background: 'var(--color-accent)',
+          color: 'var(--color-forest-900)',
+          border: 'none',
+          cursor: 'pointer',
+          fontSize: '14px',
+          fontWeight: 600,
+          transition: 'background 200ms ease',
+        }}
+        whileHover={{
+          background: 'rgba(202, 255, 112, 0.8)',
+        }}
+        aria-expanded={isOpen}
+        aria-label="User account menu"
+      >
+        {avatarLetter}
+      </motion.button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
+            style={{
+              position: 'absolute',
+              top: '100%',
+              right: 0,
+              marginTop: 8,
+              minWidth: 240,
+              background: 'rgba(247, 248, 243, 0.98)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: '1px solid rgba(8, 47, 37, 0.12)',
+              borderRadius: 'var(--radius-md)',
+              boxShadow: '0 8px 24px rgba(8, 47, 37, 0.12)',
+              zIndex: 1000,
+            }}
+          >
+            {/* User info section */}
+            <div
+              style={{
+                padding: '12px 16px',
+                borderBottom: '1px solid rgba(8, 47, 37, 0.08)',
+              }}
+            >
+              {userName && (
+                <div
+                  style={{
+                    fontSize: '14px',
+                    fontWeight: 600,
+                    color: 'var(--color-text-primary)',
+                  }}
+                >
+                  {userName}
+                </div>
+              )}
+              {userEmail && (
+                <div
+                  style={{
+                    fontSize: '12px',
+                    color: 'var(--color-text-secondary)',
+                    marginTop: 4,
+                  }}
+                >
+                  {userEmail}
+                </div>
+              )}
+            </div>
+
+            {/* Menu items */}
+            <div style={{ padding: '8px 0' }}>
+              <button
+                onClick={handleLogout}
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  padding: '10px 16px',
+                  fontSize: '14px',
+                  color: 'var(--color-text-primary)',
+                  background: 'transparent',
+                  border: 'none',
+                  textAlign: 'left',
+                  transition: 'background 200ms ease, color 200ms ease',
+                  cursor: 'pointer',
+                }}
+                onMouseEnter={(e) => {
+                  const target = e.currentTarget as HTMLButtonElement
+                  target.style.background = 'rgba(202, 255, 112, 0.12)'
+                }}
+                onMouseLeave={(e) => {
+                  const target = e.currentTarget as HTMLButtonElement
+                  target.style.background = 'transparent'
+                }}
+              >
+                Logout
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   )
 }
 
@@ -476,6 +706,7 @@ function Navbar() {
   const shouldReduce = useReducedMotion()
   const location = useLocation()
   const { go } = useSmartNavigate()
+  const { isAuthenticated, user, logout } = useAuth()
   const mobileMenuButtonRef = useRef<HTMLButtonElement | null>(null)
   const mobileMenuFirstLinkRef = useRef<HTMLAnchorElement | null>(null)
   const prevMenuOpenRef = useRef(menuOpen)
@@ -646,15 +877,22 @@ function Navbar() {
             </>
           )}
 
-          <Link
-            to={isAuthPage ? '/' : '/login'}
-            className="inline-flex items-center justify-center w-[110px] h-[38px] text-[15px] font-semibold transition-all duration-200 cursor-pointer select-none no-underline text-center"
-            style={{
-              borderRadius: 'var(--radius-sm)',
-              color: 'var(--color-forest-700)',
-              background: 'transparent',
-              border: '1px solid rgba(8, 47, 37, 0.12)',
-              transition: 'background 200ms ease, transform 200ms ease, border-color 200ms ease, color 200ms ease',
+          {isAuthenticated ? (
+            <UserAccountDropdown
+              userName={user?.name}
+              userEmail={user?.email}
+              onLogout={logout}
+            />
+          ) : (
+            <Link
+              to={isAuthPage ? '/' : '/login'}
+              className="inline-flex items-center justify-center w-[110px] h-[38px] text-[15px] font-semibold transition-all duration-200 cursor-pointer select-none no-underline text-center"
+              style={{
+                borderRadius: 'var(--radius-sm)',
+                color: 'var(--color-forest-700)',
+                background: 'transparent',
+                border: '1px solid rgba(8, 47, 37, 0.12)',
+                transition: 'background 200ms ease, transform 200ms ease, border-color 200ms ease, color 200ms ease',
             }}
             onMouseEnter={(e) => {
               const target = e.currentTarget as HTMLAnchorElement
@@ -670,7 +908,8 @@ function Navbar() {
             }}
           >
             {isAuthPage ? 'Back to Home' : 'Login'}
-          </Link>
+            </Link>
+          )}
         </div>
 
         {/* ── Mobile: Menu Button ── */}
@@ -693,6 +932,9 @@ function Navbar() {
         shouldReduce={shouldReduce}
         panelId="mobile-menu-panel"
         firstLinkRef={mobileMenuFirstLinkRef}
+        isAuthenticated={isAuthenticated}
+        user={user || undefined}
+        onLogout={logout}
       />
     </motion.header>
   )

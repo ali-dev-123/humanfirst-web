@@ -1,25 +1,24 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type GoogleCredentialResponse = {
   credential?: string
 }
 
-type GoogleNotification = {
-  isNotDisplayed?: () => boolean
-  isSkippedMoment?: () => boolean
-  getNotDisplayedReason?: () => string
-  getSkippedReason?: () => string
+type GoogleInitializeOptions = {
+  client_id: string
+  callback: (response: GoogleCredentialResponse) => void
+  auto_select?: boolean
+  cancel_on_tap_outside?: boolean
+  ux_mode?: 'popup' | 'redirect'
+  use_fedcm_for_prompt?: boolean
 }
 
 type GoogleAccountsId = {
-  initialize: (options: {
-    client_id: string
-    callback: (response: GoogleCredentialResponse) => void
-    auto_select?: boolean
-    cancel_on_tap_outside?: boolean
-    ux_mode?: 'popup' | 'redirect'
-  }) => void
-  prompt: (momentListener?: (notification: GoogleNotification) => void) => void
+  initialize: (options: GoogleInitializeOptions) => void
+  renderButton: (
+    element: HTMLElement,
+    options?: Record<string, unknown>
+  ) => void
   cancel: () => void
   disableAutoSelect: () => void
 }
@@ -36,133 +35,288 @@ declare global {
 
 const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
-export function useGoogleSignIn(options: {
-  onSuccess: (credential: string) => Promise<void>
-  onError: (error: Error) => void
-}) {
-  const { onSuccess, onError } = options
-  const [isReady, setIsReady] = useState(false)
-  const [loadError, setLoadError] = useState<string | null>(null)
+/**
+ * Google Identity Services is a global singleton.
+ *
+ * These variables intentionally live outside the hook so React re-renders,
+ * StrictMode and multiple component mounts cannot call initialize()
+ * repeatedly.
+ */
+let googleInitialized = false
+let googleScriptLoading = false
+let googleScriptLoaded = false
 
-  // Keep the latest callbacks in refs so the init effect below does not
-  // need onSuccess/onError in its dependency array. Those props are
-  // recreated on every LoginCard render, which was causing this effect
-  // to re-run on every keystroke and call google.accounts.id.initialize()
-  // repeatedly — aborting any in-flight FedCM/Google prompt request.
-  const onSuccessRef = useRef(onSuccess)
-  const onErrorRef = useRef(onError)
+const googleCallbacks = {
+  onSuccess: null as ((credential: string) => Promise<void>) | null,
+  onError: null as ((error: Error) => void) | null,
+}
 
-  useEffect(() => {
-    onSuccessRef.current = onSuccess
-    onErrorRef.current = onError
-  }, [onSuccess, onError])
+function initializeGoogle() {
+  if (!GOOGLE_CLIENT_ID) {
+    throw new Error('Google Client ID is not configured.')
+  }
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return
+  if (!window.google?.accounts?.id) {
+    throw new Error('Google Identity Services failed to load.')
+  }
 
-    if (!GOOGLE_CLIENT_ID) {
-      setLoadError('Google Client ID is not configured.')
+  // VERY IMPORTANT:
+  // Never initialize Google Identity Services more than once.
+  if (googleInitialized) {
+    return
+  }
+
+  window.google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+
+    callback: async (response) => {
+      if (!response?.credential) {
+        googleCallbacks.onError?.(
+          new Error('Google sign-in was not completed.')
+        )
+        return
+      }
+
+      try {
+        if (googleCallbacks.onSuccess) {
+          await googleCallbacks.onSuccess(response.credential)
+        }
+      } catch (error) {
+        googleCallbacks.onError?.(
+          error instanceof Error
+            ? error
+            : new Error('Google login failed.')
+        )
+      }
+    },
+
+    auto_select: false,
+    cancel_on_tap_outside: false,
+
+    // Use popup instead of redirect.
+    ux_mode: 'popup',
+
+    // IMPORTANT:
+    // Prevent Chrome FedCM from trying to automatically request
+    // Google credentials. We only use the official rendered button.
+    use_fedcm_for_prompt: false,
+  })
+
+  // Explicitly disable auto-select to prevent any FedCM credential checking
+  window.google.accounts.id.disableAutoSelect()
+
+  googleInitialized = true
+}
+
+function loadGoogleScript(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (typeof window === 'undefined') {
+      reject(new Error('Window is not available.'))
       return
     }
 
-    const scriptId = 'google-identity-script'
-    const existingScript = document.getElementById(scriptId) as HTMLScriptElement | null
-
-    const initializeGoogle = () => {
-      if (!window.google?.accounts?.id) {
-        setLoadError('Google Identity Services failed to load.')
-        return
-      }
-
-      window.google.accounts.id.initialize({
-        client_id: GOOGLE_CLIENT_ID,
-        callback: async (response) => {
-          if (response?.credential) {
-            try {
-              await onSuccessRef.current(response.credential)
-            } catch (error) {
-              onErrorRef.current(error instanceof Error ? error : new Error('Google login failed.'))
-            }
-          } else {
-            onErrorRef.current(new Error('Google sign-in was not completed.'))
-          }
-        },
-        auto_select: false,
-        cancel_on_tap_outside: false,
-        ux_mode: 'popup',
-      })
-
-      setIsReady(true)
+    // Google already available.
+    if (window.google?.accounts?.id) {
+      googleScriptLoaded = true
+      resolve()
+      return
     }
 
+    // Script is already loading.
+    if (googleScriptLoading) {
+      const checkGoogle = () => {
+        if (window.google?.accounts?.id) {
+          googleScriptLoaded = true
+          resolve()
+          return
+        }
+
+        setTimeout(checkGoogle, 50)
+      }
+
+      checkGoogle()
+      return
+    }
+
+    // Script was already loaded but Google object is not available.
+    if (googleScriptLoaded) {
+      reject(
+        new Error('Google Identity Services is unavailable.')
+      )
+      return
+    }
+
+    const existingScript = document.getElementById(
+      'google-identity-script'
+    ) as HTMLScriptElement | null
+
     if (existingScript) {
-      if (window.google?.accounts?.id) {
-        initializeGoogle()
-        return
+      googleScriptLoading = true
+
+      const handleLoad = () => {
+        googleScriptLoading = false
+        googleScriptLoaded = true
+        resolve()
       }
 
-      const handleLoad = () => initializeGoogle()
-      const handleError = () => setLoadError('Failed to load Google Sign-In script.')
-
-      existingScript.addEventListener('load', handleLoad, { once: true })
-      existingScript.addEventListener('error', handleError, { once: true })
-
-      return () => {
-        existingScript.removeEventListener('load', handleLoad)
-        existingScript.removeEventListener('error', handleError)
+      const handleError = () => {
+        googleScriptLoading = false
+        reject(
+          new Error('Failed to load Google Sign-In script.')
+        )
       }
+
+      existingScript.addEventListener('load', handleLoad, {
+        once: true,
+      })
+
+      existingScript.addEventListener('error', handleError, {
+        once: true,
+      })
+
+      return
     }
 
     const script = document.createElement('script')
-    script.id = scriptId
+
+    script.id = 'google-identity-script'
     script.src = 'https://accounts.google.com/gsi/client'
     script.async = true
     script.defer = true
-    script.addEventListener('load', initializeGoogle, { once: true })
-    script.addEventListener('error', () => setLoadError('Failed to load Google Sign-In script.'), { once: true })
+
+    googleScriptLoading = true
+
+    script.onload = () => {
+      googleScriptLoading = false
+      googleScriptLoaded = true
+      resolve()
+    }
+
+    script.onerror = () => {
+      googleScriptLoading = false
+      reject(
+        new Error('Failed to load Google Sign-In script.')
+      )
+    }
+
     document.head.appendChild(script)
+  })
+}
 
-    return () => {
-      script.removeEventListener('load', initializeGoogle)
+export function useGoogleSignIn(options: {
+  containerId: string
+  onSuccess: (credential: string) => Promise<void>
+  onError: (error: Error) => void
+}) {
+  const { containerId, onSuccess, onError } = options
+
+  const [isReady, setIsReady] = useState(false)
+  const [loadError, setLoadError] = useState<string | null>(null)
+
+  const onSuccessRef = useRef(onSuccess)
+  const onErrorRef = useRef(onError)
+
+  /**
+   * Keep callbacks updated without reinitializing Google.
+   */
+  useEffect(() => {
+    onSuccessRef.current = onSuccess
+    onErrorRef.current = onError
+
+    googleCallbacks.onSuccess = async (credential: string) => {
+      await onSuccessRef.current(credential)
     }
-    // Intentionally run once on mount — onSuccess/onError are read via refs above.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
-  const signIn = useCallback(() => {
-    if (!isReady) {
-      onErrorRef.current(new Error(loadError ?? 'Google Sign-In is not ready.'))
-      return
+    googleCallbacks.onError = (error: Error) => {
+      onErrorRef.current(error)
     }
+  }, [onSuccess, onError])
 
-    try {
-      window.google?.accounts?.id.prompt((notification) => {
-        if (
-          typeof notification?.isNotDisplayed === 'function' &&
-          notification.isNotDisplayed()
-        ) {
-          onErrorRef.current(
-            new Error(
-              notification.getNotDisplayedReason?.() ??
-                'Google Sign-In was not displayed. Check that this domain is added to Authorized JavaScript origins in Google Cloud Console, and that third-party cookies are not blocked.'
-            )
+  useEffect(() => {
+    let cancelled = false
+
+    async function setupGoogle() {
+      try {
+        if (!GOOGLE_CLIENT_ID) {
+          setLoadError(
+            'Google Client ID is not configured.'
           )
-        } else if (
-          typeof notification?.isSkippedMoment === 'function' &&
-          notification.isSkippedMoment()
-        ) {
-          onErrorRef.current(
-            new Error(notification.getSkippedReason?.() ?? 'Google Sign-In was skipped.')
+          return
+        }
+
+        await loadGoogleScript()
+
+        if (cancelled) return
+
+        initializeGoogle()
+
+        if (!window.google?.accounts?.id) {
+          throw new Error(
+            'Google Identity Services failed to initialize.'
           )
         }
-      })
-    } catch {
-      onErrorRef.current(new Error('Unable to open Google Sign-In.'))
+
+        const container = document.getElementById(
+          containerId
+        )
+
+        if (!container) {
+          console.warn(
+            `[useGoogleSignIn] Container "${containerId}" was not found.`
+          )
+          return
+        }
+
+        /**
+         * Prevent duplicate Google buttons.
+         *
+         * This is important because React StrictMode can mount
+         * effects more than once during development.
+         */
+        if (container.dataset.googleRendered === 'true') {
+          setIsReady(true)
+          return
+        }
+
+        // Clear anything previously rendered into this container.
+        container.innerHTML = ''
+
+        window.google.accounts.id.renderButton(container, {
+          theme: 'outline',
+          size: 'large',
+          type: 'standard',
+          text: 'continue_with',
+          shape: 'rectangular',
+          logo_alignment: 'left',
+        })
+
+        container.dataset.googleRendered = 'true'
+
+        if (!cancelled) {
+          setIsReady(true)
+          setLoadError(null)
+        }
+      } catch (error) {
+        if (cancelled) return
+
+        console.error('[useGoogleSignIn]', error)
+
+        setLoadError(
+          error instanceof Error
+            ? error.message
+            : 'Google Sign-In failed to initialize.'
+        )
+      }
     }
-  }, [isReady, loadError])
+
+    setupGoogle()
+
+    return () => {
+      cancelled = true
+    }
+  }, [containerId])
 
   return {
-    signIn,
     isReady,
     loadError,
   }
