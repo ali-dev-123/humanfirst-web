@@ -13,6 +13,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
+import { MdLogout } from 'react-icons/md'
 import { useSmartNavigate } from '../../hooks/useSmartNavigate'
 import { useAuth } from '../../context/AuthContext'
 import { Link } from "react-router-dom";
@@ -319,7 +320,7 @@ interface MobileMenuProps {
   // accept either nullable or non-nullable ref object shapes
   firstLinkRef: React.RefObject<HTMLAnchorElement | null> | React.RefObject<HTMLAnchorElement>
   isAuthenticated?: boolean
-  user?: { name: string; email: string } | null
+  user?: { name: string; email: string; picture?: string | null } | null
   onLogout?: () => void
 }
 
@@ -472,6 +473,7 @@ function MobileMenu({ isOpen, activeId, onClose, shouldReduce, panelId, firstLin
               isMobile={true}
               userName={user?.name}
               userEmail={user?.email}
+              userImage={user?.picture}
               onLogout={onLogout || (() => {})}
               onClose={onClose}
             />
@@ -488,6 +490,7 @@ interface UserAccountDropdownProps {
   onLogout: () => void
   userName?: string
   userEmail?: string
+  userImage?: string | null
   isMobile?: boolean
   onClose?: () => void
 }
@@ -496,17 +499,18 @@ function UserAccountDropdown({
   onLogout,
   userName,
   userEmail,
+  userImage,
   isMobile = false,
   onClose,
 }: UserAccountDropdownProps) {
   const [isOpen, setIsOpen] = useState(false)
+  const [imageError, setImageError] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const { go } = useSmartNavigate()
 
-  // Get first letter for avatar
   const avatarLetter = userName?.charAt(0)?.toUpperCase() || 'U'
+  const avatarSrc = userImage && !imageError ? userImage : undefined
 
-  // Close on outside click
   useEffect(() => {
     if (!isOpen) return
 
@@ -528,7 +532,51 @@ function UserAccountDropdown({
     onLogout()
   }
 
-  // Mobile version: vertical stack in menu
+  const renderAvatar = (size: number) => (
+    <div
+      style={{
+        width: size,
+        height: size,
+        minWidth: size,
+        minHeight: size,
+        borderRadius: '50%',
+        overflow: 'hidden',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: avatarSrc ? 'transparent' : 'linear-gradient(135deg, rgba(202,255,112,0.3), rgba(26,95,76,0.18))',
+        border: '1.5px solid rgba(8, 47, 37, 0.1)',
+        boxShadow: '0 1px 3px rgba(8,47,37,0.08)',
+        flexShrink: 0,
+      }}
+    >
+      {avatarSrc ? (
+        <img
+          src={avatarSrc}
+          alt={userName ? `${userName} avatar` : 'User avatar'}
+          onError={() => setImageError(true)}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+          }}
+        />
+      ) : (
+        <span
+          style={{
+            fontSize: size > 38 ? '15px' : '12px',
+            fontWeight: 700,
+            color: '#082F25',
+            lineHeight: 1,
+          }}
+        >
+          {avatarLetter}
+        </span>
+      )}
+    </div>
+  )
+
   if (isMobile) {
     return (
       <div
@@ -543,19 +591,82 @@ function UserAccountDropdown({
       >
         <div
           style={{
-            padding: '12px 0',
-            fontSize: '14px',
-            color: 'var(--color-text-secondary)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 12,
+            padding: '10px 4px',
           }}
         >
-          {userName && (
-            <div style={{ fontWeight: 600, color: 'var(--color-text-primary)' }}>
-              {userName}
-            </div>
-          )}
-          {userEmail && (
-            <div style={{ fontSize: '12px', marginTop: 4 }}>{userEmail}</div>
-          )}
+          {renderAvatar(42)}
+          <div
+            style={{
+              minWidth: 0,
+              flex: 1,
+            }}
+          >
+            {userName && (
+              <div
+                style={{
+                  fontSize: '15px',
+                  fontWeight: 700,
+                  color: 'var(--color-text-primary)',
+                  lineHeight: 1.3,
+                  overflowWrap: 'anywhere',
+                }}
+              >
+                {userName}
+              </div>
+            )}
+            {userEmail && (
+              <div
+                style={{
+                  fontSize: '12px',
+                  color: 'var(--color-text-secondary)',
+                  marginTop: 4,
+                  lineHeight: 1.4,
+                  overflowWrap: 'anywhere',
+                }}
+              >
+                {userEmail}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div style={{ borderTop: '1px solid rgba(8, 47, 37, 0.08)', paddingTop: 12 }}>
+          <button
+            onClick={handleLogout}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 10,
+              width: '100%',
+              minHeight: '48px',
+              padding: '12px 14px',
+              borderRadius: '10px',
+              border: '1px solid rgba(8, 47, 37, 0.08)',
+              background: 'rgba(249, 250, 251, 0.8)',
+              color: '#082F25',
+              fontSize: '15px',
+              fontWeight: 600,
+              cursor: 'pointer',
+              transition: 'background 200ms ease, border-color 200ms ease',
+            }}
+            onMouseEnter={(e) => {
+              const target = e.currentTarget as HTMLButtonElement
+              target.style.background = 'rgba(202, 255, 112, 0.14)'
+              target.style.borderColor = 'rgba(8,47,37,0.18)'
+            }}
+            onMouseLeave={(e) => {
+              const target = e.currentTarget as HTMLButtonElement
+              target.style.background = 'rgba(249, 250, 251, 0.8)'
+              target.style.borderColor = 'rgba(8, 47, 37, 0.08)'
+            }}
+          >
+            <MdLogout style={{ fontSize: '16px', flexShrink: 0 }} />
+            Logout
+          </button>
         </div>
 
         <a
@@ -569,19 +680,10 @@ function UserAccountDropdown({
         >
           Request a Pilot
         </a>
-
-        <button
-          onClick={handleLogout}
-          className="inline-flex items-center justify-center w-full h-[48px] px-[20px] text-[15px] font-semibold text-[var(--color-forest-700)] bg-transparent border border-[rgba(8,47,37,0.14)] hover:border-[var(--color-forest-700)] hover:text-[var(--color-forest-700)] hover:bg-[rgba(202,255,112,0.24)] rounded-[10px] transition-all duration-200 cursor-pointer select-none text-center"
-          style={{ borderRadius: 'var(--radius-md)' }}
-        >
-          Logout
-        </button>
       </div>
     )
   }
 
-  // Desktop version: avatar + dropdown
   return (
     <div ref={dropdownRef} style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
       <motion.button
@@ -590,104 +692,122 @@ function UserAccountDropdown({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          width: 38,
-          height: 38,
-          borderRadius: 'var(--radius-sm)',
-          background: 'var(--color-accent)',
-          color: 'var(--color-forest-900)',
-          border: 'none',
+          width: 42,
+          height: 42,
+          borderRadius: '50%',
+          padding: 0,
+          background: 'rgba(202, 255, 112, 0.18)',
+          border: '1.5px solid rgba(8, 47, 37, 0.08)',
           cursor: 'pointer',
-          fontSize: '14px',
-          fontWeight: 600,
-          transition: 'background 200ms ease',
+          transition: 'transform 180ms ease, box-shadow 180ms ease',
+          boxShadow: isOpen ? '0 0 0 3px rgba(202,255,112,0.18)' : '0 2px 8px rgba(8,47,37,0.08)',
+          overflow: 'hidden',
         }}
-        whileHover={{
-          background: 'rgba(202, 255, 112, 0.8)',
-        }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
         aria-expanded={isOpen}
         aria-label="User account menu"
       >
-        {avatarLetter}
+        {renderAvatar(42)}
       </motion.button>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.15, ease: 'easeOut' }}
+            initial={{ opacity: 0, y: -8, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -8, scale: 0.98 }}
+            transition={{ duration: 0.16, ease: 'easeOut' }}
             style={{
               position: 'absolute',
-              top: '100%',
+              top: 'calc(100% + 8px)',
               right: 0,
-              marginTop: 8,
-              minWidth: 240,
-              background: 'rgba(247, 248, 243, 0.98)',
-              backdropFilter: 'blur(20px)',
-              WebkitBackdropFilter: 'blur(20px)',
-              border: '1px solid rgba(8, 47, 37, 0.12)',
-              borderRadius: 'var(--radius-md)',
-              boxShadow: '0 8px 24px rgba(8, 47, 37, 0.12)',
+              minWidth: 268,
+              background: 'rgba(255, 255, 255, 0.98)',
+              border: '1px solid #ECECEC',
+              borderRadius: '16px',
+              boxShadow: '0 12px 32px rgba(8, 47, 37, 0.12)',
               zIndex: 1000,
+              overflow: 'hidden',
             }}
           >
-            {/* User info section */}
             <div
               style={{
-                padding: '12px 16px',
-                borderBottom: '1px solid rgba(8, 47, 37, 0.08)',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                padding: '14px 14px 12px',
               }}
             >
-              {userName && (
-                <div
-                  style={{
-                    fontSize: '14px',
-                    fontWeight: 600,
-                    color: 'var(--color-text-primary)',
-                  }}
-                >
-                  {userName}
-                </div>
-              )}
-              {userEmail && (
-                <div
-                  style={{
-                    fontSize: '12px',
-                    color: 'var(--color-text-secondary)',
-                    marginTop: 4,
-                  }}
-                >
-                  {userEmail}
-                </div>
-              )}
+              {renderAvatar(42)}
+              <div
+                style={{
+                  minWidth: 0,
+                  flex: 1,
+                }}
+              >
+                {userName && (
+                  <div
+                    style={{
+                      fontSize: '15px',
+                      fontWeight: 700,
+                      color: '#111827',
+                      lineHeight: 1.3,
+                      overflowWrap: 'anywhere',
+                    }}
+                  >
+                    {userName}
+                  </div>
+                )}
+                {userEmail && (
+                  <div
+                    style={{
+                      fontSize: '12px',
+                      color: '#6B7280',
+                      marginTop: 3,
+                      lineHeight: 1.4,
+                      overflowWrap: 'anywhere',
+                      wordBreak: 'break-word',
+                    }}
+                  >
+                    {userEmail}
+                  </div>
+                )}
+              </div>
             </div>
 
-            {/* Menu items */}
-            <div style={{ padding: '8px 0' }}>
+            <div style={{ borderTop: '1px solid #ECECEC' }} />
+
+            <div style={{ padding: '8px 8px 10px' }}>
               <button
                 onClick={handleLogout}
                 style={{
-                  display: 'block',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
                   width: '100%',
-                  padding: '10px 16px',
-                  fontSize: '14px',
-                  color: 'var(--color-text-primary)',
-                  background: 'transparent',
+                  minHeight: '44px',
+                  padding: '10px 12px',
+                  borderRadius: '10px',
                   border: 'none',
+                  background: 'transparent',
+                  color: '#082F25',
+                  fontSize: '14px',
+                  fontWeight: 600,
                   textAlign: 'left',
-                  transition: 'background 200ms ease, color 200ms ease',
                   cursor: 'pointer',
+                  transition: 'background 200ms ease, color 200ms ease',
                 }}
                 onMouseEnter={(e) => {
                   const target = e.currentTarget as HTMLButtonElement
-                  target.style.background = 'rgba(202, 255, 112, 0.12)'
+                  target.style.background = 'rgba(202, 255, 112, 0.14)'
                 }}
                 onMouseLeave={(e) => {
                   const target = e.currentTarget as HTMLButtonElement
                   target.style.background = 'transparent'
                 }}
               >
+                <MdLogout style={{ fontSize: '16px', flexShrink: 0 }} />
                 Logout
               </button>
             </div>
@@ -858,10 +978,10 @@ function Navbar() {
               </motion.a>
 
               <motion.a
-                href="#pilot"
+                href="/contact#request-pilot"
                 onClick={(e) => {
                   e.preventDefault()
-                  go('#pilot')
+                  go('/contact#request-pilot')
                 }}
                 className="btn btn-primary btn-sm h-[38px]"
                 aria-label="Request a pilot programme"

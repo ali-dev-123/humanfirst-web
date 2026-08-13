@@ -19,6 +19,7 @@
 import { Fragment, type ComponentType, type SVGProps } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import { useSmartNavigate } from '../../hooks/useSmartNavigate'
 
 // ─── Content ───────────────────────────────────────────────────────────────────
 
@@ -572,6 +573,7 @@ function StepCard({ step, index, shouldReduce }: StepCardProps) {
 
 function HowItWorks() {
   const shouldReduce = useReducedMotion()
+  const { go } = useSmartNavigate()
 
   return (
     <section
@@ -771,10 +773,10 @@ function HowItWorks() {
           >
             {/* Primary CTA */}
             <motion.a
-              href="#pilot"
+              href="/contact#request-pilot"
               className="btn btn-primary btn-lg"
               aria-label="Request a pilot programme"
-              onClick={(e) => { e.preventDefault() }}
+              onClick={(e) => { e.preventDefault(); go('/contact#request-pilot') }}
               whileHover={shouldReduce ? {} : {
                 y:         -2,
                 boxShadow: '0 10px 28px rgba(202, 255, 112, 0.36)',

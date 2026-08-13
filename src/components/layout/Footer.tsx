@@ -9,6 +9,7 @@
 
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useSmartNavigate } from '../../hooks/useSmartNavigate'
 import humanFirstLogo from '../../assets/human-first-logo.png'
 
@@ -195,7 +196,23 @@ function FooterContactLink({ shouldReduce }: { shouldReduce: boolean | null }) {
 
 function Footer() {
   const shouldReduce = useReducedMotion()
-  const { go }       = useSmartNavigate()
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+  const { go } = useSmartNavigate()
+
+  const handleRequestPilot = () => {
+    if (pathname === '/contact') {
+      // Already on Contact page — navigate to the form hash and scroll locally
+      navigate('#request-pilot', { replace: true })
+      const el = document.getElementById('contact-form')
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    } else {
+      // Navigate to Contact page with request-pilot flag
+      go('/contact#request-pilot')
+    }
+  }
 
   return (
     <footer
@@ -315,9 +332,9 @@ function Footer() {
 
             {/* Primary button */}
             <motion.a
-              href="#pilot"
+              href="/contact#request-pilot"
               aria-label="Request a pilot programme"
-              onClick={(e) => { e.preventDefault(); go('#pilot') }}
+              onClick={(e) => { e.preventDefault(); handleRequestPilot() }}
               style={{
                 display:        'inline-flex',
                 alignItems:     'center',

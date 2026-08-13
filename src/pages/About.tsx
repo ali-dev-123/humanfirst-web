@@ -33,6 +33,7 @@ import type { ComponentType, SVGProps } from 'react'
 import { FaEye } from 'react-icons/fa'
 import { MdPeople } from 'react-icons/md'
 import { PiShootingStarFill } from 'react-icons/pi'
+import { useSmartNavigate } from '../hooks/useSmartNavigate'
 import { ChecklistDocumentIcon } from '../components/sections/HowItWorks'
 import { UserProtectionShieldIcon, VerifiableBadgeIcon } from '../components/sections/Solution'
 import Seo from '../components/Seo'
@@ -111,6 +112,7 @@ function SectionBadge({ children }: { children: React.ReactNode }) {
 
 function AboutHero() {
   const shouldReduce = useReducedMotion()
+  const { go } = useSmartNavigate()
 
   return (
     <section
@@ -206,10 +208,10 @@ function AboutHero() {
           }}
         >
           <motion.a
-            href="/#pilot"
+            href="/contact#request-pilot"
             className="btn btn-primary btn-lg"
             style={{ textDecoration: 'none' }}
-            onClick={(e) => { e.preventDefault() }}
+            onClick={(e) => { e.preventDefault(); go('/contact#request-pilot') }}
             whileHover={shouldReduce ? {} : {
               y: -2,
               boxShadow: '0 12px 32px rgba(202,255,112,0.42)',
@@ -982,6 +984,7 @@ function FounderMessage() {
 
 function AboutCTA() {
   const shouldReduce = useReducedMotion()
+  const { go } = useSmartNavigate()
 
   return (
     <section
@@ -1083,10 +1086,10 @@ function AboutCTA() {
             }}
           >
             <motion.a
-              href="/#pilot"
+              href="/contact#request-pilot"
               className="btn btn-primary btn-lg"
               style={{ textDecoration: 'none' }}
-              onClick={(e) => { e.preventDefault() }}
+              onClick={(e) => { e.preventDefault(); go('/contact#request-pilot') }}
               whileHover={shouldReduce ? {} : {
                 y:         -2,
                 boxShadow: '0 12px 32px rgba(202,255,112,0.42)',

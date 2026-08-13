@@ -17,7 +17,7 @@
  *   Backend handles saving the submission to Google Sheets.
  */
 
-import { useState, useId } from 'react'
+import { useState, useId, useEffect } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import {
   Send,
@@ -28,7 +28,7 @@ import {
 import { IoTimeSharp } from 'react-icons/io5'
 import { FaLocationDot } from 'react-icons/fa6'
 import { MdEmail, MdPeople } from 'react-icons/md'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useSmartNavigate } from '../hooks/useSmartNavigate'
 import Seo from '../components/Seo'
 import Footer from '../components/layout/Footer'
@@ -115,7 +115,22 @@ function SectionBadge({ children }: { children: React.ReactNode }) {
 function ContactHero() {
   const shouldReduce = useReducedMotion()
   const navigate = useNavigate()
+  const { pathname } = useLocation()
   const { go } = useSmartNavigate()
+
+  const handleRequestPilot = () => {
+    if (pathname === '/contact') {
+      // Already on Contact page — just navigate to the form hash
+      navigate('#request-pilot', { replace: true })
+      const el = document.getElementById('contact-form')
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    } else {
+      // Navigate to Contact page with request-pilot flag
+      go('/contact#request-pilot')
+    }
+  }
 
   return (
     <section
@@ -229,10 +244,10 @@ function ContactHero() {
           style={{ margin: '0 auto' }}
         >
           <motion.a
-            href="#contact-form"
+            href="/contact#request-pilot"
             onClick={(e) => {
               e.preventDefault()
-              go('#contact-form')
+              handleRequestPilot()
             }}
             className="btn btn-primary btn-lg"
             aria-label="Go to contact form"
@@ -1372,7 +1387,23 @@ function ContactFaq() {
 
 function ContactCta() {
   const shouldReduce = useReducedMotion()
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
   const { go } = useSmartNavigate()
+
+  const handleRequestPilot = () => {
+    if (pathname === '/contact') {
+      // Already on Contact page — just navigate to the form hash
+      navigate('#request-pilot', { replace: true })
+      const el = document.getElementById('contact-form')
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    } else {
+      // Navigate to Contact page with request-pilot flag
+      go('/contact#request-pilot')
+    }
+  }
 
   return (
     <section
@@ -1433,10 +1464,10 @@ function ContactCta() {
             </p>
 
             <motion.a
-              href="#contact-form"
+              href="/contact#request-pilot"
               onClick={(e) => {
                 e.preventDefault()
-                go('#contact-form')
+                handleRequestPilot()
               }}
               className="btn btn-primary btn-lg"
               style={{
@@ -1466,6 +1497,22 @@ function ContactCta() {
 // ─── Page ──────────────────────────────────────────────────────────────────────
 
 export default function Contact() {
+  const { hash } = useLocation()
+
+  useEffect(() => {
+    // If navigated with #request-pilot hash, scroll to the form
+    if (hash === '#request-pilot') {
+      // Use a small delay to ensure DOM is ready
+      const timer = setTimeout(() => {
+        const formEl = document.getElementById('contact-form')
+        if (formEl) {
+          formEl.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      }, 100)
+      return () => clearTimeout(timer)
+    }
+  }, [hash])
+
   return (
     <>
       <Seo

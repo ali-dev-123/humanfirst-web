@@ -295,10 +295,10 @@ function CallToAction() {
             >
               {/* Primary CTA */}
               <motion.a
-                href="#pilot"
+                href="/contact#request-pilot"
                 className="btn btn-primary btn-lg"
                 aria-label="Request a pilot programme"
-                onClick={(e) => { e.preventDefault(); go('#pilot') }}
+                onClick={(e) => { e.preventDefault(); go('/contact#request-pilot') }}
                 style={{ textDecoration: 'none' }}
                 whileHover={shouldReduce ? {} : {
                   y:         -2,

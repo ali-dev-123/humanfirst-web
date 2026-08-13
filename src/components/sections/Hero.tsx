@@ -260,10 +260,10 @@ function Hero() {
           >
             {/* Primary CTA — motion.a for GPU-smooth hover lift + shadow */}
             <motion.a
-              href="#pilot"
+              href="/contact#request-pilot"
               className="btn btn-primary btn-lg w-full sm:w-auto"
               aria-label="Request a pilot programme"
-              onClick={(e) => { e.preventDefault(); go('#pilot') }}
+              onClick={(e) => { e.preventDefault(); go('/contact#request-pilot') }}
               whileHover={{
                 y:         -2,
                 boxShadow: '0 10px 28px rgba(202, 255, 112, 0.40)',
