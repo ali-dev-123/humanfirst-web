@@ -266,7 +266,7 @@ export default function ResetPasswordCard() {
                   : 'Show password'
               }
             >
-              {showPassword ? (
+              {!showPassword ? (
                 <EyeOff className="w-5 h-5" />
               ) : (
                 <Eye className="w-5 h-5" />
@@ -331,7 +331,7 @@ export default function ResetPasswordCard() {
                   : 'Show confirm password'
               }
             >
-              {showConfirmPassword ? (
+              {!showConfirmPassword ? (
                 <EyeOff className="w-5 h-5" />
               ) : (
                 <Eye className="w-5 h-5" />

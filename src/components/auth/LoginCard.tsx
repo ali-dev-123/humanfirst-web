@@ -131,7 +131,7 @@ export default function LoginCard() {
               className="login-icon-button"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
-              {showPassword ? (
+              {!showPassword ? (
                 <EyeOff className="w-5 h-5" />
               ) : (
                 <Eye className="w-5 h-5" />

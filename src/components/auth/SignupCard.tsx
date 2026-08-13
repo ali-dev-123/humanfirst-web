@@ -163,7 +163,7 @@ export default function SignupCard() {
               className="login-icon-button"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
-              {showPassword ? (
+              {!showPassword ? (
                 <EyeOff className="w-5 h-5" />
               ) : (
                 <Eye className="w-5 h-5" />
@@ -195,7 +195,7 @@ export default function SignupCard() {
               className="login-icon-button"
               aria-label={showConfirmPassword ? 'Hide confirm password' : 'Show confirm password'}
             >
-              {showConfirmPassword ? (
+              {!showConfirmPassword ? (
                 <EyeOff className="w-5 h-5" />
               ) : (
                 <Eye className="w-5 h-5" />
