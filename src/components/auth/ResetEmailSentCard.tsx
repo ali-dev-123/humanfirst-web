@@ -42,9 +42,14 @@ export default function ResetEmailSentCard() {
             border: '1px solid var(--color-accent-border)',
           }}
         >
-          <MailCheck className="w-8 h-8" style={{ color: 'var(--color-brand-green)' }} />
+          <MailCheck
+            className="w-8 h-8"
+            style={{ color: 'var(--color-brand-green)' }}
+          />
         </div>
+
         <h1 className="login-title">Check Your Email</h1>
+
         <p className="login-subtitle">
           We've sent a password reset link to your email address.
         </p>
@@ -66,10 +71,12 @@ export default function ResetEmailSentCard() {
 
       {/* ── BUTTONS SECTION ───────────────────────────────────────────── */}
       <div className="login-form">
-        {/* Primary Button: Open Email App */}
+        {/* Primary Button: Open Gmail */}
         <div className="login-button-container">
           <a
-            href="mailto:"
+            href="https://mail.google.com/mail/u/0/#inbox"
+            target="_blank"
+            rel="noopener noreferrer"
             className="login-button"
             style={{
               display: 'flex',
@@ -99,6 +106,7 @@ export default function ResetEmailSentCard() {
       {/* ── SMALL FOOTER SECTION ──────────────────────────────────────── */}
       <footer className="login-footer" style={{ marginTop: '32px' }}>
         <span>Didn't receive it?</span>
+
         <button
           type="button"
           onClick={handleResend}
