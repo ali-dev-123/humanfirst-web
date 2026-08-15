@@ -79,13 +79,13 @@ function Hero() {
       aria-label="HumanF1RST — Academic integrity platform"
       style={{
         position:   'relative',
-        minHeight:  '85vh',
+        minHeight:  'min(74vh, 760px)',
         display:    'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop:    115,
-        paddingBottom: 100,    /* increased from 80 — gives balanced breathing room below */
+        paddingTop:    'clamp(130px, 7vw, 96px)',
+        paddingBottom: 'clamp(52px, 5vw, 72px)',
         backgroundColor: 'var(--color-bg-base)',
       }}
     >
@@ -159,7 +159,7 @@ function Hero() {
           variants={CONTAINER_VARIANTS}
           initial="hidden"
           animate="visible"
-          style={{ maxWidth: 560 }}
+          style={{ maxWidth: 560, alignSelf: 'center' }}
         >
 
           {/* Badge */}
@@ -178,9 +178,9 @@ function Hero() {
             variants={itemVariant}
             className="lg:whitespace-nowrap"
             style={{
-              marginTop:     'var(--space-5)',
+              marginTop:     '0.875rem',
               fontSize:      'clamp(2.5rem, 6vw, 4.5rem)',
-              lineHeight:    'var(--leading-none)',
+              lineHeight:    'var(--leading-tight)',
               letterSpacing: 'var(--tracking-tight)',
             }}
           >
@@ -203,7 +203,7 @@ function Hero() {
           {/* Sub-headline + body (animated as one group per approved timeline) */}
           <motion.div
             variants={itemVariant}
-            style={{ marginTop: 'var(--space-6)' }}
+            style={{ marginTop: '0.875rem' }}
           >
             {/* Sub-headline — verbatim V1 */}
             <p
@@ -221,11 +221,11 @@ function Hero() {
             {/* Body — verbatim V1 */}
             <p
               style={{
-                marginTop:  'var(--space-3)',
+                marginTop:  '0.625rem',
                 fontSize:   'var(--text-lg)',
                 color:      '#5F6D65',
                 lineHeight: 'var(--leading-relaxed)',
-                maxWidth:   480,
+                maxWidth:   440,
               }}
             >
               HumanFirst proves student work is genuinely human — without
@@ -242,7 +242,7 @@ function Hero() {
           <motion.div
             variants={itemVariant}
             className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5"
-            style={{ marginTop: 'var(--space-8)' }}
+            style={{ marginTop: '1.5rem' }}
           >
             {/* Primary CTA — motion.a for GPU-smooth hover lift + shadow */}
             <motion.a
@@ -306,6 +306,7 @@ function Hero() {
             delay:    0.2,
             ease:     [0.16, 1, 0.3, 1],
           }}
+          style={{ alignSelf: 'center' }}
           /* Removed explicit willChange — Framer Motion manages it automatically */
         >
           <HeroDashboard />

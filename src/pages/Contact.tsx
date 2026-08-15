@@ -139,8 +139,8 @@ function ContactHero() {
       style={{
         position: 'relative',
         backgroundColor: 'var(--color-bg-base)',
-        paddingTop: 'clamp(7rem, 16vw, 11rem)',
-        paddingBottom: 'clamp(4rem, 9vw, 7rem)',
+        paddingTop: 'clamp(5.25rem, 10vw, 8rem)',
+        paddingBottom: 'clamp(3rem, 6vw, 5rem)',
         overflow: 'hidden',
         textAlign: 'center',
       }}
@@ -210,7 +210,7 @@ function ContactHero() {
             letterSpacing: 'var(--tracking-tight)',
             lineHeight: 1.04,
             color: 'var(--color-brand-green)',
-            margin: '0 auto var(--space-6)',
+            margin: '0 auto var(--space-5)',
             maxWidth: 680,
           }}
         >
@@ -226,7 +226,7 @@ function ContactHero() {
             lineHeight: 1.75,
             maxWidth: 560,
             width: '100%',
-            margin: '0 auto var(--space-10)',
+            margin: '0 auto var(--space-8)',
           }}
         >
           Whether you're exploring HUMΛNF1RST for your institution, interested
@@ -404,7 +404,7 @@ function ContactForm() {
     } else if (containsNumbers(form.subject)) {
       newErrors.subject = 'Subject should not contain numbers.'
     }
-    
+
     // Validate message
      if (!form.message.trim()) {
       newErrors.message = 'Please enter your message.'
@@ -552,7 +552,7 @@ function ContactForm() {
         border: '1px solid var(--color-accent)',
         borderRadius: 'var(--radius-xl)',
         boxShadow: 'var(--shadow-card)',
-        padding: 'clamp(1.25rem, 4vw, 3rem)',
+        padding: 'clamp(1rem, 3vw, 2.25rem)',
       }}
     >
       {submitted ? (
@@ -635,7 +635,7 @@ function ContactForm() {
               fontSize: 'var(--text-sm)',
               color: 'var(--color-text-secondary)',
               lineHeight: 1.70,
-              marginBottom: 'var(--space-8)',
+              marginBottom: 'var(--space-6)',
             }}
           >
             Tell us a little about your institution or enquiry and we'll get
@@ -1050,8 +1050,8 @@ function ContactMain() {
       style={{
         position: 'relative',
         backgroundColor: 'var(--color-bg-base)',
-        paddingTop: 'var(--space-6)',
-        paddingBottom: 'var(--space-24)',
+        paddingTop: 'var(--space-4)',
+        paddingBottom: 'var(--space-20)',
         overflow: 'hidden',
       }}
     >
@@ -1361,7 +1361,7 @@ function ContactFaq() {
       id="contact-faq"
       style={{
         backgroundColor: 'var(--color-bg-base)',
-        padding: 'var(--space-24) 0',
+        padding: 'var(--space-20) 0',
       }}
     >
       <div className="container-v2">
@@ -1369,7 +1369,7 @@ function ContactFaq() {
           {...fadeUp(shouldReduce, 0)}
           style={{
             textAlign: 'center',
-            marginBottom: 'var(--space-10)',
+            marginBottom: 'var(--space-8)',
           }}
         >
           <SectionBadge>FAQ</SectionBadge>
@@ -1437,7 +1437,7 @@ function ContactCta() {
     <section
       style={{
         backgroundColor: 'var(--color-bg-base)',
-        padding: '0 0 var(--space-24)',
+        padding: '0 0 var(--space-20)',
       }}
     >
       <div className="container-v2">

@@ -419,8 +419,8 @@ function Solution() {
       style={{
         position:        'relative',
         backgroundColor: 'var(--color-bg-base)',
-        paddingTop:      'var(--space-24)',
-        paddingBottom:   'var(--space-24)',
+        paddingTop:      'var(--space-20)',
+        paddingBottom:   'var(--space-20)',
         overflow:        'hidden',
       }}
     >
@@ -458,7 +458,7 @@ function Solution() {
       <div className="container-v2">
 
         {/* ── Eyebrow badge ─────────────────────────────────────────────────── */}
-        <motion.div {...fadeUp(shouldReduce, 0)} style={{ marginBottom: 'var(--space-10)' }}>
+        <motion.div {...fadeUp(shouldReduce, 0)} style={{ marginBottom: 'var(--space-8)' }}>
           <div
             style={{
               display:      'inline-flex',
@@ -497,7 +497,7 @@ function Solution() {
         {/* ── Section heading ────────────────────────────────────────────────── */}
         <motion.div
           {...fadeUp(shouldReduce, 0.06)}
-          style={{ maxWidth: 700, marginBottom: 'var(--space-6)' }}
+          style={{ maxWidth: 700, marginBottom: 'var(--space-5)' }}
         >
           <h2
             id="solution-heading"
@@ -541,7 +541,7 @@ function Solution() {
         {/* ── Supporting paragraph ───────────────────────────────────────────── */}
         <motion.div
           {...fadeUp(shouldReduce, 0.12)}
-          style={{ maxWidth: 560, marginBottom: 'var(--space-16)' }}
+          style={{ maxWidth: 560, marginBottom: 'var(--space-12)' }}
         >
           <p
             style={{
@@ -575,9 +575,9 @@ function Solution() {
         <motion.div
           {...fadeUp(shouldReduce, 0.50)}
           style={{
-            marginTop:      'var(--space-20)',
+            marginTop:      'var(--space-16)',
             textAlign:      'center',
-            paddingTop:     'var(--space-16)',
+            paddingTop:     'var(--space-10)',
             borderTop:      '1px solid rgba(8,47,37,0.08)',
           }}
         >

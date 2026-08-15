@@ -430,8 +430,8 @@ function CoreFeatures() {
       style={{
         position:        'relative',
         backgroundColor: 'var(--color-bg-base)',
-        paddingTop:      'var(--space-24)',
-        paddingBottom:   'var(--space-24)',
+        paddingTop:      'var(--space-20)',
+        paddingBottom:   'var(--space-20)',
         overflow:        'hidden',
       }}
     >
@@ -457,7 +457,7 @@ function CoreFeatures() {
       <div className="container-v2">
 
         {/* ── Badge ─────────────────────────────────────────────────────────── */}
-        <motion.div {...fadeUp(shouldReduce, 0)} style={{ marginBottom: 'var(--space-10)' }}>
+        <motion.div {...fadeUp(shouldReduce, 0)} style={{ marginBottom: 'var(--space-8)' }}>
           <div
             style={{
               display:      'inline-flex',
@@ -497,7 +497,7 @@ function CoreFeatures() {
         {/* ── Heading ───────────────────────────────────────────────────────── */}
         <motion.div
           {...fadeUp(shouldReduce, 0.06)}
-          style={{ maxWidth: 600, marginBottom: 'var(--space-5)' }}
+          style={{ maxWidth: 600, marginBottom: 'var(--space-4)' }}
         >
           <h2
             id="features-heading"

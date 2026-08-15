@@ -317,8 +317,8 @@ function Problem() {
       style={{
         position:        'relative',
         backgroundColor: 'var(--color-bg-base)',
-        paddingTop:      'var(--space-24)',
-        paddingBottom:   'var(--space-24)',
+        paddingTop:      'var(--space-20)',
+        paddingBottom:   'var(--space-20)',
         overflow:        'hidden',
       }}
     >
@@ -345,7 +345,7 @@ function Problem() {
       <div className="container-v2">
 
         {/* ── Eyebrow badge ─────────────────────────────────────────────────── */}
-        <motion.div {...fadeUp(shouldReduce, 0)} style={{ marginBottom: 'var(--space-10)' }}>
+        <motion.div {...fadeUp(shouldReduce, 0)} style={{ marginBottom: 'var(--space-8)' }}>
           <div
             style={{
               display:       'inline-flex',
@@ -385,7 +385,7 @@ function Problem() {
             Desktop: [38% stat] [62% text] side by side via problem-stat-grid
             Mobile:  stacked — stat above, text below
         ────────────────────────────────────────────────────────────────────── */}
-        <div className="problem-stat-grid" style={{ marginBottom: 'var(--space-20)' }}>
+        <div className="problem-stat-grid" style={{ marginBottom: 'var(--space-16)' }}>
 
           {/* LEFT — "95%" display stat */}
           <motion.div
@@ -498,7 +498,7 @@ function Problem() {
         {/* ── Approaches sub-label ──────────────────────────────────────────── */}
         <motion.div
           {...fadeUp(shouldReduce, 0.08)}
-          style={{ marginBottom: 'var(--space-8)' }}
+          style={{ marginBottom: 'var(--space-6)' }}
         >
           <p
             style={{

@@ -78,9 +78,8 @@ function CallToAction() {
       style={{
         position:        'relative',
         backgroundColor: 'var(--color-bg-base)',
-        /* Extra tall — this is the visual climax */
-        paddingTop:      'clamp(6rem, 14vw, 10rem)',
-        paddingBottom:   'clamp(6rem, 14vw, 10rem)',
+        paddingTop:      'clamp(4.5rem, 8vw, 7rem)',
+        paddingBottom:   'clamp(4.5rem, 8vw, 7rem)',
         overflow:        'hidden',
       }}
     >

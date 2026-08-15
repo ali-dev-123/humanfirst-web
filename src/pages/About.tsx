@@ -79,7 +79,7 @@ function SectionBadge({ children }: { children: React.ReactNode }) {
         borderRadius: 'var(--radius-full)',
         border:       '1px solid rgba(8,47,37,0.10)',
         background:   'var(--color-accent)',
-        marginBottom: 'var(--space-10)',
+        marginBottom: 'var(--space-8)',
       }}
     >
       <span
@@ -121,8 +121,8 @@ function AboutHero() {
       style={{
         position:        'relative',
         backgroundColor: 'var(--color-bg-base)',
-        paddingTop:      'clamp(8rem, 16vw, 11rem)',
-        paddingBottom:   'var(--space-24)',
+        paddingTop:      'clamp(5.5rem, 10vw, 8rem)',
+        paddingBottom:   'var(--space-20)',
         overflow:        'hidden',
         textAlign:       'center',
       }}
@@ -155,7 +155,7 @@ function AboutHero() {
         <motion.h1
           id="about-hero-heading"
           {...fadeUp(shouldReduce, 0.06)}
-          style={{ margin: '0 auto var(--space-6)', maxWidth: 700 }}
+          style={{ margin: '0 auto var(--space-5)', maxWidth: 700 }}
         >
           <span
             className="text-gradient-accent"
@@ -190,7 +190,7 @@ function AboutHero() {
             color:       'var(--color-text-secondary)',
             lineHeight:  1.80,
             maxWidth:    560,
-            margin:      '0 auto var(--space-10)',
+            margin:      '0 auto var(--space-8)',
           }}
         >
           HumanFirst exists to help institutions preserve academic integrity
@@ -292,7 +292,7 @@ function OurStory() {
             lineHeight:    1.08,
             color:         'var(--color-text-primary)',
             maxWidth:      560,
-            marginBottom:  'var(--space-14)',
+            marginBottom:  'var(--space-10)',
           }}
         >
           Why HumanFirst Exists
@@ -318,11 +318,11 @@ function OurStory() {
               borderLeft:          '3px solid var(--color-accent)',
               borderRadius:        'var(--radius-2xl)',
               boxShadow:           'var(--shadow-lg)',
-              marginTop:           'var(--space-10)',
-              paddingTop:          'var(--space-8)',
-              paddingRight:        'var(--space-9)',
-              paddingBottom:       'var(--space-10)',
-              paddingLeft:         'var(--space-9)',
+              marginTop:           'var(--space-6)',
+              paddingTop:          'var(--space-7)',
+              paddingRight:        'var(--space-8)',
+              paddingBottom:       'var(--space-8)',
+              paddingLeft:         'var(--space-8)',
             }}
           >
             {/* Quote icon — watermark in top-right corner, decorative not dominant */}
@@ -598,7 +598,7 @@ function OurPrinciples() {
             color:       'var(--color-text-secondary)',
             lineHeight:  1.80,
             maxWidth:    520,
-            margin:      '0 0 var(--space-16)',
+            margin:      '0 0 var(--space-12)',
           }}
         >
           Six principles guide every product decision at HumanFirst.
@@ -727,8 +727,8 @@ function OurVision() {
       style={{
         position:        'relative',
         backgroundColor: 'var(--color-bg-base)',
-        paddingTop:      'var(--space-24)',
-        paddingBottom:   'var(--space-24)',
+        paddingTop:      'var(--space-20)',
+        paddingBottom:   'var(--space-20)',
         overflow:        'hidden',
         textAlign:       'center',
       }}
@@ -849,7 +849,7 @@ function FounderMessage() {
             background:     'var(--color-bg-elevated)',
             border:         '1px solid var(--color-accent)',
             borderRadius:   'var(--radius-2xl)',
-            padding:        'clamp(2.5rem, 6vw, 4.5rem)',
+            padding:        'clamp(2rem, 5vw, 3.5rem)',
             boxShadow:      'var(--shadow-xl)',
             maxWidth:       820,
             margin:         '0 auto',
@@ -993,8 +993,8 @@ function AboutCTA() {
       style={{
         position:        'relative',
         backgroundColor: 'var(--color-bg-base)',
-        paddingTop:      'clamp(5rem, 12vw, 8rem)',
-        paddingBottom:   'clamp(5rem, 12vw, 8rem)',
+        paddingTop:      'clamp(4rem, 8vw, 6rem)',
+        paddingBottom:   'clamp(4rem, 8vw, 6rem)',
         overflow:        'hidden',
         textAlign:       'center',
       }}

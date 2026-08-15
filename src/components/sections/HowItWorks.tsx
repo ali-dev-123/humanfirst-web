@@ -582,8 +582,8 @@ function HowItWorks() {
       style={{
         position:        'relative',
         backgroundColor: 'var(--color-bg-base)',
-        paddingTop:      'var(--space-24)',
-        paddingBottom:   'var(--space-24)',
+        paddingTop:      'var(--space-20)',
+        paddingBottom:   'var(--space-20)',
         overflow:        'hidden',
       }}
     >
@@ -607,7 +607,7 @@ function HowItWorks() {
       <div className="container-v2">
 
         {/* ── Badge ──────────────────────────────────────────────────────────── */}
-        <motion.div {...fadeUp(shouldReduce, 0)} style={{ marginBottom: 'var(--space-10)' }}>
+        <motion.div {...fadeUp(shouldReduce, 0)} style={{ marginBottom: 'var(--space-8)' }}>
           <div
             style={{
               display:      'inline-flex',
@@ -648,7 +648,7 @@ function HowItWorks() {
         {/* ── Heading — first line dominant, second line lighter ─────────────── */}
         <motion.div
           {...fadeUp(shouldReduce, 0.06)}
-          style={{ maxWidth: 640, marginBottom: 'var(--space-5)' }}
+          style={{ maxWidth: 640, marginBottom: 'var(--space-4)' }}
         >
           <h2
             id="hiw-heading"
@@ -687,7 +687,7 @@ function HowItWorks() {
         {/* ── Supporting paragraph — two short lines, +15% brightness ──────── */}
         <motion.div
           {...fadeUp(shouldReduce, 0.12)}
-          style={{ maxWidth: 500, marginBottom: 'var(--space-16)' }}
+          style={{ maxWidth: 500, marginBottom: 'var(--space-12)' }}
         >
           <p
             style={{
@@ -742,8 +742,8 @@ function HowItWorks() {
         <motion.div
           {...fadeUp(shouldReduce, 0.52)}
           style={{
-            marginTop:      'var(--space-16)',
-            paddingTop:     'var(--space-12)',
+            marginTop:      'var(--space-12)',
+            paddingTop:     'var(--space-8)',
             borderTop:      '1px solid rgba(8,47,37,0.08)',
             display:        'flex',
             flexDirection:  'column',
