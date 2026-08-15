@@ -133,10 +133,10 @@ function NavLogo() {
         style={{
           display: 'block',
           width: 'auto',
-          height: 68,
-          maxHeight: '100%',
+          height: 130,
+          maxHeight: '150%',
           objectFit: 'contain',
-          transform: 'translateX(55px) translateY(-5px)',
+          transform: 'translateX(-22px) translateY(2.5px)',
         }}
       />
       {/* human-first-logo.png removed from navbar per request; kept only the mark image */}
@@ -928,7 +928,7 @@ function Navbar() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          height: 64,
+          height: 80,
         }}
       >
         {/* ── Logo ── */}

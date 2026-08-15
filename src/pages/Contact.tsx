@@ -328,6 +328,11 @@ function validateEmail(email: string): boolean {
   return EMAIL_REGEX.test(email)
 }
 
+// Checks that a string contains no digits (0-9)
+function containsNumbers(value: string): boolean {
+  return /\d/.test(value)
+}
+
 function ContactForm() {
   const shouldReduce = useReducedMotion()
 
@@ -378,6 +383,10 @@ function ContactForm() {
     // Validate name
     if (!form.name.trim()) {
       newErrors.name = 'Please enter your full name.'
+    } else if (form.name.trim().length < 2) {
+      newErrors.name = 'Name must be at least 2 characters.'
+    } else if (containsNumbers(form.name)) {
+      newErrors.name = 'Name should not contain numbers.'
     }
 
     // Validate email
@@ -390,11 +399,19 @@ function ContactForm() {
     // Validate subject
     if (!form.subject.trim()) {
       newErrors.subject = 'Please enter a subject.'
+    } else if (form.subject.trim().length < 3) {
+      newErrors.subject = 'Subject must be at least 3 characters.'
+    } else if (containsNumbers(form.subject)) {
+      newErrors.subject = 'Subject should not contain numbers.'
     }
-
+    
     // Validate message
-    if (!form.message.trim()) {
+     if (!form.message.trim()) {
       newErrors.message = 'Please enter your message.'
+    } else if (form.message.trim().length < 10) {
+      newErrors.message = 'Message must be at least 10 characters.'
+    } else if (form.message.trim().length > 2000) {
+      newErrors.message = 'Message must be less than 2000 characters.'
     }
 
     // If there are any errors, display them and don't submit
@@ -425,12 +442,23 @@ function ContactForm() {
       let data: {
         success?: boolean
         message?: string
+        error?: string
       } | null = null
 
       try {
         data = await response.json()
       } catch {
         data = null
+      }
+
+      // Handle duplicate email specifically — show it under the Email field
+      if (response.status === 409 && data?.error === 'DUPLICATE_EMAIL') {
+        setErrors({
+          email:
+            data.message ||
+            "This email has already submitted a message. We'll be in touch soon.",
+        })
+        return
       }
 
       if (!response.ok) {

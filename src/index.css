@@ -748,73 +748,29 @@ button {
    Mobile/tablet only: keep logo visible, centered, and non-overlapping.
    Desktop remains unchanged.
    ---------------------------------------------------------- */
+
+   /* ----------------------------------------------------------
+   NAVBAR — Logo layout
+   Ek hi consistent rule, har breakpoint pe same behavior.
+   Logo hamesha flex container ke andar naturally left-aligned
+   rehta hai — koi absolute positioning ya manual offset nahi.
+   ---------------------------------------------------------- */
 .nav-logo {
-  transform: none !important;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
 }
 
-@media (max-width: 1023px) {
-  .nav-logo {
-    flex-shrink: 1;
-    min-width: 0;
-    max-width: calc(100% - 92px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+.nav-logo img {
+  display: block;
+  height: 48px;
+  width: auto;
+  max-height: 100%;
 }
 
 @media (max-width: 767px) {
-  .nav-logo {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    max-width: calc(100% - 84px);
-  }
-}
-
-/* Mobile navbar logo safety: ensure the actual logo image is visible on small viewports
-   and not pushed off-screen by desktop-only transforms. Scoped to mobile only. */
-@media (max-width: 767px) {
-  header[role="banner"] .nav-logo {
-    display: flex !important;
-    position: relative !important;
-    left: 0 !important;
-    top: 0 !important;
-    transform: none !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    overflow: visible !important;
-    margin-left: 0 !important;
-    z-index: 60 !important;
-  }
-
-  header[role="banner"] .nav-logo img {
-    transform: none !important;
-    display: block !important;
-    height: auto !important;
-    /* Larger mobile logo for clearer visibility while keeping navbar padding */
-    max-height: 60px !important;
-    width: auto !important;
-    margin-left: 8px !important;
-    margin-right: 8px !important;
-    margin-top: 4px !important;
-    margin-bottom: 4px !important;
-    z-index: 61 !important;
-  }
-}
-
-@media (min-width: 1280px) {
-  header[role="banner"] > .container-v2 {
-    position: relative;
-    padding-left: 280px;
-  }
-
-  header[role="banner"] .nav-logo {
-    position: absolute;
-    left: 0;
-    top: calc(34% - 14px);
-    transform: none;
+  .nav-logo img {
+    height: 40px;
   }
 }
 
