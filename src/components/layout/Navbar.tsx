@@ -133,7 +133,7 @@ function NavLogo() {
         style={{
           display: 'block',
           width: 'auto',
-          height: 130,
+          height: 110,
           maxHeight: '150%',
           objectFit: 'contain',
           transform: 'translateX(-22px) translateY(2.5px)',
