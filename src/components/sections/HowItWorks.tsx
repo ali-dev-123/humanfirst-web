@@ -440,14 +440,14 @@ function StepCard({ step, index, shouldReduce }: StepCardProps) {
    * Step 01 gets slightly stronger border + glow to signal it as the entry point.
    * All other cards use the standard treatment.
    */
-  const borderColor    = step.isFirst ? 'rgba(8, 47, 37, 0.16)' : 'rgba(8, 47, 37, 0.10)'
+  const borderColor    = 'rgba(202, 255, 112, 0.30)'
   const glowBase       = step.isFirst
     ? '0 0 56px 0 rgba(202, 255, 112, 0.22)'
     : '0 0 36px 0 rgba(202, 255, 112, 0.10)'
   const glowHover      = step.isFirst
-    ? '0 0 72px 0 rgba(202, 255, 112, 0.28)'
-    : '0 0 60px 0 rgba(202, 255, 112, 0.16)'
-  const borderHover    = step.isFirst ? 'rgba(8, 47, 37, 0.20)' : 'rgba(8, 47, 37, 0.14)'
+    ? '0 0 72px 0 rgba(202, 255, 112, 0.24)'
+    : '0 0 60px 0 rgba(202, 255, 112, 0.24)'
+  const borderHover    = 'rgba(202, 255, 112, 0.40)'
 
   return (
     <div className="hiw-step-wrap">
@@ -488,32 +488,15 @@ function StepCard({ step, index, shouldReduce }: StepCardProps) {
           }}
         />
 
-        {/* Header: step number (left) + icon badge (right) */}
+        {/* Icon badge */}
         <div
           style={{
             display:        'flex',
             alignItems:     'flex-start',
-            justifyContent: 'space-between',
+            justifyContent: 'flex-start',
             marginBottom:   'var(--space-6)',
           }}
         >
-          {/* Step number */}
-          <span
-            className="text-gradient-accent"
-            style={{
-              fontFamily:    'var(--font-mono)',
-              fontSize:      'clamp(1.6rem, 3vw, 2.25rem)',
-              fontWeight:    'var(--font-extrabold)',
-              lineHeight:    1,
-              letterSpacing: '-0.02em',
-              opacity:       step.isFirst ? 1 : 0.80,
-            }}
-            aria-label={`Step ${step.number}`}
-          >
-            {step.number}
-          </span>
-
-          {/* Icon badge */}
           <motion.div
             {...scaleIn(shouldReduce, cardDelay + 0.05)}
             style={{

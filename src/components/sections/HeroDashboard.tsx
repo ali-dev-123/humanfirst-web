@@ -199,7 +199,7 @@ function DashboardPanel() {
     <div
       style={{
         background: 'var(--color-bg-overlay)',          /* lifted: elevated→overlay (#161E17) */
-        border: '1px solid var(--color-accent-border)',  /* lifted: border-accent→accent-border (0.25 opacity) */
+        border: '1px solid rgba(202, 255, 112, 0.30)',
         borderRadius: 'var(--radius-2xl)',
         overflow: 'hidden',
         boxShadow: 'var(--shadow-xl), var(--shadow-glow-md)',

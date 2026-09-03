@@ -437,8 +437,8 @@ button {
   background-color: rgba(255, 255, 255, 0.76);
   backdrop-filter: blur(var(--blur-lg));
   -webkit-backdrop-filter: blur(var(--blur-lg));
-  border: 1px solid rgba(8, 47, 37, 0.10);
-  border-radius: var(--radius-xl);
+  border: 1px solid rgba(202, 255, 112, 0.30);
+  border-radius: var(--radius-2xl);
   box-shadow: var(--shadow-card);
 }
 
@@ -869,6 +869,13 @@ button {
   grid-template-columns: 1fr;
 }
 
+@media (max-width: 767px) {
+  .problem-consequence {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
 @media (min-width: 768px) {
   .problem-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -968,11 +975,11 @@ button {
   .hiw-connector-wrap {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    /* 36px = icon badge top (pad-top 28px) + half icon height 20px / 2 — aligns
-       connector with the vertical center of the card's header icon row */
-    padding-top: 36px;
-    flex: 0 0 44px;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    flex: 0 0 68px;
+    padding-inline: 12px;
     align-self: stretch;
   }
 }

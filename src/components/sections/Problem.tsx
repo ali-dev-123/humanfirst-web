@@ -531,6 +531,7 @@ function Problem() {
 
         {/* ── Consequence callout ────────────────────────────────────────────── */}
         <motion.div
+          className="problem-consequence"
           {...fadeUp(shouldReduce, 0.45)}
           style={{
             marginTop:    'var(--space-8)',

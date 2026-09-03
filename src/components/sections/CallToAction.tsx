@@ -154,7 +154,7 @@ function CallToAction() {
             background:     'rgba(255, 255, 255, 0.88)',
             backdropFilter: 'blur(28px)',
             WebkitBackdropFilter: 'blur(28px)',
-            border:         '1px solid rgba(8, 47, 37, 0.10)',
+            border:         '1px solid rgba(202, 255, 112, 0.30)',
             borderRadius:   'var(--radius-2xl)',
             padding:        'clamp(3rem, 6vw, 5rem) clamp(2rem, 5vw, 4rem)',
             boxShadow: [

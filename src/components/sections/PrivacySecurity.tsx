@@ -408,9 +408,9 @@ function TrustCardItem({ card, index, shouldReduce }: TrustCardProps) {
         alignItems: 'flex-start',
         gap:        'var(--space-4)',
         background: 'var(--color-bg-elevated)',
-        border:     '1px solid rgba(34, 197, 94, 0.14)',
+        border:     '1px solid rgba(202, 255, 112, 0.30)',
         borderLeft: '3px solid rgba(34, 197, 94, 0.50)',
-        borderRadius:'var(--radius-xl)',
+        borderRadius:'var(--radius-2xl)',
         padding:    'var(--space-5) var(--space-6)',
         boxShadow:  'var(--shadow-lg), 0 0 28px 0 rgba(202,255,112,0.10)',
         overflow:   'hidden',
@@ -421,8 +421,8 @@ function TrustCardItem({ card, index, shouldReduce }: TrustCardProps) {
         y:         -3,
         boxShadow: [
           'var(--shadow-xl)',
-          '0 0 48px 0 rgba(202,255,112,0.14)',
-          '0 0 0 1px rgba(8,47,37,0.12)',
+          '0 0 48px 0 rgba(202,255,112,0.24)',
+          '0 0 0 1px rgba(202,255,112,0.40)',
         ].join(', '),
       }}
       transition={{ duration: 0.22, ease: 'easeOut' }}

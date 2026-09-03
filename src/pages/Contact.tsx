@@ -256,7 +256,7 @@ function ContactHero() {
                 ? {}
                 : {
                     y: -2,
-                    boxShadow: '0 12px 32px rgba(34,197,94,0.42)',
+                    boxShadow: '0 12px 32px rgba(202,255,112,0.42)',
                   }
             }
             transition={{ duration: 0.22, ease: 'easeOut' }}
@@ -1507,7 +1507,7 @@ function ContactCta() {
                   ? {}
                   : {
                       y: -2,
-                      boxShadow: '0 12px 32px rgba(34,197,94,0.42)',
+                      boxShadow: '0 12px 32px rgba(202,255,112,0.42)',
                     }
               }
               transition={{ duration: 0.22, ease: 'easeOut' }}

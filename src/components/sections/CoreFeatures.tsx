@@ -302,7 +302,7 @@ function FeatureCard({ feature, index, shouldReduce }: FeatureCardProps) {
         flexDirection: 'column',
         height:        '100%',
         background:    'var(--color-bg-elevated)',
-        border:        '1px solid rgba(34, 197, 94, 0.14)',
+        border:        '1px solid rgba(202, 255, 112, 0.30)',
         borderRadius:  'var(--radius-2xl)',
         padding:       'var(--space-8)',
         boxShadow:     'var(--shadow-lg), 0 0 36px 0 rgba(202, 255, 112, 0.10)',
@@ -314,8 +314,8 @@ function FeatureCard({ feature, index, shouldReduce }: FeatureCardProps) {
         y:         -4,
         boxShadow: [
           'var(--shadow-xl)',
-          '0 0 64px 0 rgba(202, 255, 112, 0.18)',
-          '0 0 0 1px rgba(8, 47, 37, 0.12)',
+          '0 0 64px 0 rgba(202, 255, 112, 0.24)',
+          '0 0 0 1px rgba(202, 255, 112, 0.40)',
         ].join(', '),
       }}
       transition={{ duration: 0.22, ease: 'easeOut' }}

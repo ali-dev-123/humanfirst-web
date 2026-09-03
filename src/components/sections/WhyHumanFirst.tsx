@@ -155,7 +155,7 @@ function ValueCardItem({ card, index, shouldReduce }: ValueCardProps) {
         flexDirection:   'column',
         /* No fixed height — grid stretch gives equal heights automatically */
         background:      'var(--color-bg-elevated)',
-        border:          '1px solid rgba(34, 197, 94, 0.12)',
+        border:          '1px solid rgba(202, 255, 112, 0.30)',
         borderRadius:    'var(--radius-2xl)',
         /* Asymmetric padding: extra top/bottom breathing room */
         paddingTop:      'var(--space-10)',
@@ -171,8 +171,8 @@ function ValueCardItem({ card, index, shouldReduce }: ValueCardProps) {
         y:         -4,
         boxShadow: [
           'var(--shadow-xl)',
-          '0 0 64px 0 rgba(202, 255, 112, 0.16)',
-          '0 0 0 1px rgba(8, 47, 37, 0.12)',
+          '0 0 64px 0 rgba(202, 255, 112, 0.24)',
+          '0 0 0 1px rgba(202, 255, 112, 0.40)',
         ].join(', '),
       }}
       transition={{ duration: 0.22, ease: 'easeOut' }}
