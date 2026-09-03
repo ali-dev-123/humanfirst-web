@@ -24,6 +24,7 @@ function Login() {
       <Seo
         title="Login | HumanF1RST"
         description="Sign in to your HumanF1RST account."
+        noindex
       />
 
       {/* SECTION 1: FIXED HOMEPAGE NAVBAR */}

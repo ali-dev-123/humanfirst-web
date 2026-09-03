@@ -17,6 +17,7 @@ function ResetPassword() {
       <Seo
         title="Create New Password | HumanF1RST"
         description="Set your new HumanF1RST account password."
+        noindex
       />
 
       {/* SECTION 1: FIXED HOMEPAGE NAVBAR */}

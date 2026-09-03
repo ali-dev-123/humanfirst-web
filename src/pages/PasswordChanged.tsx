@@ -17,6 +17,7 @@ function PasswordChanged() {
       <Seo
         title="Password Updated | HumanF1RST"
         description="Your password has been successfully updated."
+        noindex
       />
 
       {/* SECTION 1: FIXED HOMEPAGE NAVBAR */}

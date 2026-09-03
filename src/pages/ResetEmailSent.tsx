@@ -17,6 +17,7 @@ function ResetEmailSent() {
       <Seo
         title="Check Your Email | HumanF1RST"
         description="Password reset email sent to your inbox."
+        noindex
       />
 
       {/* SECTION 1: FIXED HOMEPAGE NAVBAR */}

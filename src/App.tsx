@@ -49,7 +49,7 @@ function Home() {
   return (
     <>
       <Seo
-        title="Human > AI."
+        title="Human > AI. | HumanFirst"
         description={
           "Verified integrity. Zero surveillance. HumanFirst proves student work is genuinely human — without cameras, keystroke logging, or a single frame of video ever leaving the device."
         }

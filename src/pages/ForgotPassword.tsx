@@ -17,6 +17,7 @@ function ForgotPassword() {
       <Seo
         title="Forgot Password | HumanF1RST"
         description="Reset your HumanF1RST account password."
+        noindex
       />
 
       {/* SECTION 1: FIXED HOMEPAGE NAVBAR */}

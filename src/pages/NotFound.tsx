@@ -23,6 +23,7 @@ function NotFound() {
       <Seo
         title="404 — Page Not Found | HumanF1RST"
         description="The page you are looking for does not exist."
+        noindex
       />
 
       <div className="min-h-screen bg-[#080A09] text-[#F0F5F1] flex flex-col justify-between">

@@ -17,6 +17,7 @@ function Signup() {
       <Seo
         title="Sign Up | HumanF1RST"
         description="Create your HumanF1RST account."
+        noindex
       />
 
       {/* SECTION 1: FIXED HOMEPAGE NAVBAR */}
