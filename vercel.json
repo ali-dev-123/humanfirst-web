@@ -10,10 +10,16 @@
       ]
     }
   ],
-  "rewrites": [
+  "redirects": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/about/",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/contact/",
+      "destination": "/contact",
+      "permanent": true
     }
   ]
 }
