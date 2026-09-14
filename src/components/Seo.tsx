@@ -5,6 +5,10 @@ interface SeoProps {
   title: string
   description: string
   noindex?: boolean
+  canonicalPath?: string
+  ogType?: 'website' | 'article'
+  ogImage?: string
+  twitterCard?: 'summary' | 'summary_large_image'
 }
 
 const SITE_URL = 'https://humanf1rst.app'
@@ -20,11 +24,20 @@ function setMeta(name: string, content: string, attribute: 'name' | 'property' =
   meta.setAttribute('content', content)
 }
 
-function Seo({ title, description, noindex = false }: SeoProps) {
+function Seo({
+  title,
+  description,
+  noindex = false,
+  canonicalPath,
+  ogType = 'website',
+  ogImage = OG_IMAGE_URL,
+  twitterCard = 'summary_large_image',
+}: SeoProps) {
   const { pathname } = useLocation()
 
   useEffect(() => {
-    const canonicalUrl = `${SITE_URL}${pathname === '/' ? '/' : pathname}`
+    const resolvedPath = canonicalPath ?? pathname
+    const canonicalUrl = new URL(resolvedPath || '/', `${SITE_URL}/`).toString()
     document.title = title
 
     setMeta('description', description)
@@ -32,13 +45,13 @@ function Seo({ title, description, noindex = false }: SeoProps) {
     setMeta('og:title', title, 'property')
     setMeta('og:description', description, 'property')
     setMeta('og:url', canonicalUrl, 'property')
-    setMeta('og:type', 'website', 'property')
+    setMeta('og:type', ogType, 'property')
     setMeta('og:site_name', 'HumanFirst', 'property')
-    setMeta('og:image', OG_IMAGE_URL, 'property')
-    setMeta('twitter:card', 'summary_large_image')
+    setMeta('og:image', ogImage, 'property')
+    setMeta('twitter:card', twitterCard)
     setMeta('twitter:title', title)
     setMeta('twitter:description', description)
-    setMeta('twitter:image', OG_IMAGE_URL)
+    setMeta('twitter:image', ogImage)
 
     let canonical = document.head.querySelector('link[rel="canonical"]')
     if (!canonical) {
@@ -72,7 +85,7 @@ function Seo({ title, description, noindex = false }: SeoProps) {
         description,
       },
     ])
-  }, [description, noindex, pathname, title])
+  }, [canonicalPath, description, noindex, ogImage, ogType, pathname, title, twitterCard])
 
   return null
 }
