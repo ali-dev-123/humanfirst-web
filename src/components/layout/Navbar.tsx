@@ -129,7 +129,7 @@ function NavLogo() {
     >
       <img
         src={humanFirstLogo1}
-        alt=""
+        alt="HumanFirst"
         style={{
           display: 'block',
           width: 'auto',
